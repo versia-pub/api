@@ -21,36 +21,7 @@ Compilation (bundling/minifying) time is a few seconds, almost all of which is s
 
 ### Federation
 
-#### Roadmap
-
-- [x] Zod objects
-- [ ] Signing code
-- [ ] Advanced validator
-
-#### Validation
-
-[**Zod**](https://zod.dev) is used to validate and parse the objects. All Lysand objects are already written for you.
-
-You may use the `InferType<T>` export to get a direct type from the object.
-
-```typescript
-// Note is a Zod object
-import { Note, type InferType } from "@lysand-org/federation";
-
-const badObject = {
-    IamBad: "Note",
-};
-
-// Will throw an error
-const parsed = await Note.parseAsync(badObject);
-
-// Infer the TypeScript type from the object
-type NoteType = InferType<typeof Note>;
-```
-
-For more information about Note's methods, see the [**Zod documentation**](https://zod.dev/docs/).
-
-Your editor's IntelliSense should provide you with every method and property available, which all match the [**Lysand**](https://lysand.org) specification names.
+Please see the [**`@lysand-org/federation` README**](federation/README.md) for more information.
 
 ### Client
 
