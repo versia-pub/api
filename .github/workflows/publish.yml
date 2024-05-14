@@ -10,6 +10,10 @@ on:
         # Default to truncated commit hash
         default: "0.0.0"
 
+permissions:
+  # For provenance generation
+  id-token: write
+
 jobs:
   # Build job
   build:
