@@ -1,0 +1,9 @@
+{
+	"name": "lysand-api",
+	"private": true,
+	"workspaces": ["federation"],
+	"scripts": {
+		"lint": "bunx @biomejs/biome check .",
+		"build": "echo 'Not implemented :(' && exit 1"
+	}
+}
