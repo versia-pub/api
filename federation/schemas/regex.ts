@@ -18,7 +18,7 @@ import {
 /**
  * Regular expression for matching emojis.
  */
-export const emojiRegex = createRegExp(
+export const emojiRegex: RegExp = createRegExp(
     // A-Z a-z 0-9 _ -
     oneOrMore(letter.or(digit).or(exactly("_")).or(exactly("-"))),
     [caseInsensitive, global],
@@ -28,7 +28,7 @@ export const emojiRegex = createRegExp(
  * Regular expression for matching an extension_type
  * @example org.lysand:custom_emojis/Emoji
  */
-export const extensionTypeRegex = createRegExp(
+export const extensionTypeRegex: RegExp = createRegExp(
     // org namespace, then colon, then alphanumeric/_/-, then extension name
     exactly(
         oneOrMore(exactly(letter.lowercase.or(digit).or(charIn("_-.")))),

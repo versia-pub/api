@@ -26,7 +26,7 @@ import {
     User,
     VanityExtension,
     Visibility,
-} from "~/federation/schemas/base";
+} from "./schemas/base";
 
 export type InferType<T extends z.AnyZodObject> = z.infer<T>;
 

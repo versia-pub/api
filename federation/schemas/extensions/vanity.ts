@@ -5,7 +5,7 @@
  * @see https://lysand.org/extensions/vanity
  */
 
-import { z } from "zod";
+import { type AnyZodObject, ZodObject, z } from "zod";
 import { ContentFormat } from "../content_format";
 
 /**
