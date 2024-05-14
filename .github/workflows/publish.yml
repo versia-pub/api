@@ -15,6 +15,7 @@ on:
         default: "latest"
 
 permissions:
+  contents: read
   # For provenance generation
   id-token: write
 
@@ -39,7 +40,10 @@ jobs:
         run: bun run build
 
       - name: Change version in package.json to ${{ github.event.inputs.version }}, defaulting to the truncated commit hash
-        run: 'sed -i ''s/"version": ".*"/"version": "${{ github.event.inputs.version }}"/'' package.json federation/package.json'
+        run: 'sed -i ''s/"version": ".*"/"version": "${{ github.event.inputs.version }}"/'' package.json federation/package.json federation/jsr.jsonc'
 
       - name: Publish to NPM
         run: bunx @morlay/bunpublish --provenance --tag ${{ github.event.inputs.tag }}
+
+      - name: Publish to JSR
+        run: cd federation && bunx jsr publish --provenance --allow-slow-types
