@@ -18,7 +18,7 @@ Compilation (bundling/minifying) time is a few seconds, almost all of which is s
 
 #### Roadmap
 
-- [x] Zod objects
+- [x] Validation
 - [ ] Signing code
 - [ ] Advanced validator
 
@@ -26,21 +26,32 @@ Compilation (bundling/minifying) time is a few seconds, almost all of which is s
 
 [**Zod**](https://zod.dev) is used to validate and parse the objects. All Lysand objects are already written for you.
 
-You may use the `InferType<T>` export to get a direct type from the object.
-
 ```typescript
-// Note is a Zod object
-import { Note, type InferType } from "@lysand-org/federation";
+import { EntityValidator, type ValidationError } from "@lysand-org/federation";
 
-const badObject = {
-    IamBad: "Note",
+const validator = new EntityValidator();
+
+try {
+    // Will throw an error when the object is invalid, otherwise return the correct object
+    const invalidNote = await validator.Note({
+        // This is invalid
+        type: "Note",
+        content: 123,
+    });
+} catch (error) {
+    // ToString returns the human-friendly error message
+    sendUser((error as ValidationError).toString());
+}
+
+// Types are also included for TypeScript users that don't use the extracted ones
+const validNoteObject: typeof EntityValidator.$Note = {
+    type: "Note",
+    // ...
 };
 
-// Will throw an error
-const parsed = await Note.parseAsync(badObject);
+const validNote = await validator.Note(validNoteObject);
 
-// Infer the TypeScript type from the object
-type NoteType = InferType<typeof Note>;
+// validNote is still the same as noteObject
 ```
 
 For more information about Note's methods, see the [**Zod documentation**](https://zod.dev/docs/).
