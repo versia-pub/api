@@ -5,7 +5,7 @@
  * @see https://lysand.org/extensions/custom-emojis
  */
 import { z } from "zod";
-import { ContentFormat } from "../content_format";
+import { ContentFormatSchema } from "../content_format";
 import { emojiRegex } from "../regex";
 
 /**
@@ -44,7 +44,7 @@ export const CustomEmojiExtension = z.object({
                     emojiRegex,
                     "Emoji name must be alphanumeric, underscores, or dashes.",
                 ),
-            url: ContentFormat,
+            url: ContentFormatSchema,
         }),
     ),
 });

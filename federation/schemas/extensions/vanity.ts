@@ -5,8 +5,8 @@
  * @see https://lysand.org/extensions/vanity
  */
 
-import { type AnyZodObject, ZodObject, z } from "zod";
-import { ContentFormat } from "../content_format";
+import { z } from "zod";
+import { ContentFormatSchema } from "../content_format";
 
 /**
  * @description Vanity extension entity
@@ -67,11 +67,11 @@ import { ContentFormat } from "../content_format";
  *     }
  * }
  */
-export const VanityExtension = z.object({
-    avatar_overlay: ContentFormat.optional(),
-    avatar_mask: ContentFormat.optional(),
-    background: ContentFormat.optional(),
-    audio: ContentFormat.optional(),
+export const VanityExtensionSchema = z.object({
+    avatar_overlay: ContentFormatSchema.optional(),
+    avatar_mask: ContentFormatSchema.optional(),
+    background: ContentFormatSchema.optional(),
+    audio: ContentFormatSchema.optional(),
     pronouns: z.record(
         z.string(),
         z.array(

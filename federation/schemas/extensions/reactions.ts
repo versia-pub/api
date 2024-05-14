@@ -5,7 +5,7 @@
  * @see https://lysand.org/extensions/reactions
  */
 import { z } from "zod";
-import { Extension } from "../base";
+import { ExtensionSchema } from "../base";
 
 /**
  * @description Reaction extension entity
@@ -21,7 +21,7 @@ import { Extension } from "../base";
  *     "content": "👍"
  * }
  */
-export const Reaction = Extension.extend({
+export const ReactionSchema = ExtensionSchema.extend({
     extension_type: z.literal("org.lysand:reactions/Reaction"),
     object: z.string().url(),
     content: z.string(),

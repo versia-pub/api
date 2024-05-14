@@ -1,12 +1,19 @@
 import { describe, expect, it } from "bun:test";
-import { Note } from "../schemas/base";
+import type { ValidationError } from "zod-validation-error";
+import { EntityValidator } from "../index";
 
 describe("Package testing", () => {
-    it("should not validate a bad Note", () => {
+    it("should not validate a bad Note", async () => {
         const badObject = {
             IamBad: "Note",
         };
 
-        expect(Note.parseAsync(badObject)).rejects.toThrow();
+        const validator = new EntityValidator();
+
+        expect(validator.Note(badObject)).rejects.toThrow();
+
+        console.log(
+            (await validator.Note(badObject).catch((e) => e)).toString(),
+        );
     });
 });

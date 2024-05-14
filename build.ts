@@ -12,6 +12,12 @@ await Bun.build({
     splitting: true,
     target: "browser",
     plugins: [dts()],
+}).then((output) => {
+    if (!output.success) {
+        spinner.fail("Failed to build federation module");
+        console.error(output.logs);
+        process.exit(1);
+    }
 });
 
 spinner.succeed("Built federation module");

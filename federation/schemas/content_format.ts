@@ -1,7 +1,7 @@
 import { types } from "mime-types";
 import { z } from "zod";
 
-export const ContentFormat = z.record(
+export const ContentFormatSchema = z.record(
     z.enum(Object.values(types) as [string, ...string[]]),
     z.object({
         content: z.string(),

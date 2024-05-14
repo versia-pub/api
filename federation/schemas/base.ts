@@ -1,10 +1,10 @@
 import { z } from "zod";
-import { ContentFormat } from "./content_format";
+import { ContentFormatSchema } from "./content_format";
 import { CustomEmojiExtension } from "./extensions/custom_emojis";
-import { VanityExtension } from "./extensions/vanity";
+import { VanityExtensionSchema } from "./extensions/vanity";
 import { extensionTypeRegex } from "./regex";
 
-const Entity = z.object({
+const EntitySchema = z.object({
     id: z.string().uuid(),
     created_at: z.string(),
     uri: z.string().url(),
@@ -14,20 +14,20 @@ const Entity = z.object({
     }),
 });
 
-const Visibility = z.enum(["public", "unlisted", "private", "direct"]);
+const VisibilitySchema = z.enum(["public", "unlisted", "private", "direct"]);
 
-const Publication = Entity.extend({
+const PublicationSchema = EntitySchema.extend({
     type: z.enum(["Note", "Patch"]),
     author: z.string().url(),
-    content: ContentFormat.optional(),
-    attachments: z.array(ContentFormat).optional(),
+    content: ContentFormatSchema.optional(),
+    attachments: z.array(ContentFormatSchema).optional(),
     replies_to: z.string().url().optional(),
     quotes: z.string().url().optional(),
     mentions: z.array(z.string().url()).optional(),
     subject: z.string().optional(),
     is_sensitive: z.boolean().optional(),
-    visibility: Visibility,
-    extensions: Entity.shape.extensions.extend({
+    visibility: VisibilitySchema,
+    extensions: EntitySchema.shape.extensions.extend({
         "org.lysand:reactions": z
             .object({
                 reactions: z.string(),
@@ -36,7 +36,7 @@ const Publication = Entity.extend({
         "org.lysand:polls": z
             .object({
                 poll: z.object({
-                    options: z.array(ContentFormat),
+                    options: z.array(ContentFormatSchema),
                     votes: z.array(z.number().int().nonnegative()),
                     multiple_choice: z.boolean().optional(),
                     expires_at: z.string(),
@@ -46,35 +46,35 @@ const Publication = Entity.extend({
     }),
 });
 
-const Note = Publication.extend({
+const NoteSchema = PublicationSchema.extend({
     type: z.literal("Note"),
 });
 
-const Patch = Publication.extend({
+const PatchSchema = PublicationSchema.extend({
     type: z.literal("Patch"),
     patched_id: z.string().uuid(),
     patched_at: z.string(),
 });
 
-const ActorPublicKeyData = z.object({
+const ActorPublicKeyDataSchema = z.object({
     public_key: z.string(),
     actor: z.string().url(),
 });
 
-const User = Entity.extend({
+const UserSchema = EntitySchema.extend({
     type: z.literal("User"),
     display_name: z.string().optional(),
     username: z.string(),
-    avatar: ContentFormat.optional(),
-    header: ContentFormat.optional(),
+    avatar: ContentFormatSchema.optional(),
+    header: ContentFormatSchema.optional(),
     indexable: z.boolean(),
-    public_key: ActorPublicKeyData,
-    bio: ContentFormat.optional(),
+    public_key: ActorPublicKeyDataSchema,
+    bio: ContentFormatSchema.optional(),
     fields: z
         .array(
             z.object({
-                name: ContentFormat,
-                value: ContentFormat,
+                name: ContentFormatSchema,
+                value: ContentFormatSchema,
             }),
         )
         .optional(),
@@ -85,12 +85,12 @@ const User = Entity.extend({
     dislikes: z.string().url(),
     inbox: z.string().url(),
     outbox: z.string().url(),
-    extensions: Entity.shape.extensions.extend({
-        "org.lysand:vanity": VanityExtension.optional(),
+    extensions: EntitySchema.shape.extensions.extend({
+        "org.lysand:vanity": VanityExtensionSchema.optional(),
     }),
 });
 
-const Action = Entity.extend({
+const ActionSchema = EntitySchema.extend({
     type: z.union([
         z.literal("Like"),
         z.literal("Dislike"),
@@ -103,37 +103,37 @@ const Action = Entity.extend({
     author: z.string().url(),
 });
 
-const Like = Action.extend({
+const LikeSchema = ActionSchema.extend({
     type: z.literal("Like"),
     object: z.string().url(),
 });
 
-const Undo = Action.extend({
+const UndoSchema = ActionSchema.extend({
     type: z.literal("Undo"),
     object: z.string().url(),
 });
 
-const Dislike = Action.extend({
+const DislikeSchema = ActionSchema.extend({
     type: z.literal("Dislike"),
     object: z.string().url(),
 });
 
-const Follow = Action.extend({
+const FollowSchema = ActionSchema.extend({
     type: z.literal("Follow"),
     followee: z.string().url(),
 });
 
-const FollowAccept = Action.extend({
+const FollowAcceptSchema = ActionSchema.extend({
     type: z.literal("FollowAccept"),
     follower: z.string().url(),
 });
 
-const FollowReject = Action.extend({
+const FollowRejectSchema = ActionSchema.extend({
     type: z.literal("FollowReject"),
     follower: z.string().url(),
 });
 
-const Extension = Entity.extend({
+const ExtensionSchema = EntitySchema.extend({
     type: z.literal("Extension"),
     extension_type: z
         .string()
@@ -143,14 +143,14 @@ const Extension = Entity.extend({
         ),
 });
 
-const Report = Extension.extend({
+const ReportSchema = ExtensionSchema.extend({
     extension_type: z.literal("org.lysand:reports/Report"),
     objects: z.array(z.string().url()),
     reason: z.string(),
     comment: z.string().optional(),
 });
 
-const ServerMetadata = Entity.extend({
+const ServerMetadataSchema = EntitySchema.extend({
     type: z.literal("ServerMetadata"),
     name: z.string(),
     version: z.string(),
@@ -158,31 +158,31 @@ const ServerMetadata = Entity.extend({
     website: z.string().optional(),
     moderators: z.array(z.string()).optional(),
     admins: z.array(z.string()).optional(),
-    logo: ContentFormat.optional(),
-    banner: ContentFormat.optional(),
+    logo: ContentFormatSchema.optional(),
+    banner: ContentFormatSchema.optional(),
     supported_extensions: z.array(z.string()),
     extensions: z.record(z.string(), z.any()).optional(),
 });
 
 export {
-    Entity,
-    Visibility,
-    Publication,
-    Note,
-    Patch,
-    ActorPublicKeyData,
-    VanityExtension,
-    User,
-    Action,
-    Like,
-    Undo,
-    Dislike,
-    Follow,
-    FollowAccept,
-    FollowReject,
-    Extension,
-    Report,
-    ServerMetadata,
-    ContentFormat,
+    EntitySchema,
+    VisibilitySchema,
+    PublicationSchema,
+    NoteSchema,
+    PatchSchema,
+    ActorPublicKeyDataSchema,
+    VanityExtensionSchema,
+    UserSchema,
+    ActionSchema,
+    LikeSchema,
+    UndoSchema,
+    DislikeSchema,
+    FollowSchema,
+    FollowAcceptSchema,
+    FollowRejectSchema,
+    ExtensionSchema,
+    ReportSchema,
+    ServerMetadataSchema,
+    ContentFormatSchema,
     CustomEmojiExtension,
 };

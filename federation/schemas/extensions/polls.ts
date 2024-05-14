@@ -5,8 +5,8 @@
  * @see https://lysand.org/extensions/polls
  */
 import { z } from "zod";
-import { Extension } from "../base";
-import { ContentFormat } from "../content_format";
+import { ExtensionSchema } from "../base";
+import { ContentFormatSchema } from "../content_format";
 
 /**
  * @description Poll extension entity
@@ -43,9 +43,9 @@ import { ContentFormat } from "../content_format";
  *     "expires_at": "2021-01-04T00:00:00.000Z"
  * }
  */
-export const Poll = Extension.extend({
+export const PollSchema = ExtensionSchema.extend({
     extension_type: z.literal("org.lysand:polls/Poll"),
-    options: z.array(ContentFormat),
+    options: z.array(ContentFormatSchema),
     votes: z.array(z.number().int().nonnegative()),
     multiple_choice: z.boolean().optional(),
     expires_at: z.string(),
@@ -65,7 +65,7 @@ export const Poll = Extension.extend({
  *     "option": 1
  * }
  */
-export const Vote = Extension.extend({
+export const VoteSchema = ExtensionSchema.extend({
     extension_type: z.literal("org.lysand:polls/Vote"),
     poll: z.string().url(),
     option: z.number(),
@@ -85,7 +85,7 @@ export const Vote = Extension.extend({
  *     "votes": [9, 5, 0]
  * }
  */
-export const VoteResult = Extension.extend({
+export const VoteResultSchema = ExtensionSchema.extend({
     extension_type: z.literal("org.lysand:polls/VoteResult"),
     poll: z.string().url(),
     votes: z.array(z.number().int().nonnegative()),
