@@ -11,9 +11,5 @@ describe("Package testing", () => {
         const validator = new EntityValidator();
 
         expect(validator.Note(badObject)).rejects.toThrow();
-
-        console.log(
-            (await validator.Note(badObject).catch((e) => e)).toString(),
-        );
     });
 });

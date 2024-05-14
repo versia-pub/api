@@ -77,10 +77,11 @@ This library is built for JavaScript runtimes with the support for:
 
 - [**ES Modules**](https://nodejs.org/api/esm.html)
 - [**ECMAScript 2020**](https://www.ecma-international.org/ecma-262/11.0/index.html)
+- (only required for cryptography) [**Ed25519**](https://en.wikipedia.org/wiki/EdDSA) cryptography in the [**WebCrypto API**](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)
 
 #### Runtimes
 
-- **Node.js**: 14.0+ is the minimum, but only Node.js 20.0+ (LTS) is officially supported.
+- **Node.js**: 14.0+ is the minimum (18.0+ for cryptography), but only Node.js 20.0+ (LTS) is officially supported.
 - **Deno**: Support is unknown. 1.0+ is expected to work.
 - **Bun**: Bun 1.1.8 is the minimum-supported version. As Bun is rapidly evolving, this may change. Previous versions may also work.
 
@@ -94,6 +95,11 @@ Consequently, this library is compatible without any bundling in the following b
 - **Safari**: 13.1+
 - **Opera**: 67+
 - **Internet Explorer**: None
+
+Cryptography functions are supported in the following browsers:
+
+- **Safari**: 17.0+
+- **Chrome**: 113.0+ with `#enable-experimental-web-platform-features` enabled
 
 If you are targeting older browsers, please don't, you are doing yourself a disservice.
 

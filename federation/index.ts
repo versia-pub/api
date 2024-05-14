@@ -7,6 +7,7 @@
 
 import type { z } from "zod";
 import { type ValidationError, fromError } from "zod-validation-error";
+import { SignatureConstructor, SignatureValidator } from "./cryptography";
 import {
     ActionSchema,
     ActorPublicKeyDataSchema,
@@ -303,4 +304,9 @@ class EntityValidator {
     }
 }
 
-export { EntityValidator, type ValidationError };
+export {
+    EntityValidator,
+    type ValidationError,
+    SignatureConstructor,
+    SignatureValidator,
+};
