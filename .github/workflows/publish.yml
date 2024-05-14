@@ -9,6 +9,10 @@ on:
         required: true
         # Default to truncated commit hash
         default: "0.0.0"
+      tag:
+        description: "Tag to publish"
+        required: true
+        default: "latest"
 
 permissions:
   # For provenance generation
@@ -38,4 +42,4 @@ jobs:
         run: 'sed -i ''s/"version": ".*"/"version": "${{ github.event.inputs.version }}"/'' package.json federation/package.json'
 
       - name: Publish to NPM
-        run: bunx @morlay/bunpublish --provenance
+        run: bunx @morlay/bunpublish --provenance --tag ${{ github.event.inputs.tag }}
