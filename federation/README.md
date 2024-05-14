@@ -16,12 +16,6 @@ Compilation (bundling/minifying) time is a few seconds, almost all of which is s
 
 ### Federation
 
-#### Roadmap
-
-- [x] Validation
-- [ ] Signing code
-- [ ] Advanced validator
-
 #### Validation
 
 [**Zod**](https://zod.dev) is used to validate and parse the objects. All Lysand objects are already written for you.
@@ -54,9 +48,69 @@ const validNote = await validator.Note(validNoteObject);
 // validNote is still the same as noteObject
 ```
 
-For more information about Note's methods, see the [**Zod documentation**](https://zod.dev/docs/).
-
 Your editor's IntelliSense should provide you with every method and property available, which all match the [**Lysand**](https://lysand.org) specification names.
+
+#### Cryptography
+
+The cryptography module provides two main classes: [`SignatureConstructor`](federation/cryptography/index.ts) and [`SignatureValidator`](federation/cryptography/index.ts). These classes are used to construct and validate signatures for requests, respectively.
+
+##### SignatureConstructor
+
+The [`SignatureConstructor`](federation/cryptography/index.ts) class is used to construct a signature for a request. It can be instantiated with a private key and a key ID:
+
+```ts
+const privateKey = // CryptoKey
+const keyId = "https://example.com/users/6a18f2c3-120e-4949-bda4-2aa4c8264d51";
+const constructor = new SignatureConstructor(privateKey, keyId);
+```
+
+Alternatively, you can create a `SignatureConstructor` instance from a base64-encoded private key:
+
+```ts
+const privateKey = "base64PrivateKey";
+const keyId = "https://example.com/users/6a18f2c3-120e-4949-bda4-2aa4c8264d51";
+const constructor = await SignatureConstructor.fromStringKey(privateKey, keyId);
+```
+
+The `sign` method is used to sign a request:
+
+```ts
+const request = new Request();
+// Returns a Request object with Signature and Date set
+const signature = await constructor.sign(request);
+// Alternatively
+// Returns a Header object with Signature and Date set
+const signature = await constructor.sign(date, method, url, body);
+```
+
+##### SignatureValidator
+
+The [`SignatureValidator`](federation/cryptography/index.ts) class is used to validate the signature of a request. It can be instantiated with a public key:
+
+```ts
+const publicKey = // CryptoKey
+const validator = new SignatureValidator(publicKey);
+```
+
+Alternatively, you can create a `SignatureValidator` instance from a base64-encoded public key:
+
+```ts
+const publicKey = "base64PublicKey";
+const validator = await SignatureValidator.fromStringKey(publicKey);
+```
+
+The `validate` method is used to validate a request or signature:
+
+```ts
+const request = new Request();
+// Returns boolean or TypeError if data is invalid
+const isValid = await validator.validate(request);
+// Alternatively
+// Returns boolean or TypeError if data is invalid
+const isValid = await validator.validate(signature, date, method, url, body);
+```
+
+Please note that these classes require the WebCrypto API and Ed25519 support in the environment. WebCrypto support is automatically checked, but Ed25519 cannot be as far as I know.
 
 ## Getting Started
 

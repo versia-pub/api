@@ -189,6 +189,11 @@ export class SignatureConstructor {
     /**
      * Creates a new instance of SignatureConstructor.
      * @param privateKey The private key used for signature generation.
+     * @param keyId The key ID used for the Signature header.
+     * @example
+     * const privateKey = // CryptoKey
+     * const keyId = "https://example.com/users/6a18f2c3-120e-4949-bda4-2aa4c8264d51";
+     * const constructor = new SignatureConstructor(privateKey, keyId);
      */
     constructor(
         private privateKey: CryptoKey,
@@ -200,10 +205,12 @@ export class SignatureConstructor {
     /**
      * Creates a SignatureConstructor instance from a base64-encoded private key.
      * @param base64PrivateKey The base64-encoded private key.
+     * @param keyId The key ID used for the Signature header.
      * @returns A Promise that resolves to a SignatureConstructor instance.
      * @example
      * const privateKey = "base64PrivateKey";
-     * const constructor = await SignatureConstructor.fromStringKey(privateKey);
+     * const keyId = "https://example.com/users/6a18f2c3-120e-4949-bda4-2aa4c8264d51";
+     * const constructor = await SignatureConstructor.fromStringKey(privateKey, keyId);
      */
     static async fromStringKey(
         base64PrivateKey: string,
@@ -243,8 +250,7 @@ export class SignatureConstructor {
      * const method = "GET";
      * const url = new URL("https://example.com");
      * const body = "request body";
-     * const headers = new Headers();
-     * const signedHeaders = await constructor.sign(method, url, body, headers);
+     * const signedHeaders = await constructor.sign(method, url, body);
      */
     async sign(
         method: HttpVerb,

@@ -1,5 +1,5 @@
-import { describe, beforeAll, test, expect, beforeEach } from "bun:test";
-import { SignatureValidator, SignatureConstructor } from "./index";
+import { beforeAll, beforeEach, describe, expect, test } from "bun:test";
+import { SignatureConstructor, SignatureValidator } from "./index";
 
 describe("SignatureValidator", () => {
     let validator: SignatureValidator;
