@@ -1,7 +1,7 @@
 {
     "name": "@lysand-org/federation",
     "displayName": "Lysand Federation",
-    "version": "3.0.0",
+    "version": "0.0.0",
     "author": {
         "email": "jesse.wierzbinski@lysand.org",
         "name": "Jesse Wierzbinski (CPlusPatch)",
