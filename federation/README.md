@@ -161,13 +161,24 @@ Transpilation to non-ES Module environments is not officially supported, but sho
 
 ### Installation
 
-Package is distributed as a scoped package on the NPM registry.
+Package is distributed as a scoped package on the NPM registry and [JSR](https://jsr.io).
+
+We strongly recommend using JSR over NPM for all your packages that are available on it.
 
 ```bash
+# NPM version
+deno add npm:@lysand-org/federation # For Deno
 npm install @lysand-org/federation # For NPM
 yarn add @lysand-org/federation # For Yarn
 pnpm add @lysand-org/federation # For PNPM
 bun add @lysand-org/federation # For Bun
+
+# JSR version
+deno add @lysand-org/federation # For Deno
+npx jsr add @lysand-org/federation # For JSR
+yarn dlx jsr add @lysand-org/federation # For Yarn
+pnpm dlx jsr add @lysand-org/federation # For PNPM
+bunx jsr add @lysand-org/federation # For Bun
 ```
 
 #### From Source
