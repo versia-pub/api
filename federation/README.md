@@ -2,18 +2,13 @@
   <a href="https://lysand.org"><img src="https://cdn.lysand.org/logo-long-dark.webp" alt="Lysand Logo" height="110"></a>
 </p>
 
-<center><h1>Lysand API</h1></center>
+<center><h1><code>@lysand-org/federation</code></h1></center>
 
-Set of NPM packages written in TypeScript to interact with Lysand-compatible services.
-
-## Packages
-
-- **`@lysand-org/federation`**: Federation types, validators and cryptography for Lysand server implementations.
-- **`@lysand-org/client`**: Client for the reference Lysand Server implementation.
+Federation types, validators and cryptography for Lysand server implementations.
 
 ## Efficiency
 
-The built output of each package is not even `200 KB` in size, making it a lightweight and efficient solution for your Lysand needs. Installing the package adds around `5 MB` to your `node_modules` folder, but this does not affect the final bundle size.
+The built output of the package is not even `200 KB` in size, making it a lightweight and efficient solution for your Lysand needs. Installing the package adds around `5 MB` to your `node_modules` folder, but this does not affect the final bundle size.
 
 Compilation (bundling/minifying) time is a few seconds, almost all of which is spent on type-checking. The actual compilation time is less than a tenth of a second.
 
@@ -51,16 +46,6 @@ type NoteType = InferType<typeof Note>;
 For more information about Note's methods, see the [**Zod documentation**](https://zod.dev/docs/).
 
 Your editor's IntelliSense should provide you with every method and property available, which all match the [**Lysand**](https://lysand.org) specification names.
-
-### Client
-
-#### Roadmap
-
-- [ ] Parity with [**megalodon**](https://github.com/h3poteto/megalodon)'s Mastodon client
-- [ ] Lysand-specific features
-
-> [!WARNING]
-> Not yet published or started work on.
 
 ## Getting Started
 
@@ -105,24 +90,26 @@ Transpilation to non-ES Module environments is not officially supported, but sho
 
 ### Installation
 
-Both packages are distributed as a scoped package on the NPM registry.
+Package is distributed as a scoped package on the NPM registry.
 
 ```bash
-npm install @lysand-org/federation @lysand-org/client # For NPM
-yarn add @lysand-org/federation @lysand-org/client # For Yarn
-pnpm add @lysand-org/federation @lysand-org/client # For PNPM
-bun add @lysand-org/federation @lysand-org/client # For Bun
+npm install @lysand-org/federation # For NPM
+yarn add @lysand-org/federation # For Yarn
+pnpm add @lysand-org/federation # For PNPM
+bun add @lysand-org/federation # For Bun
 ```
 
 #### From Source
 
-If you want to install from source, you can clone this repository and run the following commands:
+If you want to install from source, you can clone [this repository](https://github.com/lysand-org/api) and run the following commands:
 
 ```bash
 bun install # Install dependencies
 
 bun run build # Build the packages
 ```
+
+The built package will be in the `federation/dist` folder.
 
 ## License
 
