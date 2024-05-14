@@ -1,63 +1,67 @@
 {
-	"name": "@lysand-org/federation",
-	"displayName": "Lysand Federation",
-	"version": "3.0.0",
-	"author": {
-		"email": "jesse.wierzbinski@lysand.org",
-		"name": "Jesse Wierzbinski (CPlusPatch)",
-		"url": "https://cpluspatch.com"
-	},
-	"readme": "README.md",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/lysand-org/api.git",
-		"directory": "federation"
-	},
-	"bugs": {
-		"url": "https://github.com/lysand-org/api/issues"
-	},
-	"license": "MIT",
-	"contributors": [
-		{
-			"name": "Jesse Wierzbinski",
-			"email": "jesse.wierzbinski@lysand.org",
-			"url": "https://cpluspatch.com"
-		}
-	],
-	"maintainers": [
-		{
-			"name": "Jesse Wierzbinski",
-			"email": "jesse.wierzbinski@lysand.org",
-			"url": "https://cpluspatch.com"
-		}
-	],
-	"description": "Type definitions for Lysand Federation, with validators.",
-	"categories": ["Other"],
-	"type": "module",
-	"engines": {
-		"bun": ">=1.1.8"
-	},
-	"exports": {
-		"import": "./dist/index.js",
-		"types": "./dist/index.d.ts",
-		"default": "./dist/index.js"
-	},
-	"funding": {
-		"type": "opencollective",
-		"url": "https://opencollective.com/lysand"
-	},
-	"homepage": "https://lysand.org",
-	"keywords": [
-		"lysand",
-		"federation",
-		"api",
-		"typescript",
-		"zod",
-		"validation"
-	],
-	"packageManager": "bun@1.1.8",
-	"devDependencies": {
-		"@biomejs/biome": "^1.7.3"
-	},
-	"trustedDependencies": ["@biomejs/biome"]
+    "name": "@lysand-org/federation",
+    "displayName": "Lysand Federation",
+    "version": "3.0.0",
+    "author": {
+        "email": "jesse.wierzbinski@lysand.org",
+        "name": "Jesse Wierzbinski (CPlusPatch)",
+        "url": "https://cpluspatch.com"
+    },
+    "readme": "README.md",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/lysand-org/api.git",
+        "directory": "federation"
+    },
+    "bugs": {
+        "url": "https://github.com/lysand-org/api/issues"
+    },
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "Jesse Wierzbinski",
+            "email": "jesse.wierzbinski@lysand.org",
+            "url": "https://cpluspatch.com"
+        }
+    ],
+    "maintainers": [
+        {
+            "name": "Jesse Wierzbinski",
+            "email": "jesse.wierzbinski@lysand.org",
+            "url": "https://cpluspatch.com"
+        }
+    ],
+    "description": "Type definitions for Lysand Federation, with validators.",
+    "categories": ["Other"],
+    "type": "module",
+    "engines": {
+        "bun": ">=1.1.8"
+    },
+    "exports": {
+        ".": {
+            "import": "./dist/index.js",
+            "default": "./dist/index.js"
+        }
+    },
+    "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/lysand"
+    },
+    "homepage": "https://lysand.org",
+    "keywords": [
+        "lysand",
+        "federation",
+        "api",
+        "typescript",
+        "zod",
+        "validation"
+    ],
+    "packageManager": "bun@1.1.8",
+    "dependencies": {
+        "@types/mime-types": "^2.1.4",
+        "magic-regexp": "^0.8.0",
+        "mime-types": "^2.1.35",
+        "zod": "^3.23.8",
+        "zod-validation-error": "^3.3.0"
+    }
 }
