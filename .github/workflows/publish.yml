@@ -29,9 +29,9 @@ jobs:
 
       - name: Build
         run: bun run build
-    
+
       - name: Change version in package.json to ${{ github.event.inputs.version }}, defaulting to the truncated commit hash
-        run: sed -i "s/\"version\": \".*\"/\"version\": \"${{ github.event.inputs.version }}\"/" package.json
+        run: 'sed -i ''s/"version": ".*"/"version": "${{ github.event.inputs.version }}"/'' package.json'
 
       - name: Publish to NPM
         run: bunx @morlay/bunpublish --provenance
