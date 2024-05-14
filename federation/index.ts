@@ -33,7 +33,7 @@ import {
 // biome-ignore lint/suspicious/noExplicitAny: Used only as a base type
 type AnyZod = z.ZodType<any, any, any>;
 
-export type InferType<T extends AnyZod> = z.infer<T>;
+type InferType<T extends AnyZod> = z.infer<T>;
 
 /**
  * Validates entities against their respective schemas.
