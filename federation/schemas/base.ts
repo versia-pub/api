@@ -149,7 +149,11 @@ const ReportSchema = ExtensionSchema.extend({
     comment: z.string().optional(),
 });
 
-const ServerMetadataSchema = EntitySchema.extend({
+const ServerMetadataSchema = EntitySchema.omit({
+    created_at: true,
+    id: true,
+    uri: true,
+}).extend({
     type: z.literal("ServerMetadata"),
     name: z.string(),
     version: z.string(),
