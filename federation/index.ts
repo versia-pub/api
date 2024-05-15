@@ -15,6 +15,7 @@ import {
     CustomEmojiExtension,
     DislikeSchema,
     EntitySchema,
+    ExtensionPropertySchema,
     ExtensionSchema,
     FollowAcceptSchema,
     FollowRejectSchema,
@@ -82,6 +83,9 @@ class EntityValidator {
     declare static $Patch: InferType<typeof PatchSchema>;
     declare static $ActorPublicKeyData: InferType<
         typeof ActorPublicKeyDataSchema
+    >;
+    declare static $ExtensionProperty: InferType<
+        typeof ExtensionPropertySchema
     >;
     declare static $VanityExtension: InferType<typeof VanityExtensionSchema>;
     declare static $User: InferType<typeof UserSchema>;
@@ -301,6 +305,17 @@ class EntityValidator {
      */
     public Entity(data: unknown): Promise<InferType<typeof EntitySchema>> {
         return this.validate(EntitySchema, data);
+    }
+
+    /**
+     * Validates an ExtensionProperty.
+     * @param data - The data to validate
+     * @returns A promise that resolves to the validated data.
+     */
+    public ExtensionProperty(
+        data: unknown,
+    ): Promise<InferType<typeof ExtensionPropertySchema>> {
+        return this.validate(ExtensionPropertySchema, data);
     }
 }
 

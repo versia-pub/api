@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { ContentFormatSchema } from "./content_format";
+import { ExtensionPropertySchema } from "./extensions";
 import { CustomEmojiExtension } from "./extensions/custom_emojis";
 import { VanityExtensionSchema } from "./extensions/vanity";
 import { extensionTypeRegex } from "./regex";
@@ -9,9 +10,7 @@ const EntitySchema = z.object({
     created_at: z.string(),
     uri: z.string().url(),
     type: z.string(),
-    extensions: z.object({
-        "org.lysand:custom_emojis": CustomEmojiExtension.optional(),
-    }),
+    extensions: ExtensionPropertySchema.optional(),
 });
 
 const VisibilitySchema = z.enum(["public", "unlisted", "private", "direct"]);
@@ -27,7 +26,7 @@ const PublicationSchema = EntitySchema.extend({
     subject: z.string().optional(),
     is_sensitive: z.boolean().optional(),
     visibility: VisibilitySchema,
-    extensions: EntitySchema.shape.extensions.extend({
+    extensions: ExtensionPropertySchema.extend({
         "org.lysand:reactions": z
             .object({
                 reactions: z.string(),
@@ -43,7 +42,7 @@ const PublicationSchema = EntitySchema.extend({
                 }),
             })
             .optional(),
-    }),
+    }).optional(),
 });
 
 const NoteSchema = PublicationSchema.extend({
@@ -85,9 +84,9 @@ const UserSchema = EntitySchema.extend({
     dislikes: z.string().url(),
     inbox: z.string().url(),
     outbox: z.string().url(),
-    extensions: EntitySchema.shape.extensions.extend({
+    extensions: ExtensionPropertySchema.extend({
         "org.lysand:vanity": VanityExtensionSchema.optional(),
-    }),
+    }).optional(),
 });
 
 const ActionSchema = EntitySchema.extend({
@@ -185,4 +184,5 @@ export {
     ServerMetadataSchema,
     ContentFormatSchema,
     CustomEmojiExtension,
+    ExtensionPropertySchema,
 };
