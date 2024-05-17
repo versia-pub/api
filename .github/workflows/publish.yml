@@ -32,23 +32,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment: NPM Deploy
-    env:
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - uses: oven-sh/setup-bun@v1
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-
       - name: Create bunfig.toml with NPM token (GitHub Secrets)
         run: echo -e "[install]\nregistry = { url = \"https://registry.npmjs.org/\", token = \"${{ secrets.NPM_TOKEN }}\" }" > bunfig.toml
-
-      - name: Create .npmrc
-        run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
@@ -60,7 +51,7 @@ jobs:
         run: 'sed -i ''s/"version": ".*"/"version": "${{ github.event.inputs.version }}"/'' package.json ${{ github.event.inputs.package }}/package.json ${{ github.event.inputs.package }}/jsr.jsonc'
 
       - name: Publish to NPM
-        run: npm publish --access public --tag ${{ github.event.inputs.tag }} --registry https://registry.npmjs.org/ --provenance @lysand-org/${{ github.event.inputs.package }} --workspace ${{ github.event.inputs.package }}
+        run: bunx @morlay/bunpublish --provenance --tag ${{ github.event.inputs.tag }}
 
       - name: Publish to JSR
         run: cd ${{ github.event.inputs.package }} && bunx jsr publish --allow-slow-types --allow-dirty
