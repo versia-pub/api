@@ -60,7 +60,7 @@ jobs:
         run: 'sed -i ''s/"version": ".*"/"version": "${{ github.event.inputs.version }}"/'' package.json ${{ github.event.inputs.package }}/package.json ${{ github.event.inputs.package }}/jsr.jsonc'
 
       - name: Publish to NPM
-        run: npm publish --access public --tag ${{ github.event.inputs.tag }} --registry https://registry.npmjs.org/ --provenance ${{ github.event.inputs.package }}
+        run: npm publish --access public --tag ${{ github.event.inputs.tag }} --registry https://registry.npmjs.org/ --provenance @lysand-org/${{ github.event.inputs.package }} --workspace ${{ github.event.inputs.package }}
 
       - name: Publish to JSR
         run: cd ${{ github.event.inputs.package }} && bunx jsr publish --allow-slow-types --allow-dirty
