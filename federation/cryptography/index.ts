@@ -266,14 +266,14 @@ export class SignatureConstructor {
         headers: Headers = new Headers(),
     ): Promise<Request | Headers> {
         if (requestOrMethod instanceof Request) {
+            const request = requestOrMethod.clone();
+
             const headers = await this.sign(
                 requestOrMethod.method as HttpVerb,
                 new URL(requestOrMethod.url),
                 await requestOrMethod.text(),
                 requestOrMethod.headers,
             );
-
-            const request = requestOrMethod.clone();
 
             request.headers.set("Date", headers.get("Date") ?? "");
             request.headers.set("Signature", headers.get("Signature") ?? "");

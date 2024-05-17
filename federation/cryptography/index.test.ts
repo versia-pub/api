@@ -180,5 +180,20 @@ describe("SignatureConstructor", () => {
             );
             expect(parts[3].split("=")[1]).toBeString();
         });
+
+        test("should correctly sign a Request", async () => {
+            const url = new URL("https://example.com");
+            const request = new Request(url.toString(), {
+                method: "GET",
+                body: body,
+            });
+            const newRequest = await ctor.sign(request);
+
+            headers = newRequest.headers;
+            expect(headers.get("Signature")).toBeDefined();
+            expect(headers.get("Date")).toBeDefined();
+
+            expect(await newRequest.text()).toBe(body);
+        });
     });
 });
