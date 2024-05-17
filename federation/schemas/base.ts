@@ -72,7 +72,7 @@ const UserSchema = EntitySchema.extend({
     fields: z
         .array(
             z.object({
-                name: ContentFormatSchema,
+                key: ContentFormatSchema,
                 value: ContentFormatSchema,
             }),
         )
