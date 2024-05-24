@@ -20,7 +20,7 @@ describe("SignatureValidator", () => {
 
         body = JSON.stringify({ key: "value" });
 
-        const headers = await new SignatureConstructor(
+        const { headers } = await new SignatureConstructor(
             privateKey,
             "https://bob.org/users/6a18f2c3-120e-4949-bda4-2aa4c8264d51",
         ).sign("GET", new URL("https://example.com"), body);
@@ -157,7 +157,7 @@ describe("SignatureConstructor", () => {
     describe("Signing", () => {
         test("should correctly sign ", async () => {
             const url = new URL("https://example.com");
-            headers = await ctor.sign("GET", url, body);
+            headers = (await ctor.sign("GET", url, body)).headers;
             expect(headers.get("Signature")).toBeDefined();
             expect(headers.get("Date")).toBeDefined();
 
@@ -187,13 +187,20 @@ describe("SignatureConstructor", () => {
                 method: "GET",
                 body: body,
             });
-            const newRequest = await ctor.sign(request);
+            const { request: newRequest } = await ctor.sign(request);
 
             headers = newRequest.headers;
             expect(headers.get("Signature")).toBeDefined();
             expect(headers.get("Date")).toBeDefined();
 
             expect(await newRequest.text()).toBe(body);
+        });
+
+        test("signing should also output a signed string", async () => {
+            const url = new URL("https://example.com");
+            const { signedString } = await ctor.sign("GET", url, body);
+            expect(signedString).toBeString();
+            expect(signedString.length).toBeGreaterThan(10);
         });
     });
 });

@@ -231,12 +231,15 @@ export class SignatureConstructor {
     /**
      * Signs a request.
      * @param request The request object to sign.
-     * @returns A Promise that resolves to the signed request.
+     * @returns A Promise that resolves to the signed request, plus the signed string.
      * @example
      * const request = new Request();
-     * const signedRequest = await constructor.sign(request);
+     * const { request: signedRequest } = await constructor.sign(request);
      */
-    async sign(request: Request): Promise<Request>;
+    async sign(request: Request): Promise<{
+        request: Request;
+        signedString: string;
+    }>;
 
     /**
      * Signs a request.
@@ -244,41 +247,59 @@ export class SignatureConstructor {
      * @param url The URL object.
      * @param body The request body.
      * @param headers The request headers.
-     * @returns A Promise that resolves to the signed headers.
+     * @param date The date that the request was signed (optional)
+     * @returns A Promise that resolves to the signed headers, and the signed string.
      * @throws TypeError if any required parameters are missing or empty.
      * @example
      * const method = "GET";
      * const url = new URL("https://example.com");
      * const body = "request body";
-     * const signedHeaders = await constructor.sign(method, url, body);
+     * const { headers: signedHeaders } = await constructor.sign(method, url, body);
      */
     async sign(
         method: HttpVerb,
         url: URL,
         body: string,
         headers?: Headers,
-    ): Promise<Headers>;
+        date?: Date,
+    ): Promise<{
+        headers: Headers;
+        signedString: string;
+    }>;
 
     async sign(
         requestOrMethod: Request | HttpVerb,
         url?: URL,
         body?: string,
         headers: Headers = new Headers(),
-    ): Promise<Request | Headers> {
+        date?: Date,
+    ): Promise<
+        | {
+              headers: Headers;
+              signedString: string;
+          }
+        | {
+              request: Request;
+              signedString: string;
+          }
+    > {
         if (requestOrMethod instanceof Request) {
             const request = requestOrMethod.clone();
 
-            const headers = await this.sign(
+            const { headers, signedString } = await this.sign(
                 requestOrMethod.method as HttpVerb,
                 new URL(requestOrMethod.url),
                 await requestOrMethod.text(),
                 requestOrMethod.headers,
+                requestOrMethod.headers.get("Date")
+                    ? new Date(requestOrMethod.headers.get("Date") ?? "")
+                    : undefined,
             );
 
             request.headers.set("Date", headers.get("Date") ?? "");
             request.headers.set("Signature", headers.get("Signature") ?? "");
 
-            return request;
+            return { request, signedString };
         }
 
         if (!url || !body || !headers) {
@@ -287,38 +308,42 @@ export class SignatureConstructor {
             );
         }
 
-        const date = new Date().toISOString();
+        const finalDate = date?.toISOString() ?? new Date().toISOString();
 
         const digest = await crypto.subtle.digest(
             "SHA-256",
             new TextEncoder().encode(body),
         );
 
+        const signedString =
+            `(request-target): ${requestOrMethod.toLowerCase()} ${
+                url.pathname
+            }\n` +
+            `host: ${url.host}\n` +
+            `date: ${finalDate}\n` +
+            `digest: SHA-256=${Buffer.from(new Uint8Array(digest)).toString(
+                "base64",
+            )}\n`;
+
         const signature = await crypto.subtle.sign(
             "Ed25519",
             this.privateKey,
-            new TextEncoder().encode(
-                `(request-target): ${requestOrMethod.toLowerCase()} ${
-                    url.pathname
-                }\n` +
-                    `host: ${url.host}\n` +
-                    `date: ${date}\n` +
-                    `digest: SHA-256=${Buffer.from(
-                        new Uint8Array(digest),
-                    ).toString("base64")}\n`,
-            ),
+            new TextEncoder().encode(signedString),
         );
 
         const signatureBase64 = Buffer.from(new Uint8Array(signature)).toString(
             "base64",
         );
 
-        headers.set("Date", date);
+        headers.set("Date", finalDate);
         headers.set(
             "Signature",
             `keyId="${this.keyId}",algorithm="ed25519",headers="(request-target) host date digest",signature="${signatureBase64}"`,
         );
 
-        return headers;
+        return {
+            headers,
+            signedString,
+        };
     }
 }
