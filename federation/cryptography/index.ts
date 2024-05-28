@@ -321,9 +321,7 @@ export class SignatureConstructor {
             }\n` +
             `host: ${url.host}\n` +
             `date: ${finalDate}\n` +
-            `digest: SHA-256=${Buffer.from(new Uint8Array(digest)).toString(
-                "base64",
-            )}\n`;
+            `digest: SHA-256=${Buffer.from(digest).toString("base64")}\n`;
 
         const signature = await crypto.subtle.sign(
             "Ed25519",

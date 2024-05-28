@@ -1,5 +1,4 @@
 import { describe, expect, it } from "bun:test";
-import type { ValidationError } from "zod-validation-error";
 import { EntityValidator } from "../index";
 
 describe("Package testing", () => {
