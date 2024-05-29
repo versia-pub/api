@@ -23,6 +23,21 @@ type ParserCallbacks<T> = {
     ) => MaybePromise<T>;
 };
 
+/**
+ * A class to parse the body of a request and call the appropriate callback.
+ * @example
+ * const parser = new RequestParserHandler(body, validator);
+ *
+ * await parser.parseBody({
+ *     note: (note) => {
+ *         console.log(note);
+ *     },
+ *     follow: (follow) => {
+ *         console.log(follow);
+ *     },
+ *     ...
+ * });
+ */
 export class RequestParserHandler {
     constructor(
         private readonly body: Record<
@@ -35,8 +50,20 @@ export class RequestParserHandler {
     /**
      * Parse the body of the request and call the appropriate callback.
      * To change the return type, edit the ReturnType generic parameter.
+     * const parser = new RequestParserHandler(body, validator);
      * @param callbacks The callbacks to call when a specific entity is found.
      * @returns A promise that resolves when the body has been parsed, and the callbacks have finished executing.
+     * @throws If the type field is missing or invalid
+     * @example
+     * await parser.parseBody({
+     *     note: (note) => {
+     *         console.log(note);
+     *     },
+     *     follow: (follow) => {
+     *         console.log(follow);
+     *     },
+     *     ...
+     * });
      */
     public async parseBody<ReturnType = void>(
         callbacks: Partial<ParserCallbacks<ReturnType>>,
