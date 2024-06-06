@@ -21,6 +21,7 @@ type ParserCallbacks<T> = {
     extension: (
         extension: typeof EntityValidator.$Extension,
     ) => MaybePromise<T>;
+    patch: (patch: typeof EntityValidator.$Patch) => MaybePromise<T>;
 };
 
 /**
@@ -75,6 +76,13 @@ export class RequestParserHandler {
                 const note = await this.validator.Note(this.body);
 
                 if (callbacks.note) return await callbacks.note(note);
+
+                break;
+            }
+            case "Patch": {
+                const patch = await this.validator.Patch(this.body);
+
+                if (callbacks.patch) return await callbacks.patch(patch);
 
                 break;
             }
