@@ -159,7 +159,7 @@ export class LysandClient extends BaseClient {
             scopes: string[];
             website?: string;
         }>,
-    ): Promise<Output<Application>> {
+    ): Promise<Output<ApplicationData>> {
         return this.postForm<ApplicationData>("/api/v1/apps", {
             client_name,
             ...options,
