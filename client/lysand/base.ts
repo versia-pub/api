@@ -92,16 +92,26 @@ export class BaseClient {
         body?: object | FormData,
         extra?: RequestInit,
     ): Promise<Request> {
+        const headers = new Headers({
+            "User-Agent": DEFAULT_UA,
+        });
+
+        if (this.accessToken) {
+            headers.set("Authorization", `Bearer ${this.accessToken}`);
+        }
+        if (body) {
+            if (!(body instanceof FormData)) {
+                headers.set("Content-Type", "application/json; charset=utf-8");
+            } // else: let FormData set the content type, as it knows best (boundary, etc.)
+        }
+
+        for (const [key, value] of Object.entries(extra?.headers || {})) {
+            headers.set(key, value);
+        }
+
         return new Request(new URL(path, this.baseUrl).toString(), {
             method,
-            headers: {
-                Authorization: this.accessToken
-                    ? `Bearer ${this.accessToken}`
-                    : "",
-                "Content-Type": "application/json",
-                "User-Agent": DEFAULT_UA,
-                ...extra?.headers,
-            },
+            headers,
             body: body
                 ? body instanceof FormData
                     ? body
