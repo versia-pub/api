@@ -34,6 +34,12 @@ type StatusContentType =
     | "text/x.misskeymarkdown";
 
 export class LysandClient extends BaseClient {
+    /**
+     * POST /api/v1/follow_requests/:id/authorize
+     *
+     * @param id Target account ID.
+     * @return Relationship.
+     */
     public acceptFollowRequest(
         id: string,
         extra?: RequestInit,
@@ -45,6 +51,12 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * POST /api/v1/lists/:id/accounts
+     *
+     * @param id Target list ID.
+     * @param account_ids Array of account IDs to add to the list.
+     */
     public addAccountToList(
         id: string,
         account_ids: string[],
@@ -57,6 +69,12 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * PUT /api/v1/announcements/:id/reactions/:name
+     *
+     * @param id The ID of the Announcement in the database.
+     * @param name Unicode emoji, or the shortcode of a custom emoji.
+     */
     public addReactionToAnnouncement(
         id: string,
         name: string,
@@ -69,6 +87,12 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * POST /api/v1/accounts/:id/block
+     *
+     * @param id The account ID.
+     * @return Relationship
+     */
     public blockAccount(
         id: string,
         extra?: RequestInit,
@@ -80,6 +104,11 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * POST/api/v1/domain_blocks
+     *
+     * @param domain Domain to block.
+     */
     public blockDomain(
         domain: string,
         extra?: RequestInit,
@@ -98,6 +127,11 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * DELETE /api/v1/scheduled_statuses/:id
+     *
+     * @param id Target scheduled status ID.
+     */
     public cancelScheduledStatus(
         id: string,
         extra?: RequestInit,
@@ -109,6 +143,15 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * POST /api/v1/apps
+     *
+     * Create an application.
+     * @param client_name your application's name
+     * @param options.redirect_uris Redirect URI for the application. Defaults to `urn:ietf:wg:oauth:2.0:oob`.
+     * @param options.scopes Array of scopes to request.
+     * @param options.website URL to the application's website.
+     */
     public createApp(
         client_name: string,
         options?: Partial<{
@@ -125,6 +168,13 @@ export class LysandClient extends BaseClient {
         });
     }
 
+    /**
+     * POST /api/v1/statuses/:id/reactions/:emoji
+     *
+     * @param id The target status ID.
+     * @param emoji The emoji to add (shortcode or Unicode emoji).
+     * @returns
+     */
     public createEmojiReaction(
         id: string,
         emoji: string,
@@ -137,6 +187,12 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * POST /api/v1/featured_tags
+     *
+     * @param name Target hashtag name.
+     * @return FeaturedTag.
+     */
     public createFeaturedTag(
         name: string,
         extra?: RequestInit,
@@ -144,6 +200,12 @@ export class LysandClient extends BaseClient {
         return this.post<FeaturedTag>("/api/v1/featured_tags", { name }, extra);
     }
 
+    /**
+     * POST /api/v1/lists
+     *
+     * @param title List name.
+     * @return List.
+     */
     public createList(
         title: string,
         extra?: RequestInit,
@@ -151,6 +213,12 @@ export class LysandClient extends BaseClient {
         return this.post<List>("/api/v1/lists", { title }, extra);
     }
 
+    /**
+     * DELETE /api/v1/lists/:id/accounts
+     *
+     * @param id Target list ID.
+     * @param account_ids Array of account IDs to add to the list.
+     */
     public deleteAccountsFromList(
         id: string,
         account_ids: string[],
@@ -163,6 +231,11 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * DELETE /api/v1/conversations/:id
+     *
+     * @param id Target conversation ID.
+     */
     public deleteConversation(
         id: string,
         extra?: RequestInit,
@@ -174,6 +247,13 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * DELETE /api/v1/statuses/:id/reactions/:emoji
+     *
+     * @param id The target status ID.
+     * @param emoji The emoji to delete (shortcode or Unicode emoji).
+     * @returns
+     */
     public deleteEmojiReaction(
         id: string,
         emoji: string,
@@ -186,6 +266,12 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * DELETE /api/v1/featured_tags/:id
+     *
+     * @param id Target featured tag ID.
+     * @return Empty
+     */
     public deleteFeaturedTag(
         id: string,
         extra?: RequestInit,
@@ -197,14 +283,28 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * DELETE /api/v1/lists/:id
+     *
+     * @param id Target list ID.
+     */
     public deleteList(id: string, extra?: RequestInit): Promise<Output<void>> {
         return this.delete<void>(`/api/v1/lists/${id}`, undefined, extra);
     }
 
+    /**
+     * DELETE /api/v1/push/subscription
+     */
     public deletePushSubscription(extra?: RequestInit): Promise<Output<void>> {
         return this.delete<void>("/api/v1/push/subscription", undefined, extra);
     }
 
+    /**
+     * DELETE /api/v1/statuses/:id
+     *
+     * @param id The target status id.
+     * @return Status
+     */
     public deleteStatus(
         id: string,
         extra?: RequestInit,
@@ -214,6 +314,11 @@ export class LysandClient extends BaseClient {
 
     // TODO: directStreaming
 
+    /**
+     * POST /api/v1/announcements/:id/dismiss
+     *
+     * @param id The ID of the Announcement in the database.
+     */
     public dismissInstanceAnnouncement(
         id: string,
         extra?: RequestInit,
@@ -225,6 +330,11 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * POST /api/v1/notifications/:id/dismiss
+     *
+     * @param id Target notification ID.
+     */
     public dismissNotification(
         id: string,
         extra?: RequestInit,
@@ -236,10 +346,26 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * POST /api/v1/notifications/clear
+     */
     public dismissNotifications(extra?: RequestInit): Promise<Output<void>> {
         return this.post<void>("/api/v1/notifications/clear", undefined, extra);
     }
 
+    /**
+     * PUT /api/v1/statuses/:id
+     *
+     * @param id The target status id.
+     * @param options.status The new status text.
+     * @param options.content_type The new status content type.
+     * @param options.media_ids Array of media IDs to attach to the status.
+     * @param options.poll Poll options.
+     * @param options.sensitive Mark status as sensitive.
+     * @param options.spoiler_text Warning text that should be displayed as a warning before the actual content.
+     * @param options.language Language of the status (ISO 639-1 two letter code).
+     * @return Status
+     */
     public editStatus(
         id: string,
         options: Partial<{
@@ -265,6 +391,12 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * POST /api/v1/statuses/:id/favourite
+     *
+     * @param id The target status id.
+     * @return Status.
+     */
     public favouriteStatus(
         id: string,
         extra?: RequestInit,
@@ -276,6 +408,16 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * POST /oauth/token
+     *
+     * Fetch OAuth access token.
+     * Get an access token based client_id and client_secret and authorization code.
+     * @param client_id Will be generated by #createApp or #registerApp
+     * @param client_secret Will be generated by #createApp or #registerApp
+     * @param code Will be generated by the link of #generateAuthUrl or #registerApp
+     * @param redirect_uri Must be the same URI as the time when you register your OAuth2 application
+     */
     public fetchAccessToken(
         client_id: string,
         client_secret: string,
@@ -296,6 +438,15 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * POST /api/v1/accounts/:id/follow
+     *
+     * @param id The account ID.
+     * @param options.reblogs Receive this account's reblogs in home timeline.
+     * @param options.notify Receive push notifications from this account.
+     * @param options.languages Array of language codes.
+     * @return Relationship
+     */
     public followAccount(
         id: string,
         options?: Partial<{
@@ -312,10 +463,25 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * POST /api/v1/tags/:id/follow
+     *
+     * @param id Target hashtag id.
+     * @return Tag
+     */
     public followTag(id: string, extra?: RequestInit): Promise<Output<Tag>> {
         return this.post<Tag>(`/api/v1/tags/${id}/follow`, undefined, extra);
     }
 
+    /**
+     * Generate an authorization URL for the client.
+     *
+     * @param client_id OAuth2 app client ID.
+     * @param client_secret OAuth2 app client secret.
+     * @param options.redirect_uri Redirect URI for the OAuth2 app.
+     * @param options.scopes Array of scopes to request.
+     * @returns
+     */
     public generateAuthUrl(
         client_id: string,
         client_secret: string,
@@ -338,6 +504,12 @@ export class LysandClient extends BaseClient {
         });
     }
 
+    /**
+     * GET /api/v1/accounts/:id
+     *
+     * @param id The account ID.
+     * @return An account.
+     */
     public getAccount(
         id: string,
         extra?: RequestInit,
@@ -345,6 +517,15 @@ export class LysandClient extends BaseClient {
         return this.get<Account>(`/api/v1/accounts/${id}`, extra);
     }
 
+    /**
+     * GET /api/v1/accounts/:id/followers
+     *
+     * @param id The account ID.
+     * @param options.limit Max number of results to return. Defaults to 40.
+     * @param options.max_id Return results older than ID.
+     * @param options.since_id Return results newer than ID.
+     * @return The array of accounts.
+     */
     public getAccountFollowers(
         id: string,
         options?: Partial<{
@@ -368,6 +549,15 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * GET /api/v1/accounts/:id/following
+     *
+     * @param id The account ID.
+     * @param options.limit Max number of results to return. Defaults to 40.
+     * @param options.max_id Return results older than ID.
+     * @param options.since_id Return results newer than ID.
+     * @return The array of accounts.
+     */
     public getAccountFollowing(
         id: string,
         options?: Partial<{
@@ -391,6 +581,12 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * GET /api/v1/accounts/:id/lists
+     *
+     * @param id The account ID.
+     * @return The array of lists.
+     */
     public getAccountLists(
         id: string,
         extra?: RequestInit,
@@ -398,6 +594,20 @@ export class LysandClient extends BaseClient {
         return this.get<List[]>(`/api/v1/accounts/${id}/lists`, extra);
     }
 
+    /**
+     * GET /api/v1/accounts/:id/statuses
+     *
+     * @param id The account ID.
+     * @param options.limit Max number of results to return. Defaults to 20.
+     * @param options.max_id Return results older than ID.
+     * @param options.since_id Return results newer than ID but starting with most recent.
+     * @param options.min_id Return results newer than ID.
+     * @param options.pinned Return statuses which include pinned statuses.
+     * @param options.exclude_replies Return statuses which exclude replies.
+     * @param options.exclude_reblogs Return statuses which exclude reblogs.
+     * @param options.only_media Show only statuses with media attached? Defaults to false.
+     * @return Account's statuses.
+     */
     public getAccountStatuses(
         id: string,
         options?: Partial<{
@@ -431,11 +641,22 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * GET /api/v1/lists/:id/accounts
+     *
+     * @param id Target list ID.
+     * @param options.limit Max number of results to return.
+     * @param options.max_id Return results older than ID.
+     * @param options.since_id Return results newer than ID.
+     * @param options.min_id Return results immediately newer than ID.
+     * @return Array of accounts.
+     */
     public getAccountsInList(
         id: string,
         options: Partial<{
             max_id: string;
             since_id: string;
+            min_id: string;
             limit: number;
         }>,
         extra?: RequestInit,
@@ -445,6 +666,7 @@ export class LysandClient extends BaseClient {
         if (options) {
             if (options.max_id) params.set("max_id", options.max_id);
             if (options.since_id) params.set("since_id", options.since_id);
+            if (options.min_id) params.set("min_id", options.min_id);
             if (options.limit) params.set("limit", options.limit.toString());
         }
 
@@ -454,10 +676,18 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * GET /api/v1/blocks
+     *
+     * @param options.limit Max number of results to return. Defaults to 40.
+     * @param options.max_id Return results older than ID.
+     * @param options.min_id Return results immediately newer than ID.
+     * @return Array of accounts.
+     */
     public getBlocks(
         options?: Partial<{
             max_id: string;
-            since_id: string;
+            min_id: string;
             limit: number;
         }>,
     ): Promise<Output<Account[]>> {
@@ -465,13 +695,22 @@ export class LysandClient extends BaseClient {
 
         if (options) {
             if (options.max_id) params.set("max_id", options.max_id);
-            if (options.since_id) params.set("since_id", options.since_id);
+            if (options.min_id) params.set("min_id", options.min_id);
             if (options.limit) params.set("limit", options.limit.toString());
         }
 
         return this.get<Account[]>(`/api/v1/blocks?${params}`);
     }
 
+    /**
+     * GET /api/v1/bookmarks
+     *
+     * @param options.limit Max number of results to return. Defaults to 40.
+     * @param options.max_id Return results older than ID.
+     * @param options.since_id Return results newer than ID.
+     * @param options.min_id Return results immediately newer than ID.
+     * @return Array of statuses.
+     */
     public getBookmarks(
         options?: Partial<{
             max_id: string;
@@ -492,6 +731,15 @@ export class LysandClient extends BaseClient {
         return this.get<Status[]>(`/api/v1/bookmarks?${params}`);
     }
 
+    /**
+     * GET /api/v1/conversations
+     *
+     * @param options.limit Max number of results to return. Defaults to 20.
+     * @param options.max_id Return results older than ID.
+     * @param options.since_id Return results newer than ID.
+     * @param options.min_id Return results immediately newer than ID.
+     * @return Array of statuses.
+     */
     public getConversationTimeline(
         id: string,
         options?: Partial<{
@@ -517,6 +765,14 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * GET /api/v1/domain_blocks
+     *
+     * @param options.limit Max number of results to return. Defaults to 40.
+     * @param options.max_id Return results older than ID.
+     * @param options.min_id Return results immediately newer than ID.
+     * @return Array of domain name.
+     */
     public getDomainBlocks(
         options?: Partial<{
             max_id: string;
@@ -535,6 +791,14 @@ export class LysandClient extends BaseClient {
         return this.get<string[]>(`/api/v1/domain_blocks?${params}`);
     }
 
+    /**
+     * GET /api/v1/endorsements
+     *
+     * @param options.limit Max number of results to return. Defaults to 40.
+     * @param options.max_id Return results older than ID.
+     * @param options.since_id Return results newer than ID.
+     * @return Array of accounts.
+     */
     public getEndorsements(
         options?: Partial<{
             max_id: string;
@@ -554,6 +818,14 @@ export class LysandClient extends BaseClient {
         return this.get<Account[]>(`/api/v1/endorsements?${params}`, extra);
     }
 
+    /**
+     * GET /api/v1/favourites
+     *
+     * @param options.limit Max number of results to return. Defaults to 40.
+     * @param options.max_id Return results older than ID.
+     * @param options.min_id Return results immediately newer than ID.
+     * @return Array of statuses.
+     */
     public getFavourites(
         options?: Partial<{
             max_id: string;
@@ -572,6 +844,11 @@ export class LysandClient extends BaseClient {
         return this.get<Status[]>(`/api/v1/favourites?${params}`);
     }
 
+    /**
+     * GET /api/v1/featured_tags
+     *
+     * @return Array of featured tag.
+     */
     public getFeaturedTags(
         extra?: RequestInit,
     ): Promise<Output<FeaturedTag[]>> {
@@ -581,6 +858,12 @@ export class LysandClient extends BaseClient {
     // TODO: getFilter
     // TODO: getFilters
 
+    /**
+     * GET /api/v1/follow_requests
+     *
+     * @param options.limit Maximum number of results.
+     * @return Array of account.
+     */
     public getFollowRequests(
         options?: Partial<{
             limit: number;
@@ -595,10 +878,25 @@ export class LysandClient extends BaseClient {
         return this.get<Account[]>(`/api/v1/follow_requests?${params}`);
     }
 
+    /**
+     * GET /api/v1/followed_tags
+     *
+     * @return Array of Tag.
+     */
     public getFollowedTags(extra?: RequestInit): Promise<Output<Tag[]>> {
         return this.get<Tag[]>("/api/v1/followed_tags", extra);
     }
 
+    /**
+     * GET /api/v1/timelines/home
+     *
+     * @param options.local Show only local statuses? Defaults to false.
+     * @param options.limit Max number of results to return. Defaults to 20.
+     * @param options.max_id Return results older than ID.
+     * @param options.since_id Return results newer than ID.
+     * @param options.min_id Return results immediately newer than ID.
+     * @return Array of statuses.
+     */
     public getHomeTimeline(
         options?: Partial<{
             max_id: string;
