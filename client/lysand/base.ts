@@ -1,10 +1,17 @@
 import { DEFAULT_UA } from "./constants";
 
 type HttpVerb = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
-type ConvertibleObject = Record<
-    string,
-    string | number | boolean | File | undefined | null
->;
+type ConvertibleObject = {
+    [key: string]:
+        | string
+        | number
+        | boolean
+        | File
+        | undefined
+        | null
+        | ConvertibleObject[]
+        | ConvertibleObject;
+};
 
 export interface Output<ReturnType> {
     data: ReturnType;
@@ -14,6 +21,30 @@ export interface Output<ReturnType> {
 const objectToFormData = (obj: ConvertibleObject): FormData => {
     return Object.keys(obj).reduce((formData, key) => {
         if (obj[key] === undefined || obj[key] === null) return formData;
+        if (obj[key] instanceof File) {
+            formData.append(key, obj[key] as Blob);
+            return formData;
+        }
+        if (Array.isArray(obj[key])) {
+            (obj[key] as ConvertibleObject[]).forEach((item, index) => {
+                if (item instanceof File) {
+                    formData.append(`${key}[${index}]`, item as Blob);
+                    return;
+                }
+                formData.append(`${key}[${index}]`, String(item));
+            });
+
+            return formData;
+        }
+        if (typeof obj[key] === "object") {
+            const nested = objectToFormData(obj[key] as ConvertibleObject);
+
+            for (const [nestedKey, value] of nested.entries()) {
+                formData.append(`${key}[${nestedKey}]`, value);
+            }
+
+            return formData;
+        }
         formData.append(key, String(obj[key]));
         return formData;
     }, new FormData());
