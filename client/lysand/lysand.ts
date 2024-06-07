@@ -9,6 +9,7 @@ import type { Context } from "../types/context";
 import type { Conversation } from "../types/conversation";
 import type { Emoji } from "../types/emoji";
 import type { FeaturedTag } from "../types/featured_tag";
+import type { Instance } from "../types/instance";
 import type { List } from "../types/list";
 import type { Marker } from "../types/marker";
 import type { Notification } from "../types/notification";
@@ -31,81 +32,6 @@ type StatusContentType =
     | "text/markdown"
     | "text/html"
     | "text/x.misskeymarkdown";
-
-interface InstanceV2Output {
-    domain: string;
-    title: string;
-    version: string;
-    lysand_version: string;
-    source_url: string;
-    description: string;
-    usage: {
-        users: {
-            active_month: number;
-        };
-    };
-    thumbnail: {
-        url: string | null;
-    };
-    banner: {
-        url: string | null;
-    };
-    languages: string[];
-    configuration: {
-        urls: {
-            streaming: string | null;
-            status: string | null;
-        };
-        accounts: {
-            max_featured_tags: number;
-        };
-        statuses: {
-            max_characters: number;
-            max_media_attachments: number;
-            characters_reserved_per_url: number;
-        };
-        media_attachments: {
-            supported_mime_types: string[];
-            image_size_limit: number;
-            image_matrix_limit: number;
-            video_size_limit: number;
-            video_frame_rate_limit: number;
-            video_matrix_limit: number;
-        };
-        polls: {
-            max_characters_per_option: number;
-            max_expiration: number;
-            max_options: number;
-            min_expiration: number;
-        };
-        translation: {
-            enabled: boolean;
-        };
-    };
-    registrations: {
-        enabled: boolean;
-        approval_required: boolean;
-        message: string | null;
-        url: string | null;
-    };
-    contact: {
-        email: string | null;
-        account: Account | null;
-    };
-    rules: {
-        id: string;
-        text: string;
-        hint: string;
-    }[];
-    sso: {
-        forced: boolean;
-        providers: {
-            name: string;
-            icon: string;
-            id: string;
-        }[];
-    };
-}
 
 export class LysandClient extends BaseClient {
     public acceptFollowRequest(
@@ -696,16 +622,29 @@ export class LysandClient extends BaseClient {
         return this.get<Status[]>(`/api/v1/timelines/home?${params}`, extra);
     }
 
-    public getInstance(extra?: RequestInit): Promise<Output<InstanceV2Output>> {
-        return this.get<InstanceV2Output>("/api/v2/instance", extra);
+    /**
+     * GET /api/v1/instance
+     *
+     * @return Instance.
+     */
+    public getInstance(extra?: RequestInit): Promise<Output<Instance>> {
+        return this.get<Instance>("/api/v2/instance", extra);
     }
 
+    /**
+     * GET /api/v1/instance/activity
+     */
     public getInstanceActivity(
         extra?: RequestInit,
     ): Promise<Output<Activity[]>> {
         return this.get<Activity[]>("/api/v1/instance/activity", extra);
     }
 
+    /**
+     * GET /api/v1/announcements
+     *
+     * @return Array of announcements.
+     */
     public getInstanceAnnouncements(
         extra?: RequestInit,
     ): Promise<Output<Announcement[]>> {
@@ -715,12 +654,27 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * GET /api/v1/custom_emojis
+     *
+     * Get custom emojis. Returns both server and user emojis.
+     * @return Array of emojis.
+     */
     public getInstanceCustomEmojis(
         extra?: RequestInit,
     ): Promise<Output<Emoji[]>> {
         return this.get<Emoji[]>("/api/v1/custom_emojis", extra);
     }
 
+    /**
+     * GET /api/v1/directory
+     *
+     * @param options.limit How many accounts to load. Default 40.
+     * @param options.offset How many accounts to skip before returning results. Default 0.
+     * @param options.order Order of results.
+     * @param options.local Only return local accounts.
+     * @return Array of accounts.
+     */
     public getInstanceDirectory(
         options?: Partial<{
             limit: number;
@@ -742,10 +696,21 @@ export class LysandClient extends BaseClient {
         return this.get<Account[]>(`/api/v1/directory?${params}`, extra);
     }
 
+    /**
+     * GET /api/v1/instance/peers
+     *
+     * @return Array of instance domains.
+     */
     public getInstancePeers(extra?: RequestInit): Promise<Output<string[]>> {
         return this.get<string[]>("/api/v1/instance/peers", extra);
     }
 
+    /**
+     * GET /api/v1/trends
+     *
+     * @param options.limit Maximum number of results to return. Defaults to 10.
+     * @return Array of Tag.
+     */
     public getInstanceTrends(
         options?: Partial<{ limit: number }>,
     ): Promise<Output<Tag[]>> {
@@ -758,6 +723,12 @@ export class LysandClient extends BaseClient {
         return this.get<Tag[]>(`/api/v1/trends?${params}`);
     }
 
+    /**
+     * GET /api/v1/lists/:id
+     *
+     * @param id Target list ID.
+     * @return List.
+     */
     public getList(id: string, extra?: RequestInit): Promise<Output<List>> {
         return this.get<List>(`/api/v1/lists/${id}`, extra);
     }
@@ -1244,6 +1215,12 @@ export class LysandClient extends BaseClient {
         return this.get<Tag[]>("/api/v1/featured_tags/suggestions", extra);
     }
 
+    /**
+     * GET /api/v1/suggestions
+     *
+     * @param options.limit Maximum number of results.
+     * @return Array of accounts.
+     */
     public getSuggestions(
         options?: Partial<{ limit: number }>,
     ): Promise<Output<Account[]>> {
@@ -1256,6 +1233,12 @@ export class LysandClient extends BaseClient {
         return this.get<Account[]>(`/api/v1/suggestions?${params}`);
     }
 
+    /**
+     * GET /api/v1/tags/:id
+     *
+     * @param id Target hashtag id.
+     * @return Tag
+     */
     public getTag(id: string, extra?: RequestInit): Promise<Output<Tag>> {
         return this.get<Tag>(`/api/v1/tags/${id}`, extra);
     }
@@ -1436,6 +1419,12 @@ export class LysandClient extends BaseClient {
 
     // TODO: publicStreaming
 
+    /**
+     * POST /api/v1/conversations/:id/read
+     *
+     * @param id Target conversation ID.
+     * @return Conversation.
+     */
     public readConversation(
         id: string,
         extra?: RequestInit,
@@ -1542,6 +1531,12 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * POST /api/v1/follow_requests/:id/reject
+     *
+     * @param id Target account ID.
+     * @return Relationship.
+     */
     public rejectFollowRequest(
         id: string,
         extra?: RequestInit,
@@ -1553,6 +1548,12 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * DELETE /api/v1/announcements/:id/reactions/:name
+     *
+     * @param id The ID of the Announcement in the database.
+     * @param name Unicode emoji, or the shortcode of a custom emoji.
+     */
     public removeReactionFromAnnouncement(
         id: string,
         name: string,
@@ -1594,6 +1595,14 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * POST /oauth/revoke
+     *
+     * Revoke an OAuth token.
+     * @param client_id will be generated by #createApp or #registerApp
+     * @param client_secret will be generated by #createApp or #registerApp
+     * @param token will be get #fetchAccessToken
+     */
     public revokeToken(
         client_id: string,
         client_secret: string,
@@ -1628,14 +1637,21 @@ export class LysandClient extends BaseClient {
         return this.post<Marker>("/api/v1/markers", options, extra);
     }
 
+    /**
+     * PUT /api/v1/scheduled_statuses/:id
+     *
+     * @param id Target scheduled status ID.
+     * @param scheduled_at ISO 8601 Datetime at which the status will be published.
+     * @return ScheduledStatus.
+     */
     public scheduleStatus(
         id: string,
-        scheduled_at?: string,
+        scheduled_at?: Date,
         extra?: RequestInit,
     ): Promise<Output<ScheduledStatus>> {
         return this.put<ScheduledStatus>(
             `/api/v1/scheduled_statuses/${id}`,
-            { scheduled_at },
+            { scheduled_at: scheduled_at?.toISOString() },
             extra,
         );
     }
@@ -1690,6 +1706,17 @@ export class LysandClient extends BaseClient {
         return this.get<Results>(`/api/v2/search?${params}`, extra);
     }
 
+    /**
+     * GET /api/v1/accounts/search
+     *
+     * @param q Search query.
+     * @param options.limit Max number of results to return. Defaults to 40.
+     * @param options.max_id Return results older than ID.
+     * @param options.since_id Return results newer than ID.
+     * @param options.following Limit search to accounts the current user is following.
+     * @param options.resolve Resolve non-local accounts?
+     * @return The array of accounts.
+     */
     public searchAccount(
         q: string,
         options: Partial<{
@@ -1771,6 +1798,12 @@ export class LysandClient extends BaseClient {
 
     // TODO: tagStreaming
 
+    /**
+     * POST /api/v1/accounts/:id/unblock
+     *
+     * @param id The account ID.
+     * @return Relationship
+     */
     public unblockAccount(
         id: string,
         extra?: RequestInit,
@@ -1782,6 +1815,11 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * DELETE /api/v1/domain_blocks
+     *
+     * @param domain Domain to unblock
+     */
     public unblockDomain(
         domain: string,
         extra?: RequestInit,
@@ -1789,6 +1827,12 @@ export class LysandClient extends BaseClient {
         return this.delete<void>("/api/v1/domain_blocks", { domain }, extra);
     }
 
+    /**
+     * POST /api/v1/statuses/:id/unbookmark
+     *
+     * @param id The target status id.
+     * @return Status.
+     */
     public unbookmarkStatus(
         id: string,
         extra?: RequestInit,
@@ -1800,6 +1844,12 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * POST /api/v1/statuses/:id/unfavourite
+     *
+     * @param id The target status id.
+     * @return Status.
+     */
     public unfavouriteStatus(
         id: string,
         extra?: RequestInit,
@@ -1811,6 +1861,12 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * POST /api/v1/accounts/:id/unfollow
+     *
+     * @param id The account ID.
+     * @return Relationship
+     */
     public unfollowAccount(
         id: string,
         extra?: RequestInit,
@@ -1822,6 +1878,12 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * POST /api/v1/accounts/:id/unmute
+     *
+     * @param id The account ID.
+     * @return Relationship
+     */
     public unmuteAccount(
         id: string,
         extra?: RequestInit,
@@ -1833,6 +1895,12 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * POST /api/v1/accounts/:id/unpin
+     *
+     * @param id The account ID.
+     * @return Relationship
+     */
     public unpinAccount(
         id: string,
         extra?: RequestInit,
@@ -1844,6 +1912,12 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * POST /api/v1/statuses/:id/unpin
+     *
+     * @param id The target status id.
+     * @return Status
+     */
     public unpinStatus(
         id: string,
         extra?: RequestInit,
@@ -1855,6 +1929,12 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * POST /api/v1/statuses/:id/unreblog
+     *
+     * @param id The target status id.
+     * @return Status.
+     */
     public unreblogStatus(
         id: string,
         extra?: RequestInit,
@@ -1931,12 +2011,23 @@ export class LysandClient extends BaseClient {
         return this.put<List>(`/api/v1/lists/${id}`, { ...options }, extra);
     }
 
+    /**
+     * PUT /api/v1/media/:id
+     *
+     * @param id Target media ID.
+     * @param options.file The file to be attached, using multipart form data.
+     * @param options.description A plain-text description of the media.
+     * @param options.focus Two floating points (x,y), comma-delimited, ranging from -1.0 to 1.0.
+     * @param options.is_sensitive Whether the media is sensitive.
+     * @return Attachment
+     */
     public updateMedia(
         id: string,
         options?: Partial<{
             description: string;
             file: File;
             focus: string;
+            is_sensitive: boolean;
         }>,
         extra?: RequestInit,
     ): Promise<Output<Attachment>> {
@@ -1947,6 +2038,22 @@ export class LysandClient extends BaseClient {
         );
     }
 
+    /**
+     * PUT /api/v1/push/subscription
+     *
+     * @param data.alerts.follow Receive follow notifications?
+     * @param data.alerts.favourite Receive favourite notifications?
+     * @param data.alerts.reblog Receive reblog notifictaions?
+     * @param data.alerts.mention Receive mention notifications?
+     * @param data.alerts.poll Receive poll notifications?
+     * @param data.alerts.status Receive status notifications?
+     * @param data.alerts.follow_request Receive follow request notifications?
+     * @param data.alerts.update Receive status update notifications?
+     * @param data.alerts.admin.sign_up Receive sign up notifications?
+     * @param data.alerts.admin.report Receive report notifications?
+     * @param policy Notification policy. Defaults to all.
+     * @return PushSubscription.
+     */
     public updatePushSubscription(
         data?: {
             alerts: Partial<{
@@ -1961,17 +2068,25 @@ export class LysandClient extends BaseClient {
                 "admin.sign_up": boolean;
                 "admin.report": boolean;
             }>;
-            policy?: "all" | "followed" | "follower" | "none";
         },
+        policy?: "all" | "followed" | "follower" | "none",
         extra?: RequestInit,
     ): Promise<Output<PushSubscription>> {
         return this.put<PushSubscription>(
             "/api/v1/push/subscription",
-            { data: { ...data, policy: undefined }, policy: data?.policy },
+            { ...data, policy },
             extra,
         );
     }
 
+    /**
+     * POST /api/v2/media
+     *
+     * @param file The file to be attached, using multipart form data.
+     * @param options.description A plain-text description of the media.
+     * @param options.focus Two floating points (x,y), comma-delimited, ranging from -1.0 to 1.0.
+     * @return Attachment
+     */
     public uploadMedia(
         file: File,
         options?: Partial<{
@@ -1989,18 +2104,35 @@ export class LysandClient extends BaseClient {
 
     // TODO: userStreaming
 
+    /**
+     * GET /api/v1/accounts/verify_credentials
+     *
+     * @return Account.
+     */
     public verifyAccountCredentials(
         extra?: RequestInit,
     ): Promise<Output<Account>> {
         return this.get<Account>("/api/v1/accounts/verify_credentials", extra);
     }
 
+    /**
+     * GET /api/v1/apps/verify_credentials
+     *
+     * @return An Application
+     */
     public verifyAppCredentials(
         extra?: RequestInit,
     ): Promise<Output<Application>> {
         return this.get<Application>("/api/v1/apps/verify_credentials", extra);
     }
 
+    /**
+     * POST /api/v1/polls/:id/votes
+     *
+     * @param id Target poll ID.
+     * @param choices Array of own votes containing index for each option (starting from 0).
+     * @return Poll
+     */
     public votePoll(
         id: string,
         choices: number[],
