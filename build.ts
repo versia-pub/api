@@ -1,23 +1,25 @@
 import dts from "bun-plugin-dts";
 import ora from "ora";
 
-const spinner = ora("Building...").start();
+for (const pkg of ["federation", "client"]) {
+    const subSpinner = ora(`Building ${pkg} module`).start();
 
-await Bun.build({
-    entrypoints: ["federation/index.ts"],
-    outdir: "federation/dist",
-    format: "esm",
-    minify: true,
-    sourcemap: "external",
-    splitting: true,
-    target: "browser",
-    plugins: [dts()],
-}).then((output) => {
-    if (!output.success) {
-        spinner.fail("Failed to build federation module");
-        console.error(output.logs);
-        process.exit(1);
-    }
-});
+    await Bun.build({
+        entrypoints: [`${pkg}/index.ts`],
+        outdir: `${pkg}/dist`,
+        format: "esm",
+        minify: true,
+        sourcemap: "external",
+        splitting: true,
+        target: "browser",
+        plugins: [dts()],
+    }).then((output) => {
+        if (!output.success) {
+            subSpinner.fail(`Failed to build ${pkg} module`);
+            console.error(output.logs);
+            process.exit(1);
+        }
+    });
 
-spinner.succeed("Built federation module");
+    subSpinner.succeed(`Built ${pkg} module`);
+}
