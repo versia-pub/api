@@ -2,35 +2,52 @@
   <a href="https://lysand.org"><img src="https://cdn.lysand.org/logo-long-dark.webp" alt="Lysand Logo" height="110"></a>
 </p>
 
-<center><h1>Lysand API</h1></center>
+<center><h1><code>@lysand-org/client</code></h1></center>
 
-Set of NPM packages written in TypeScript to interact with Lysand-compatible services.
-
-## Packages
-
-- **`@lysand-org/federation`**: Federation types, validators and cryptography for Lysand server implementations.
-- **`@lysand-org/client`**: Client for the reference Lysand Server implementation.
+TypeScript client API for Lysand and Mastodon servers.
 
 ## Efficiency
 
-The built output of each package is not even `200 KB` in size, making it a lightweight and efficient solution for your Lysand needs. Installing the package adds around `5 MB` to your `node_modules` folder, but this does not affect the final bundle size.
+The built output of the package is not even `32 KB` in size, making it a lightweight and efficient solution for your Lysand needs. Installing the package adds around `5 MB` to your `node_modules` folder, but this does not affect the final bundle size.
 
 Compilation (bundling/minifying) time is a few seconds, almost all of which is spent on type-checking. The actual compilation time is less than a tenth of a second.
 
 ## Usage
 
-### Federation
+This application may be used in the same was as [`megalodon`](https://github.com/h3poteto/megalodon).
 
-Please see the [**`@lysand-org/federation` README**](federation/README.md) for more information.
+Initialize the client with the following code:
 
-### Client
+```typescript
+import { LysandClient } from "@lysand-org/client";
 
-#### Roadmap
+const baseUrl = new URL("https://social.lysand.org");
+const accessToken  = "...";
 
-- [x] Parity with [**megalodon**](https://github.com/h3poteto/megalodon)'s Mastodon client
-- [ ] Lysand-specific features
+const client = new LysandClient(baseUrl, accessToken);
+```
 
-Please see the [**`@lysand-org/client` README**](client/README.md) for more information.
+The client can then be used to interact with the server:
+
+```typescript
+const { data: status } = await client.postStatus("Hey there!");
+```
+
+```typescript
+const { data: posts } = await client.getHomeTimeline();
+```
+
+Use your editor's IntelliSense to see all available methods and properties. JSDoc comments are always available. Method names are the same as with Megalodon, but with slight parameter changes in some cases.
+
+All methods have a special `extra` parameter that can be used to pass additional parameters to the underlying HTTP request. This can be used to pass query parameters, headers, etc.:
+
+```typescript
+// extra is a RequestInit, the same as the second parameter of native fetch
+const { data: posts } = await client.getHomeTimeline({
+    headers: { "User-Agent": "MyApp/3" },
+    signal: new AbortSignal(),
+});
+```
 
 ## Getting Started
 
@@ -75,35 +92,37 @@ Transpilation to non-ES Module environments is not officially supported, but sho
 
 ### Installation
 
-Both packages are distributed as a scoped package on the NPM registry or [JSR](https://jsr.io).
+Package is distributed as a scoped package on the NPM registry and [JSR](https://jsr.io).
 
 We strongly recommend using JSR over NPM for all your packages that are available on it.
 
 ```bash
 # NPM version
-deno add npm:@lysand-org/federation npm:@lysand-org/client # For Deno
-npm install @lysand-org/federation @lysand-org/client # For NPM
-yarn add @lysand-org/federation @lysand-org/client # For Yarn
-pnpm add @lysand-org/federation @lysand-org/client # For PNPM
-bun add @lysand-org/federation @lysand-org/client # For Bun
+deno add npm:@lysand-org/client # For Deno
+npm install @lysand-org/client # For NPM
+yarn add @lysand-org/client # For Yarn
+pnpm add @lysand-org/client # For PNPM
+bun add @lysand-org/client # For Bun
 
 # JSR version
-deno add @lysand-org/federation @lysand-org/client # For Deno
-npx jsr add @lysand-org/federation @lysand-org/client # For JSR
-yarn dlx jsr add @lysand-org/federation @lysand-org/client # For Yarn
-pnpm dlx jsr add @lysand-org/federation @lysand-org/client # For PNPM
-bunx jsr add @lysand-org/federation @lysand-org/client # For Bun
+deno add @lysand-org/client # For Deno
+npx jsr add @lysand-org/client # For JSR
+yarn dlx jsr add @lysand-org/client # For Yarn
+pnpm dlx jsr add @lysand-org/client # For PNPM
+bunx jsr add @lysand-org/client # For Bun
 ```
 
 #### From Source
 
-If you want to install from source, you can clone this repository and run the following commands:
+If you want to install from source, you can clone [this repository](https://github.com/lysand-org/api) and run the following commands:
 
 ```bash
 bun install # Install dependencies
 
 bun run build # Build the packages
 ```
+
+The built package will be in the `client/dist` folder.
 
 ## License
 
