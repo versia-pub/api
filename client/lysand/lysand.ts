@@ -9,7 +9,7 @@ import type { Context } from "../types/context";
 import type { Conversation } from "../types/conversation";
 import type { Emoji } from "../types/emoji";
 import type { FeaturedTag } from "../types/featured_tag";
-import type { Instance } from "../types/instance";
+import type { ExtendedDescription, Instance } from "../types/instance";
 import type { List } from "../types/list";
 import type { Marker } from "../types/marker";
 import type { Notification } from "../types/notification";
@@ -992,6 +992,20 @@ export class LysandClient extends BaseClient {
         }
 
         return this.get<Account[]>(`/api/v1/directory?${params}`, extra);
+    }
+
+    /**
+     * GET /api/v1/instance/extended_description
+     *
+     * @returns Instance's extended description.
+     */
+    public getInstanceExtendedDescription(
+        extra?: RequestInit,
+    ): Promise<Output<ExtendedDescription>> {
+        return this.get<ExtendedDescription>(
+            "/api/v1/instance/extended_description",
+            extra,
+        );
     }
 
     /**

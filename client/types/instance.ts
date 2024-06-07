@@ -79,3 +79,8 @@ export type InstanceRule = {
     id: string;
     text: string;
 };
+
+export type ExtendedDescription = {
+    updated_at: string;
+    content: string;
+};
