@@ -1,0 +1,60 @@
+{
+    "name": "@lysand-org/client",
+    "displayName": "Lysand Client",
+    "version": "0.0.0",
+    "author": {
+        "email": "jesse.wierzbinski@lysand.org",
+        "name": "Jesse Wierzbinski (CPlusPatch)",
+        "url": "https://cpluspatch.com"
+    },
+    "readme": "README.md",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/lysand-org/api.git",
+        "directory": "client"
+    },
+    "bugs": {
+        "url": "https://github.com/lysand-org/api/issues"
+    },
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "Jesse Wierzbinski",
+            "email": "jesse.wierzbinski@lysand.org",
+            "url": "https://cpluspatch.com"
+        }
+    ],
+    "maintainers": [
+        {
+            "name": "Jesse Wierzbinski",
+            "email": "jesse.wierzbinski@lysand.org",
+            "url": "https://cpluspatch.com"
+        }
+    ],
+    "description": "Client for Mastodon and Lysand API",
+    "categories": ["Other"],
+    "type": "module",
+    "engines": {
+        "bun": ">=1.1.8"
+    },
+    "exports": {
+        ".": {
+            "import": "./dist/index.js",
+            "default": "./dist/index.js",
+            "types": "./dist/index.d.ts"
+        }
+    },
+    "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/lysand"
+    },
+    "homepage": "https://lysand.org",
+    "keywords": ["lysand", "mastodon", "api", "typescript", "rest"],
+    "packageManager": "bun@1.1.8",
+    "dependencies": {
+        "@badgateway/oauth2-client": "^2.3.0",
+        "@types/mime-types": "^2.1.4",
+        "magic-regexp": "^0.8.0",
+        "mime-types": "^2.1.35"
+    }
+}
