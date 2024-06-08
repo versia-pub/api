@@ -57,4 +57,4 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish to JSR
-        run: cd ${{ github.event.inputs.package }} && bunx jsr publish --allow-slow-types --allow-dirty
+        run: cd ${{ github.event.inputs.package }} && bun install --frozen-lockfile && bunx jsr publish --allow-slow-types --allow-dirty
