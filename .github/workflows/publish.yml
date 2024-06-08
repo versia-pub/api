@@ -22,6 +22,14 @@ on:
           - client
         type: choice
         required: true
+      registry:
+        description: "Registry to publish to"
+        required: true
+        type: choice
+        options:
+          - npm
+          - jsr
+        default: "npm"
 
 permissions:
   contents: read
@@ -52,9 +60,11 @@ jobs:
         run: 'sed -i ''s/"version": ".*"/"version": "${{ github.event.inputs.version }}"/'' package.json ${{ github.event.inputs.package }}/package.json ${{ github.event.inputs.package }}/jsr.jsonc'
 
       - name: Publish to NPM
+        if: ${{ github.event.inputs.registry == 'npm' }}
         run: cd ${{ github.event.inputs.package }} && npm publish --provenance --tag ${{ github.event.inputs.tag }} --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish to JSR
+        if: ${{ github.event.inputs.registry == 'jsr' }}
         run: cd ${{ github.event.inputs.package }} && bun install --frozen-lockfile && bunx jsr publish --allow-slow-types --allow-dirty
