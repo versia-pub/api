@@ -52,7 +52,7 @@ jobs:
         run: 'sed -i ''s/"version": ".*"/"version": "${{ github.event.inputs.version }}"/'' package.json ${{ github.event.inputs.package }}/package.json ${{ github.event.inputs.package }}/jsr.jsonc'
 
       - name: CD to package directory
-        run: cd ${{ github.event.inputs.package }}
+        run: cd ${{ github.event.inputs.package }} && bun install --frozen-lockfile
 
       - name: Patch Bunpublish to not break
         run: sed -i --follow-symlinks 's/getHeapStatistics().heap_size_limit/99999999/g' "node_modules/@npmcli/arborist/lib/packument-cache.js"

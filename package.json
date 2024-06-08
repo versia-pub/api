@@ -1,7 +1,7 @@
 {
     "name": "lysand-api",
     "private": true,
-    "workspaces": ["federation"],
+    "workspaces": ["federation", "client"],
     "scripts": {
         "lint": "bunx @biomejs/biome check .",
         "build": "bun run build.ts"
