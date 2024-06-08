@@ -55,5 +55,8 @@
         "@types/mime-types": "^2.1.4",
         "magic-regexp": "^0.8.0",
         "mime-types": "^2.1.35"
+    },
+    "devDependencies": {
+        "@morlay/bunpublish": "^0.4.1"
     }
 }

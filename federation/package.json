@@ -64,5 +64,8 @@
         "mime-types": "^2.1.35",
         "zod": "^3.23.8",
         "zod-validation-error": "^3.3.0"
+    },
+    "devDependencies": {
+        "@morlay/bunpublish": "^0.4.1"
     }
 }

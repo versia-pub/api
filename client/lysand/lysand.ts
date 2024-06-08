@@ -33,6 +33,17 @@ type StatusContentType =
     | "text/html"
     | "text/x.misskeymarkdown";
 
+/**
+ * LysandClient is a client for interacting with the Lysand API.
+ *
+ * @extends BaseClient
+ * @example
+ * const client = new LysandClient(new URL("https://example.com"));
+ *
+ * const { data } = await client.getInstance();
+ *
+ * console.log(data);
+ */
 export class LysandClient extends BaseClient {
     /**
      * POST /api/v1/follow_requests/:id/authorize
