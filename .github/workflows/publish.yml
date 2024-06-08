@@ -45,8 +45,9 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Build
-        run: bun run build
+      # Code is not minified and bundled anymore
+      #- name: Build
+      #  run: bun run build
 
       - name: Change version in package.json to ${{ github.event.inputs.version }}, defaulting to the truncated commit hash
         run: 'sed -i ''s/"version": ".*"/"version": "${{ github.event.inputs.version }}"/'' package.json ${{ github.event.inputs.package }}/package.json ${{ github.event.inputs.package }}/jsr.jsonc'

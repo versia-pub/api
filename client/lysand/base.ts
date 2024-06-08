@@ -13,6 +13,10 @@ type ConvertibleObject = {
         | ConvertibleObject;
 };
 
+/**
+ * Output of a request. Contains the data and headers.
+ * @template ReturnType The type of the data returned by the request.
+ */
 export interface Output<ReturnType> {
     data: ReturnType;
     headers: Headers;
@@ -50,6 +54,12 @@ const objectToFormData = (obj: ConvertibleObject): FormData => {
     }, new FormData());
 };
 
+/**
+ * Wrapper around Error, useful for detecting if an error
+ * is due to a failed request.
+ *
+ * Throws if the request returns invalid or unexpected data.
+ */
 export class ResponseError extends Error {}
 
 export class BaseClient {
