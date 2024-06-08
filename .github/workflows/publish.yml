@@ -58,7 +58,7 @@ jobs:
         run: sed -i --follow-symlinks 's/getHeapStatistics().heap_size_limit/99999999/g' "node_modules/@npmcli/arborist/lib/packument-cache.js"
 
       - name: Publish to NPM
-        run: bunx @morlay/bunpublish --provenance --tag ${{ github.event.inputs.tag }}
+        run: cd ${{ github.event.inputs.package }} && bunx @morlay/bunpublish --provenance --tag ${{ github.event.inputs.tag }}
 
       - name: Publish to JSR
-        run: bunx jsr publish --allow-slow-types --allow-dirty
+        run: cd ${{ github.event.inputs.package }} && bunx jsr publish --allow-slow-types --allow-dirty
