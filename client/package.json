@@ -51,12 +51,6 @@
     "keywords": ["lysand", "mastodon", "api", "typescript", "rest"],
     "packageManager": "bun@1.1.8",
     "dependencies": {
-        "@badgateway/oauth2-client": "^2.3.0",
-        "@types/mime-types": "^2.1.4",
-        "magic-regexp": "^0.8.0",
-        "mime-types": "^2.1.35"
-    },
-    "devDependencies": {
-        "@morlay/bunpublish": "^0.4.1"
+        "@badgateway/oauth2-client": "^2.3.0"
     }
 }
