@@ -80,9 +80,12 @@ export class BaseClient {
         request: Request,
     ): Promise<Output<ReturnType>> {
         const result = await fetch(request);
+        const isJson = result.headers
+            .get("Content-Type")
+            ?.includes("application/json");
 
         if (!result.ok) {
-            const error = await result.json();
+            const error = isJson ? await result.json() : await result.text();
             throw new ResponseError(
                 `Request failed (${result.status}): ${
                     error.error || error.message || result.statusText
@@ -91,7 +94,7 @@ export class BaseClient {
         }
 
         return {
-            data: await result.json(),
+            data: isJson ? await result.json() : (await result.text()) || null,
             headers: result.headers,
         };
     }
