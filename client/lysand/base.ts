@@ -134,7 +134,7 @@ export class BaseClient {
         });
     }
 
-    protected async get<ReturnType>(
+    public async get<ReturnType>(
         path: string,
         extra?: RequestInit,
     ): Promise<Output<ReturnType>> {
@@ -143,7 +143,7 @@ export class BaseClient {
         );
     }
 
-    protected async post<ReturnType>(
+    public async post<ReturnType>(
         path: string,
         body?: object,
         extra?: RequestInit,
@@ -153,7 +153,7 @@ export class BaseClient {
         );
     }
 
-    protected async postForm<ReturnType>(
+    public async postForm<ReturnType>(
         path: string,
         body: FormData | ConvertibleObject,
         extra?: RequestInit,
@@ -168,7 +168,7 @@ export class BaseClient {
         );
     }
 
-    protected async put<ReturnType>(
+    public async put<ReturnType>(
         path: string,
         body?: object,
         extra?: RequestInit,
@@ -178,7 +178,7 @@ export class BaseClient {
         );
     }
 
-    protected async putForm<ReturnType>(
+    public async putForm<ReturnType>(
         path: string,
         body: FormData | ConvertibleObject,
         extra?: RequestInit,
@@ -193,7 +193,7 @@ export class BaseClient {
         );
     }
 
-    protected async patch<ReturnType>(
+    public async patch<ReturnType>(
         path: string,
         body?: object,
         extra?: RequestInit,
@@ -203,7 +203,7 @@ export class BaseClient {
         );
     }
 
-    protected async patchForm<ReturnType>(
+    public async patchForm<ReturnType>(
         path: string,
         body: FormData | ConvertibleObject,
         extra?: RequestInit,
@@ -218,7 +218,7 @@ export class BaseClient {
         );
     }
 
-    protected async delete<ReturnType>(
+    public async delete<ReturnType>(
         path: string,
         body?: object,
         extra?: RequestInit,
@@ -228,7 +228,7 @@ export class BaseClient {
         );
     }
 
-    protected async deleteForm<ReturnType>(
+    public async deleteForm<ReturnType>(
         path: string,
         body: FormData | ConvertibleObject,
         extra?: RequestInit,

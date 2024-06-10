@@ -11,6 +11,7 @@ import type { Emoji } from "../types/emoji";
 import type { FeaturedTag } from "../types/featured_tag";
 import type { ExtendedDescription, Instance } from "../types/instance";
 import type { List } from "../types/list";
+import type { LysandRole } from "../types/lysand";
 import type { Marker } from "../types/marker";
 import type { Notification } from "../types/notification";
 import type { Poll } from "../types/poll";
@@ -96,6 +97,16 @@ export class LysandClient extends BaseClient {
             undefined,
             extra,
         );
+    }
+
+    /**
+     * POST /api/v1/roles/:roleId
+     *
+     * Lysand API only.
+     * @param roleId ID of the role to add to the requesting account.
+     */
+    public addRole(roleId: string, extra?: RequestInit): Promise<Output<void>> {
+        return this.post<void>(`/api/v1/roles/${roleId}`, undefined, extra);
     }
 
     /**
@@ -1360,6 +1371,29 @@ export class LysandClient extends BaseClient {
     }
 
     /**
+     * GET /api/v1/roles/:id
+     *
+     * @param id Target role ID.
+     * @return Role.
+     */
+    public getRole(
+        id: string,
+        extra?: RequestInit,
+    ): Promise<Output<LysandRole>> {
+        return this.get<LysandRole>(`/api/v1/roles/${id}`, extra);
+    }
+
+    /**
+     * GET /api/v1/roles
+     *
+     * Lysand API only.
+     * @returns Array of roles.
+     */
+    public getRoles(extra?: RequestInit): Promise<Output<LysandRole[]>> {
+        return this.get<LysandRole[]>("/api/v1/roles", extra);
+    }
+
+    /**
      * GET /api/v1/scheduled_statuses/:id
      *
      * @param id Target status ID.
@@ -1887,6 +1921,20 @@ export class LysandClient extends BaseClient {
             undefined,
             extra,
         );
+    }
+
+    /**
+     * DELETE /api/v1/roles/:roleId
+     *
+     * Lysand API only.
+     * @param roleId Role ID to remove from requesting account.
+     * @returns
+     */
+    public removeRole(
+        roleId: string,
+        extra?: RequestInit,
+    ): Promise<Output<void>> {
+        return this.delete<void>(`/api/v1/roles/${roleId}`, undefined, extra);
     }
 
     /**
