@@ -1040,6 +1040,33 @@ export class LysandClient extends BaseClient {
     }
 
     /**
+     * GET /api/v1/instance/privacy_policy
+     *
+     * Lysand API only.
+     * @returns
+     */
+    public getInstancePrivacyPolicy(
+        extra?: RequestInit,
+    ): Promise<Output<ExtendedDescription>> {
+        return this.get<ExtendedDescription>(
+            "/api/v1/instance/privacy_policy",
+            extra,
+        );
+    }
+
+    /**
+     * GET /api/v1/instance/tos
+     *
+     * Lysand API only.
+     * @returns
+     */
+    public getInstanceTermsOfService(
+        extra?: RequestInit,
+    ): Promise<Output<ExtendedDescription>> {
+        return this.get<ExtendedDescription>("/api/v1/instance/tos", extra);
+    }
+
+    /**
      * GET /api/v1/trends
      *
      * @param options.limit Maximum number of results to return. Defaults to 10.
