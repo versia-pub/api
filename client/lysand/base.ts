@@ -60,7 +60,15 @@ const objectToFormData = (obj: ConvertibleObject): FormData => {
  *
  * Throws if the request returns invalid or unexpected data.
  */
-export class ResponseError extends Error {}
+export class ResponseError<ReturnType> extends Error {
+    constructor(
+        public response: Output<ReturnType>,
+        message: string,
+    ) {
+        super(message);
+        this.name = "ResponseError";
+    }
+}
 
 export class BaseClient {
     constructor(
@@ -86,7 +94,13 @@ export class BaseClient {
 
         if (!result.ok) {
             const error = isJson ? await result.json() : await result.text();
-            throw new ResponseError(
+            throw new ResponseError<{
+                error?: string;
+            }>(
+                {
+                    data: error,
+                    headers: result.headers,
+                },
                 `Request failed (${result.status}): ${
                     error.error || error.message || result.statusText
                 }`,
