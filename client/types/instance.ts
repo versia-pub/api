@@ -31,6 +31,14 @@ export type Instance = {
             max_characters: number;
             max_media_attachments: number;
             characters_reserved_per_url: number;
+            max_note_characters: number;
+            max_displayname_characters: number;
+            avatar_size_limit: number;
+            header_size_limit: number;
+            max_fields_name_characters: number;
+            max_fields_value_characters: number;
+            max_fields: number;
+            max_username_characters: number;
         };
         media_attachments: {
             supported_mime_types: string[];
@@ -39,6 +47,7 @@ export type Instance = {
             video_size_limit: number;
             video_frame_rate_limit: number;
             video_matrix_limit: number;
+            max_description_characters: number;
         };
         polls: {
             max_characters_per_option: number;
