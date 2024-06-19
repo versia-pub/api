@@ -81,6 +81,9 @@ export class BaseClient {
     constructor(
         protected baseUrl: URL,
         private accessToken?: string,
+        public globalCatch: (error: ResponseError) => void = () => {
+            // Do nothing by default
+        },
     ) {}
 
     get url(): URL {
@@ -159,9 +162,12 @@ export class BaseClient {
         path: string,
         extra?: RequestInit,
     ): Promise<Output<ReturnType>> {
-        return this.request(
+        return this.request<ReturnType>(
             this.constructRequest(path, "GET", undefined, extra),
-        );
+        ).catch((e) => {
+            this.globalCatch(e);
+            throw e;
+        });
     }
 
     public post<ReturnType>(
@@ -169,7 +175,12 @@ export class BaseClient {
         body?: object,
         extra?: RequestInit,
     ): Promise<Output<ReturnType>> {
-        return this.request(this.constructRequest(path, "POST", body, extra));
+        return this.request<ReturnType>(
+            this.constructRequest(path, "POST", body, extra),
+        ).catch((e) => {
+            this.globalCatch(e);
+            throw e;
+        });
     }
 
     public postForm<ReturnType>(
@@ -177,14 +188,17 @@ export class BaseClient {
         body: FormData | ConvertibleObject,
         extra?: RequestInit,
     ): Promise<Output<ReturnType>> {
-        return this.request(
+        return this.request<ReturnType>(
             this.constructRequest(
                 path,
                 "POST",
                 body instanceof FormData ? body : objectToFormData(body),
                 extra,
             ),
-        );
+        ).catch((e) => {
+            this.globalCatch(e);
+            throw e;
+        });
     }
 
     public put<ReturnType>(
@@ -192,7 +206,12 @@ export class BaseClient {
         body?: object,
         extra?: RequestInit,
     ): Promise<Output<ReturnType>> {
-        return this.request(this.constructRequest(path, "PUT", body, extra));
+        return this.request<ReturnType>(
+            this.constructRequest(path, "PUT", body, extra),
+        ).catch((e) => {
+            this.globalCatch(e);
+            throw e;
+        });
     }
 
     public putForm<ReturnType>(
@@ -200,14 +219,17 @@ export class BaseClient {
         body: FormData | ConvertibleObject,
         extra?: RequestInit,
     ): Promise<Output<ReturnType>> {
-        return this.request(
+        return this.request<ReturnType>(
             this.constructRequest(
                 path,
                 "PUT",
                 body instanceof FormData ? body : objectToFormData(body),
                 extra,
             ),
-        );
+        ).catch((e) => {
+            this.globalCatch(e);
+            throw e;
+        });
     }
 
     public patch<ReturnType>(
@@ -215,7 +237,12 @@ export class BaseClient {
         body?: object,
         extra?: RequestInit,
     ): Promise<Output<ReturnType>> {
-        return this.request(this.constructRequest(path, "PATCH", body, extra));
+        return this.request<ReturnType>(
+            this.constructRequest(path, "PATCH", body, extra),
+        ).catch((e) => {
+            this.globalCatch(e);
+            throw e;
+        });
     }
 
     public patchForm<ReturnType>(
@@ -223,14 +250,17 @@ export class BaseClient {
         body: FormData | ConvertibleObject,
         extra?: RequestInit,
     ): Promise<Output<ReturnType>> {
-        return this.request(
+        return this.request<ReturnType>(
             this.constructRequest(
                 path,
                 "PATCH",
                 body instanceof FormData ? body : objectToFormData(body),
                 extra,
             ),
-        );
+        ).catch((e) => {
+            this.globalCatch(e);
+            throw e;
+        });
     }
 
     public delete<ReturnType>(
@@ -238,7 +268,12 @@ export class BaseClient {
         body?: object,
         extra?: RequestInit,
     ): Promise<Output<ReturnType>> {
-        return this.request(this.constructRequest(path, "DELETE", body, extra));
+        return this.request<ReturnType>(
+            this.constructRequest(path, "DELETE", body, extra),
+        ).catch((e) => {
+            this.globalCatch(e);
+            throw e;
+        });
     }
 
     public deleteForm<ReturnType>(
@@ -246,13 +281,16 @@ export class BaseClient {
         body: FormData | ConvertibleObject,
         extra?: RequestInit,
     ): Promise<Output<ReturnType>> {
-        return this.request(
+        return this.request<ReturnType>(
             this.constructRequest(
                 path,
                 "DELETE",
                 body instanceof FormData ? body : objectToFormData(body),
                 extra,
             ),
-        );
+        ).catch((e) => {
+            this.globalCatch(e);
+            throw e;
+        });
     }
 }
