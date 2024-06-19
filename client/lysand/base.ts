@@ -24,7 +24,9 @@ export interface Output<ReturnType> {
 
 const objectToFormData = (obj: ConvertibleObject): FormData => {
     return Object.keys(obj).reduce((formData, key) => {
-        if (obj[key] === undefined || obj[key] === null) return formData;
+        if (obj[key] === undefined || obj[key] === null) {
+            return formData;
+        }
         if (obj[key] instanceof File) {
             formData.append(key, obj[key] as Blob);
             return formData;
@@ -113,12 +115,12 @@ export class BaseClient {
         };
     }
 
-    private async constructRequest(
+    private constructRequest(
         path: string,
         method: HttpVerb,
         body?: object | FormData,
         extra?: RequestInit,
-    ): Promise<Request> {
+    ): Request {
         const headers = new Headers({
             "User-Agent": DEFAULT_UA,
         });
@@ -148,32 +150,30 @@ export class BaseClient {
         });
     }
 
-    public async get<ReturnType>(
+    public get<ReturnType>(
         path: string,
         extra?: RequestInit,
     ): Promise<Output<ReturnType>> {
-        return await this.request(
-            await this.constructRequest(path, "GET", undefined, extra),
+        return this.request(
+            this.constructRequest(path, "GET", undefined, extra),
         );
     }
 
-    public async post<ReturnType>(
+    public post<ReturnType>(
         path: string,
         body?: object,
         extra?: RequestInit,
     ): Promise<Output<ReturnType>> {
-        return await this.request(
-            await this.constructRequest(path, "POST", body, extra),
-        );
+        return this.request(this.constructRequest(path, "POST", body, extra));
     }
 
-    public async postForm<ReturnType>(
+    public postForm<ReturnType>(
         path: string,
         body: FormData | ConvertibleObject,
         extra?: RequestInit,
     ): Promise<Output<ReturnType>> {
-        return await this.request(
-            await this.constructRequest(
+        return this.request(
+            this.constructRequest(
                 path,
                 "POST",
                 body instanceof FormData ? body : objectToFormData(body),
@@ -182,23 +182,21 @@ export class BaseClient {
         );
     }
 
-    public async put<ReturnType>(
+    public put<ReturnType>(
         path: string,
         body?: object,
         extra?: RequestInit,
     ): Promise<Output<ReturnType>> {
-        return await this.request(
-            await this.constructRequest(path, "PUT", body, extra),
-        );
+        return this.request(this.constructRequest(path, "PUT", body, extra));
     }
 
-    public async putForm<ReturnType>(
+    public putForm<ReturnType>(
         path: string,
         body: FormData | ConvertibleObject,
         extra?: RequestInit,
     ): Promise<Output<ReturnType>> {
-        return await this.request(
-            await this.constructRequest(
+        return this.request(
+            this.constructRequest(
                 path,
                 "PUT",
                 body instanceof FormData ? body : objectToFormData(body),
@@ -207,23 +205,21 @@ export class BaseClient {
         );
     }
 
-    public async patch<ReturnType>(
+    public patch<ReturnType>(
         path: string,
         body?: object,
         extra?: RequestInit,
     ): Promise<Output<ReturnType>> {
-        return await this.request(
-            await this.constructRequest(path, "PATCH", body, extra),
-        );
+        return this.request(this.constructRequest(path, "PATCH", body, extra));
     }
 
-    public async patchForm<ReturnType>(
+    public patchForm<ReturnType>(
         path: string,
         body: FormData | ConvertibleObject,
         extra?: RequestInit,
     ): Promise<Output<ReturnType>> {
-        return await this.request(
-            await this.constructRequest(
+        return this.request(
+            this.constructRequest(
                 path,
                 "PATCH",
                 body instanceof FormData ? body : objectToFormData(body),
@@ -232,23 +228,21 @@ export class BaseClient {
         );
     }
 
-    public async delete<ReturnType>(
+    public delete<ReturnType>(
         path: string,
         body?: object,
         extra?: RequestInit,
     ): Promise<Output<ReturnType>> {
-        return await this.request(
-            await this.constructRequest(path, "DELETE", body, extra),
-        );
+        return this.request(this.constructRequest(path, "DELETE", body, extra));
     }
 
-    public async deleteForm<ReturnType>(
+    public deleteForm<ReturnType>(
         path: string,
         body: FormData | ConvertibleObject,
         extra?: RequestInit,
     ): Promise<Output<ReturnType>> {
-        return await this.request(
-            await this.constructRequest(
+        return this.request(
+            this.constructRequest(
                 path,
                 "DELETE",
                 body instanceof FormData ? body : objectToFormData(body),

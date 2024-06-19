@@ -1,5 +1,5 @@
 {
-    "$schema": "https://biomejs.dev/schemas/1.7.3/schema.json",
+    "$schema": "https://biomejs.dev/schemas/1.8.1/schema.json",
     "organizeImports": {
         "enabled": true,
         "ignore": ["node_modules", "dist"]
@@ -7,7 +7,68 @@
     "linter": {
         "enabled": true,
         "rules": {
-            "recommended": true
+            "all": true,
+            "correctness": {
+                "noNodejsModules": "off"
+            },
+            "complexity": {
+                "noExcessiveCognitiveComplexity": "off"
+            },
+            "style": {
+                "noDefaultExport": "off",
+                "noParameterProperties": "off",
+                "noNamespaceImport": "off",
+                "useFilenamingConvention": "off",
+                "useNamingConvention": {
+                    "level": "warn",
+                    "options": {
+                        "requireAscii": false,
+                        "strictCase": false,
+                        "conventions": [
+                            {
+                                "selector": {
+                                    "kind": "typeProperty"
+                                },
+                                "formats": [
+                                    "camelCase",
+                                    "CONSTANT_CASE",
+                                    "PascalCase",
+                                    "snake_case"
+                                ]
+                            },
+                            {
+                                "selector": {
+                                    "kind": "objectLiteralProperty",
+                                    "scope": "any"
+                                },
+                                "formats": [
+                                    "camelCase",
+                                    "CONSTANT_CASE",
+                                    "PascalCase",
+                                    "snake_case"
+                                ]
+                            },
+                            {
+                                "selector": {
+                                    "kind": "classMethod",
+                                    "scope": "any"
+                                },
+                                "formats": ["camelCase", "PascalCase"]
+                            }
+                        ]
+                    }
+                }
+            },
+            "nursery": {
+                "noDuplicateElseIf": "warn",
+                "noDuplicateJsonKeys": "warn",
+                "noEvolvingTypes": "warn",
+                "noYodaExpression": "warn",
+                "useConsistentBuiltinInstantiation": "warn",
+                "useErrorMessage": "warn",
+                "useImportExtensions": "off",
+                "useThrowNewError": "warn"
+            }
         },
         "ignore": ["node_modules", "dist"]
     },
@@ -16,5 +77,8 @@
         "indentStyle": "space",
         "indentWidth": 4,
         "ignore": ["node_modules", "dist"]
+    },
+    "javascript": {
+        "globals": ["Bun"]
     }
 }

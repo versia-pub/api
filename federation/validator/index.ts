@@ -4,7 +4,7 @@ import {
     ActionSchema,
     ActorPublicKeyDataSchema,
     ContentFormatSchema,
-    CustomEmojiExtension,
+    CustomEmojiExtensionSchema,
     DislikeSchema,
     EntitySchema,
     ExtensionPropertySchema,
@@ -54,10 +54,11 @@ type InferType<T extends AnyZod> = z.infer<T>;
  * }
  *
  * // Types are also included for TypeScript users that don't use the extracted ones
- * const noteObject: typeof EntityValidator.$Note = {
- *     type: "Note",
- *     // ...
- * }
+ * import type { Note } from "@lysand-org/federation/types";
+ *
+ * const note: Note = {
+ *     ...
+ * };
  */
 export class EntityValidator {
     private async validate<T extends AnyZod>(
@@ -70,34 +71,6 @@ export class EntityValidator {
             throw fromError(error);
         }
     }
-
-    declare static $Note: InferType<typeof NoteSchema>;
-    declare static $Patch: InferType<typeof PatchSchema>;
-    declare static $ActorPublicKeyData: InferType<
-        typeof ActorPublicKeyDataSchema
-    >;
-    declare static $ExtensionProperty: InferType<
-        typeof ExtensionPropertySchema
-    >;
-    declare static $VanityExtension: InferType<typeof VanityExtensionSchema>;
-    declare static $User: InferType<typeof UserSchema>;
-    declare static $Action: InferType<typeof ActionSchema>;
-    declare static $Like: InferType<typeof LikeSchema>;
-    declare static $Undo: InferType<typeof UndoSchema>;
-    declare static $Dislike: InferType<typeof DislikeSchema>;
-    declare static $Follow: InferType<typeof FollowSchema>;
-    declare static $FollowAccept: InferType<typeof FollowAcceptSchema>;
-    declare static $FollowReject: InferType<typeof FollowRejectSchema>;
-    declare static $Extension: InferType<typeof ExtensionSchema>;
-    declare static $Report: InferType<typeof ReportSchema>;
-    declare static $ServerMetadata: InferType<typeof ServerMetadataSchema>;
-    declare static $ContentFormat: InferType<typeof ContentFormatSchema>;
-    declare static $CustomEmojiExtension: InferType<
-        typeof CustomEmojiExtension
-    >;
-    declare static $Visibility: InferType<typeof VisibilitySchema>;
-    declare static $Publication: InferType<typeof PublicationSchema>;
-    declare static $Entity: InferType<typeof EntitySchema>;
 
     /**
      * Validates a Note entity.
@@ -264,8 +237,8 @@ export class EntityValidator {
      */
     public CustomEmojiExtension(
         data: unknown,
-    ): Promise<InferType<typeof CustomEmojiExtension>> {
-        return this.validate(CustomEmojiExtension, data);
+    ): Promise<InferType<typeof CustomEmojiExtensionSchema>> {
+        return this.validate(CustomEmojiExtensionSchema, data);
     }
 
     /**

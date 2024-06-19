@@ -10,9 +10,9 @@ type HttpVerb =
     | "OPTIONS"
     | "HEAD";
 
-const checkEvironmentSupport = async () => {
+const checkEvironmentSupport = () => {
     // Check if WebCrypto is supported
-    if (!globalThis.crypto || !globalThis.crypto.subtle) {
+    if (!globalThis.crypto?.subtle) {
         throw new Error("WebCrypto is not supported in this environment");
     }
 
@@ -27,9 +27,9 @@ const checkEvironmentSupport = async () => {
 export class SignatureValidator {
     /**
      * Creates a new instance of SignatureValidator.
-     * @param public_key The public key used for signature verification.
+     * @param publicKey The public key used for signature verification.
      */
-    constructor(private public_key: CryptoKey) {
+    constructor(private publicKey: CryptoKey) {
         checkEvironmentSupport();
     }
 
@@ -114,9 +114,9 @@ export class SignatureValidator {
             ].filter(Boolean);
 
             // Check if all headers are present
-            if (!signature || !date || !method || !url || !body) {
+            if (!(signature && date && method && url && body)) {
                 // Say which headers are missing
-                throw TypeError(
+                throw new TypeError(
                     `Headers are missing in request: ${missingHeaders.join(
                         ", ",
                     )}`,
@@ -124,7 +124,7 @@ export class SignatureValidator {
             }
 
             if (signature.split("signature=").length < 2) {
-                throw TypeError(
+                throw new TypeError(
                     "Invalid Signature header (wrong format or missing signature)",
                 );
             }
@@ -134,7 +134,7 @@ export class SignatureValidator {
                 .replace(/"/g, "");
 
             if (!extractedSignature) {
-                throw TypeError(
+                throw new TypeError(
                     "Invalid Signature header (wrong format or missing signature)",
                 );
             }
@@ -148,8 +148,8 @@ export class SignatureValidator {
             );
         }
 
-        if (!date || !method || !url || !body) {
-            throw TypeError(
+        if (!(date && method && url && body)) {
+            throw new TypeError(
                 "Missing or empty required parameters: date, method, url or body",
             );
         }
@@ -172,7 +172,7 @@ export class SignatureValidator {
         // Check if signed string is valid
         const isValid = await crypto.subtle.verify(
             "Ed25519",
-            this.public_key,
+            this.publicKey,
             Buffer.from(signature, "base64"),
             new TextEncoder().encode(expectedSignedString),
         );
@@ -302,8 +302,8 @@ export class SignatureConstructor {
             return { request, signedString };
         }
 
-        if (!url || !body || !headers) {
-            throw TypeError(
+        if (!(url && body && headers)) {
+            throw new TypeError(
                 "Missing or empty required parameters: url, body or headers",
             );
         }

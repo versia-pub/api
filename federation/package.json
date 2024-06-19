@@ -41,6 +41,10 @@
         ".": {
             "import": "./index.ts",
             "default": "./index.ts"
+        },
+        "./types": {
+            "import": "./schemas.ts",
+            "default": "./schemas.ts"
         }
     },
     "funding": {

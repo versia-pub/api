@@ -69,27 +69,35 @@ export class RequestParserHandler {
     public async parseBody<ReturnType = void>(
         callbacks: Partial<ParserCallbacks<ReturnType>>,
     ): Promise<ReturnType> {
-        if (!this.body.type) throw new Error("Missing type field in body");
+        if (!this.body.type) {
+            throw new Error("Missing type field in body");
+        }
 
         switch (this.body.type) {
             case "Note": {
                 const note = await this.validator.Note(this.body);
 
-                if (callbacks.note) return await callbacks.note(note);
+                if (callbacks.note) {
+                    return await callbacks.note(note);
+                }
 
                 break;
             }
             case "Patch": {
                 const patch = await this.validator.Patch(this.body);
 
-                if (callbacks.patch) return await callbacks.patch(patch);
+                if (callbacks.patch) {
+                    return await callbacks.patch(patch);
+                }
 
                 break;
             }
             case "Follow": {
                 const follow = await this.validator.Follow(this.body);
 
-                if (callbacks.follow) return await callbacks.follow(follow);
+                if (callbacks.follow) {
+                    return await callbacks.follow(follow);
+                }
 
                 break;
             }
@@ -98,8 +106,9 @@ export class RequestParserHandler {
                     this.body,
                 );
 
-                if (callbacks.followAccept)
+                if (callbacks.followAccept) {
                     return await callbacks.followAccept(followAccept);
+                }
 
                 break;
             }
@@ -108,36 +117,45 @@ export class RequestParserHandler {
                     this.body,
                 );
 
-                if (callbacks.followReject)
+                if (callbacks.followReject) {
                     return await callbacks.followReject(followReject);
+                }
 
                 break;
             }
             case "User": {
                 const user = await this.validator.User(this.body);
 
-                if (callbacks.user) return await callbacks.user(user);
+                if (callbacks.user) {
+                    return await callbacks.user(user);
+                }
 
                 break;
             }
             case "Like": {
                 const like = await this.validator.Like(this.body);
 
-                if (callbacks.like) return await callbacks.like(like);
+                if (callbacks.like) {
+                    return await callbacks.like(like);
+                }
 
                 break;
             }
             case "Dislike": {
                 const dislike = await this.validator.Dislike(this.body);
 
-                if (callbacks.dislike) return await callbacks.dislike(dislike);
+                if (callbacks.dislike) {
+                    return await callbacks.dislike(dislike);
+                }
 
                 break;
             }
             case "Undo": {
                 const undo = await this.validator.Undo(this.body);
 
-                if (callbacks.undo) return await callbacks.undo(undo);
+                if (callbacks.undo) {
+                    return await callbacks.undo(undo);
+                }
 
                 break;
             }
@@ -146,16 +164,18 @@ export class RequestParserHandler {
                     this.body,
                 );
 
-                if (callbacks.serverMetadata)
+                if (callbacks.serverMetadata) {
                     return await callbacks.serverMetadata(serverMetadata);
+                }
 
                 break;
             }
             case "Extension": {
                 const extension = await this.validator.Extension(this.body);
 
-                if (callbacks.extension)
+                if (callbacks.extension) {
                     return await callbacks.extension(extension);
+                }
 
                 break;
             }

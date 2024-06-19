@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { ContentFormatSchema } from "./content_format";
 import { ExtensionPropertySchema } from "./extensions";
-import { CustomEmojiExtension } from "./extensions/custom_emojis";
+import { CustomEmojiExtensionSchema } from "./extensions/custom_emojis";
 import { VanityExtensionSchema } from "./extensions/vanity";
 import { extensionTypeRegex } from "./regex";
 
@@ -187,6 +187,6 @@ export {
     ReportSchema,
     ServerMetadataSchema,
     ContentFormatSchema,
-    CustomEmojiExtension,
+    CustomEmojiExtensionSchema,
     ExtensionPropertySchema,
 };

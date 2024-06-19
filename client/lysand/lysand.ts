@@ -71,12 +71,12 @@ export class LysandClient extends BaseClient {
      */
     public addAccountToList(
         id: string,
-        account_ids: string[],
+        accountIds: string[],
         extra?: RequestInit,
     ): Promise<Output<void>> {
         return this.post<void>(
             `/api/v1/lists/${id}/accounts`,
-            { account_ids },
+            { accountIds },
             extra,
         );
     }
@@ -175,7 +175,7 @@ export class LysandClient extends BaseClient {
      * @param options.website URL to the application's website.
      */
     public createApp(
-        client_name: string,
+        clientName: string,
         options?: Partial<{
             redirect_uris: string;
             scopes: string[];
@@ -183,7 +183,7 @@ export class LysandClient extends BaseClient {
         }>,
     ): Promise<Output<ApplicationData>> {
         return this.postForm<ApplicationData>("/api/v1/apps", {
-            client_name,
+            clientName,
             ...options,
             scopes: options?.scopes?.join(" ") || DEFAULT_SCOPE.join(" "),
             redirect_uris: options?.redirect_uris || NO_REDIRECT,
@@ -243,12 +243,12 @@ export class LysandClient extends BaseClient {
      */
     public deleteAccountsFromList(
         id: string,
-        account_ids: string[],
+        accountIds: string[],
         extra?: RequestInit,
     ): Promise<Output<void>> {
         return this.delete<void>(
             `/api/v1/lists/${id}/accounts`,
-            { account_ids },
+            { accountIds },
             extra,
         );
     }
@@ -441,19 +441,19 @@ export class LysandClient extends BaseClient {
      * @param redirect_uri Must be the same URI as the time when you register your OAuth2 application
      */
     public fetchAccessToken(
-        client_id: string,
-        client_secret: string,
+        clientId: string,
+        clientSecret: string,
         code?: string,
-        redirect_uri: string = NO_REDIRECT,
+        redirectUri: string = NO_REDIRECT,
         extra?: RequestInit,
     ): Promise<Output<Token>> {
         return this.postForm<Token>(
             "/oauth/token",
             {
-                client_id,
-                client_secret,
+                clientId,
+                clientSecret,
                 code,
-                redirect_uri,
+                redirectUri,
                 grant_type: "authorization_code",
             },
             extra,
@@ -505,8 +505,8 @@ export class LysandClient extends BaseClient {
      * @returns
      */
     public generateAuthUrl(
-        client_id: string,
-        client_secret: string,
+        clientId: string,
+        clientSecret: string,
         options: Partial<{
             redirect_uri: string;
             scopes: string[];
@@ -514,8 +514,8 @@ export class LysandClient extends BaseClient {
     ): Promise<string> {
         const oauthClient = new OAuth2Client({
             server: this.baseUrl.toString(),
-            clientId: client_id,
-            clientSecret: client_secret,
+            clientId: clientId,
+            clientSecret: clientSecret,
             tokenEndpoint: "/oauth/token",
             authorizationEndpoint: "/oauth/authorize",
         });
@@ -560,9 +560,15 @@ export class LysandClient extends BaseClient {
         const params = new URLSearchParams();
 
         if (options) {
-            if (options.max_id) params.set("max_id", options.max_id);
-            if (options.since_id) params.set("since_id", options.since_id);
-            if (options.limit) params.set("limit", options.limit.toString());
+            if (options.max_id) {
+                params.set("max_id", options.max_id);
+            }
+            if (options.since_id) {
+                params.set("since_id", options.since_id);
+            }
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
         }
 
         return this.get<Account[]>(
@@ -592,9 +598,15 @@ export class LysandClient extends BaseClient {
         const params = new URLSearchParams();
 
         if (options) {
-            if (options.max_id) params.set("max_id", options.max_id);
-            if (options.since_id) params.set("since_id", options.since_id);
-            if (options.limit) params.set("limit", options.limit.toString());
+            if (options.max_id) {
+                params.set("max_id", options.max_id);
+            }
+            if (options.since_id) {
+                params.set("since_id", options.since_id);
+            }
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
         }
 
         return this.get<Account[]>(
@@ -647,14 +659,30 @@ export class LysandClient extends BaseClient {
         const params = new URLSearchParams();
 
         if (options) {
-            if (options.max_id) params.set("max_id", options.max_id);
-            if (options.min_id) params.set("min_id", options.min_id);
-            if (options.since_id) params.set("since_id", options.since_id);
-            if (options.limit) params.set("limit", options.limit.toString());
-            if (options.only_media) params.set("only_media", "true");
-            if (options.pinned) params.set("pinned", "true");
-            if (options.exclude_replies) params.set("exclude_replies", "true");
-            if (options.exclude_reblogs) params.set("exclude_reblogs", "true");
+            if (options.max_id) {
+                params.set("max_id", options.max_id);
+            }
+            if (options.min_id) {
+                params.set("min_id", options.min_id);
+            }
+            if (options.since_id) {
+                params.set("since_id", options.since_id);
+            }
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
+            if (options.only_media) {
+                params.set("only_media", "true");
+            }
+            if (options.pinned) {
+                params.set("pinned", "true");
+            }
+            if (options.exclude_replies) {
+                params.set("exclude_replies", "true");
+            }
+            if (options.exclude_reblogs) {
+                params.set("exclude_reblogs", "true");
+            }
         }
 
         return this.get<Status[]>(
@@ -686,10 +714,18 @@ export class LysandClient extends BaseClient {
         const params = new URLSearchParams();
 
         if (options) {
-            if (options.max_id) params.set("max_id", options.max_id);
-            if (options.since_id) params.set("since_id", options.since_id);
-            if (options.min_id) params.set("min_id", options.min_id);
-            if (options.limit) params.set("limit", options.limit.toString());
+            if (options.max_id) {
+                params.set("max_id", options.max_id);
+            }
+            if (options.since_id) {
+                params.set("since_id", options.since_id);
+            }
+            if (options.min_id) {
+                params.set("min_id", options.min_id);
+            }
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
         }
 
         return this.get<Account[]>(
@@ -716,9 +752,15 @@ export class LysandClient extends BaseClient {
         const params = new URLSearchParams();
 
         if (options) {
-            if (options.max_id) params.set("max_id", options.max_id);
-            if (options.min_id) params.set("min_id", options.min_id);
-            if (options.limit) params.set("limit", options.limit.toString());
+            if (options.max_id) {
+                params.set("max_id", options.max_id);
+            }
+            if (options.min_id) {
+                params.set("min_id", options.min_id);
+            }
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
         }
 
         return this.get<Account[]>(`/api/v1/blocks?${params}`);
@@ -744,10 +786,18 @@ export class LysandClient extends BaseClient {
         const params = new URLSearchParams();
 
         if (options) {
-            if (options.max_id) params.set("max_id", options.max_id);
-            if (options.min_id) params.set("min_id", options.min_id);
-            if (options.since_id) params.set("since_id", options.since_id);
-            if (options.limit) params.set("limit", options.limit.toString());
+            if (options.max_id) {
+                params.set("max_id", options.max_id);
+            }
+            if (options.min_id) {
+                params.set("min_id", options.min_id);
+            }
+            if (options.since_id) {
+                params.set("since_id", options.since_id);
+            }
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
         }
 
         return this.get<Status[]>(`/api/v1/bookmarks?${params}`);
@@ -775,10 +825,18 @@ export class LysandClient extends BaseClient {
         const params = new URLSearchParams();
 
         if (options) {
-            if (options.max_id) params.set("max_id", options.max_id);
-            if (options.min_id) params.set("min_id", options.min_id);
-            if (options.since_id) params.set("since_id", options.since_id);
-            if (options.limit) params.set("limit", options.limit.toString());
+            if (options.max_id) {
+                params.set("max_id", options.max_id);
+            }
+            if (options.min_id) {
+                params.set("min_id", options.min_id);
+            }
+            if (options.since_id) {
+                params.set("since_id", options.since_id);
+            }
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
         }
 
         return this.get<Conversation[]>(
@@ -805,9 +863,15 @@ export class LysandClient extends BaseClient {
         const params = new URLSearchParams();
 
         if (options) {
-            if (options.max_id) params.set("max_id", options.max_id);
-            if (options.since_id) params.set("since_id", options.since_id);
-            if (options.limit) params.set("limit", options.limit.toString());
+            if (options.max_id) {
+                params.set("max_id", options.max_id);
+            }
+            if (options.since_id) {
+                params.set("since_id", options.since_id);
+            }
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
         }
 
         return this.get<string[]>(`/api/v1/domain_blocks?${params}`);
@@ -832,9 +896,15 @@ export class LysandClient extends BaseClient {
         const params = new URLSearchParams();
 
         if (options) {
-            if (options.max_id) params.set("max_id", options.max_id);
-            if (options.since_id) params.set("since_id", options.since_id);
-            if (options.limit) params.set("limit", options.limit.toString());
+            if (options.max_id) {
+                params.set("max_id", options.max_id);
+            }
+            if (options.since_id) {
+                params.set("since_id", options.since_id);
+            }
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
         }
 
         return this.get<Account[]>(`/api/v1/endorsements?${params}`, extra);
@@ -858,9 +928,15 @@ export class LysandClient extends BaseClient {
         const params = new URLSearchParams();
 
         if (options) {
-            if (options.max_id) params.set("max_id", options.max_id);
-            if (options.min_id) params.set("min_id", options.min_id);
-            if (options.limit) params.set("limit", options.limit.toString());
+            if (options.max_id) {
+                params.set("max_id", options.max_id);
+            }
+            if (options.min_id) {
+                params.set("min_id", options.min_id);
+            }
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
         }
 
         return this.get<Status[]>(`/api/v1/favourites?${params}`);
@@ -894,7 +970,9 @@ export class LysandClient extends BaseClient {
         const params = new URLSearchParams();
 
         if (options) {
-            if (options.limit) params.set("limit", options.limit.toString());
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
         }
 
         return this.get<Account[]>(`/api/v1/follow_requests?${params}`);
@@ -932,11 +1010,21 @@ export class LysandClient extends BaseClient {
         const params = new URLSearchParams();
 
         if (options) {
-            if (options.max_id) params.set("max_id", options.max_id);
-            if (options.min_id) params.set("min_id", options.min_id);
-            if (options.since_id) params.set("since_id", options.since_id);
-            if (options.limit) params.set("limit", options.limit.toString());
-            if (options.local) params.set("local", "true");
+            if (options.max_id) {
+                params.set("max_id", options.max_id);
+            }
+            if (options.min_id) {
+                params.set("min_id", options.min_id);
+            }
+            if (options.since_id) {
+                params.set("since_id", options.since_id);
+            }
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
+            if (options.local) {
+                params.set("local", "true");
+            }
         }
 
         return this.get<Status[]>(`/api/v1/timelines/home?${params}`, extra);
@@ -1007,10 +1095,18 @@ export class LysandClient extends BaseClient {
         const params = new URLSearchParams();
 
         if (options) {
-            if (options.limit) params.set("limit", options.limit.toString());
-            if (options.local) params.set("local", "true");
-            if (options.offset) params.set("offset", options.offset.toString());
-            if (options.order) params.set("order", options.order);
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
+            if (options.local) {
+                params.set("local", "true");
+            }
+            if (options.offset) {
+                params.set("offset", options.offset.toString());
+            }
+            if (options.order) {
+                params.set("order", options.order);
+            }
         }
 
         return this.get<Account[]>(`/api/v1/directory?${params}`, extra);
@@ -1078,7 +1174,9 @@ export class LysandClient extends BaseClient {
         const params = new URLSearchParams();
 
         if (options) {
-            if (options.limit) params.set("limit", options.limit.toString());
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
         }
 
         return this.get<Tag[]>(`/api/v1/trends?${params}`);
@@ -1117,10 +1215,18 @@ export class LysandClient extends BaseClient {
         const params = new URLSearchParams();
 
         if (options) {
-            if (options.max_id) params.set("max_id", options.max_id);
-            if (options.min_id) params.set("min_id", options.min_id);
-            if (options.since_id) params.set("since_id", options.since_id);
-            if (options.limit) params.set("limit", options.limit.toString());
+            if (options.max_id) {
+                params.set("max_id", options.max_id);
+            }
+            if (options.min_id) {
+                params.set("min_id", options.min_id);
+            }
+            if (options.since_id) {
+                params.set("since_id", options.since_id);
+            }
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
         }
 
         return this.get<Status[]>(
@@ -1162,11 +1268,21 @@ export class LysandClient extends BaseClient {
         const params = new URLSearchParams();
 
         if (options) {
-            if (options.max_id) params.set("max_id", options.max_id);
-            if (options.min_id) params.set("min_id", options.min_id);
-            if (options.since_id) params.set("since_id", options.since_id);
-            if (options.limit) params.set("limit", options.limit.toString());
-            if (options.only_media) params.set("only_media", "true");
+            if (options.max_id) {
+                params.set("max_id", options.max_id);
+            }
+            if (options.min_id) {
+                params.set("min_id", options.min_id);
+            }
+            if (options.since_id) {
+                params.set("since_id", options.since_id);
+            }
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
+            if (options.only_media) {
+                params.set("only_media", "true");
+            }
         }
 
         return this.get<Status[]>(`/api/v1/timelines/public?${params}`, extra);
@@ -1223,9 +1339,15 @@ export class LysandClient extends BaseClient {
         const params = new URLSearchParams();
 
         if (options) {
-            if (options.max_id) params.set("max_id", options.max_id);
-            if (options.since_id) params.set("since_id", options.since_id);
-            if (options.limit) params.set("limit", options.limit.toString());
+            if (options.max_id) {
+                params.set("max_id", options.max_id);
+            }
+            if (options.since_id) {
+                params.set("since_id", options.since_id);
+            }
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
         }
 
         return this.get<Account[]>(`/api/v1/mutes?${params}`);
@@ -1268,17 +1390,26 @@ export class LysandClient extends BaseClient {
         const params = new URLSearchParams();
 
         if (options) {
-            if (options.max_id) params.set("max_id", options.max_id);
-            if (options.min_id) params.set("min_id", options.min_id);
-            if (options.since_id) params.set("since_id", options.since_id);
-            if (options.limit) params.set("limit", options.limit.toString());
+            if (options.max_id) {
+                params.set("max_id", options.max_id);
+            }
+            if (options.min_id) {
+                params.set("min_id", options.min_id);
+            }
+            if (options.since_id) {
+                params.set("since_id", options.since_id);
+            }
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
             if (options.exclude_types) {
                 for (const type of options.exclude_types) {
                     params.append("exclude_types[]", type);
                 }
             }
-            if (options.account_id)
+            if (options.account_id) {
                 params.set("account_id", options.account_id);
+            }
         }
 
         return this.get<Notification[]>(`/api/v1/notifications?${params}`);
@@ -1326,11 +1457,21 @@ export class LysandClient extends BaseClient {
         const params = new URLSearchParams();
 
         if (options) {
-            if (options.max_id) params.set("max_id", options.max_id);
-            if (options.min_id) params.set("min_id", options.min_id);
-            if (options.since_id) params.set("since_id", options.since_id);
-            if (options.limit) params.set("limit", options.limit.toString());
-            if (options.only_media) params.set("only_media", "true");
+            if (options.max_id) {
+                params.set("max_id", options.max_id);
+            }
+            if (options.min_id) {
+                params.set("min_id", options.min_id);
+            }
+            if (options.since_id) {
+                params.set("since_id", options.since_id);
+            }
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
+            if (options.only_media) {
+                params.set("only_media", "true");
+            }
         }
 
         return this.get<Status[]>(`/api/v1/timelines/public?${params}`, extra);
@@ -1388,7 +1529,9 @@ export class LysandClient extends BaseClient {
         }
 
         if (options) {
-            if (options.with_suspended) params.set("with_suspended", "true");
+            if (options.with_suspended) {
+                params.set("with_suspended", "true");
+            }
         }
 
         return this.get<Relationship[]>(
@@ -1457,10 +1600,18 @@ export class LysandClient extends BaseClient {
         const params = new URLSearchParams();
 
         if (options) {
-            if (options.max_id) params.set("max_id", options.max_id);
-            if (options.min_id) params.set("min_id", options.min_id);
-            if (options.since_id) params.set("since_id", options.since_id);
-            if (options.limit) params.set("limit", options.limit.toString());
+            if (options.max_id) {
+                params.set("max_id", options.max_id);
+            }
+            if (options.min_id) {
+                params.set("min_id", options.min_id);
+            }
+            if (options.since_id) {
+                params.set("since_id", options.since_id);
+            }
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
         }
 
         return this.get<ScheduledStatus[]>(
@@ -1501,9 +1652,15 @@ export class LysandClient extends BaseClient {
         const params = new URLSearchParams();
 
         if (options) {
-            if (options.limit) params.set("limit", options.limit.toString());
-            if (options.max_id) params.set("max_id", options.max_id);
-            if (options.since_id) params.set("since_id", options.since_id);
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
+            if (options.max_id) {
+                params.set("max_id", options.max_id);
+            }
+            if (options.since_id) {
+                params.set("since_id", options.since_id);
+            }
         }
 
         return this.get<Context>(
@@ -1533,9 +1690,15 @@ export class LysandClient extends BaseClient {
         const params = new URLSearchParams();
 
         if (options) {
-            if (options.max_id) params.set("max_id", options.max_id);
-            if (options.since_id) params.set("since_id", options.since_id);
-            if (options.limit) params.set("limit", options.limit.toString());
+            if (options.max_id) {
+                params.set("max_id", options.max_id);
+            }
+            if (options.since_id) {
+                params.set("since_id", options.since_id);
+            }
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
         }
 
         return this.get<Account[]>(
@@ -1565,9 +1728,15 @@ export class LysandClient extends BaseClient {
         const params = new URLSearchParams();
 
         if (options) {
-            if (options.max_id) params.set("max_id", options.max_id);
-            if (options.since_id) params.set("since_id", options.since_id);
-            if (options.limit) params.set("limit", options.limit.toString());
+            if (options.max_id) {
+                params.set("max_id", options.max_id);
+            }
+            if (options.since_id) {
+                params.set("since_id", options.since_id);
+            }
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
         }
 
         return this.get<Account[]>(
@@ -1611,7 +1780,9 @@ export class LysandClient extends BaseClient {
         const params = new URLSearchParams();
 
         if (options) {
-            if (options.limit) params.set("limit", options.limit.toString());
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
         }
 
         return this.get<Account[]>(`/api/v1/suggestions?${params}`);
@@ -1654,12 +1825,24 @@ export class LysandClient extends BaseClient {
         const params = new URLSearchParams();
 
         if (options) {
-            if (options.max_id) params.set("max_id", options.max_id);
-            if (options.min_id) params.set("min_id", options.min_id);
-            if (options.since_id) params.set("since_id", options.since_id);
-            if (options.limit) params.set("limit", options.limit.toString());
-            if (options.local) params.set("local", "true");
-            if (options.only_media) params.set("only_media", "true");
+            if (options.max_id) {
+                params.set("max_id", options.max_id);
+            }
+            if (options.min_id) {
+                params.set("min_id", options.min_id);
+            }
+            if (options.since_id) {
+                params.set("since_id", options.since_id);
+            }
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
+            if (options.local) {
+                params.set("local", "true");
+            }
+            if (options.only_media) {
+                params.set("only_media", "true");
+            }
         }
 
         return this.get<Status[]>(
@@ -1848,18 +2031,18 @@ export class LysandClient extends BaseClient {
      * @param token will be get #fetchAccessToken
      */
     public refreshToken(
-        client_id: string,
-        client_secret: string,
-        refresh_token: string,
+        clientId: string,
+        clientSecret: string,
+        refreshToken: string,
         extra?: RequestInit,
     ): Promise<Output<Token>> {
         return this.post<Token>(
             "/oauth/token",
             {
-                client_id,
-                client_secret,
+                clientId,
+                clientSecret,
                 grant_type: "refresh_token",
-                refresh_token,
+                refreshToken,
             },
             extra,
         );
@@ -1900,7 +2083,7 @@ export class LysandClient extends BaseClient {
      * @param options Form Data
      */
     public registerApp(
-        client_name: string,
+        clientName: string,
         options: {
             redirect_uris: string;
             scopes?: string;
@@ -1910,7 +2093,7 @@ export class LysandClient extends BaseClient {
     ): Promise<Output<ApplicationData>> {
         return this.post<ApplicationData>(
             "/api/v1/apps",
-            { client_name, ...options },
+            { clientName, ...options },
             extra,
         );
     }
@@ -1976,7 +2159,7 @@ export class LysandClient extends BaseClient {
      * @return Report.
      */
     public report(
-        account_id: string,
+        accountId: string,
         options: {
             status_ids?: string[];
             rule_ids?: string[];
@@ -1988,7 +2171,7 @@ export class LysandClient extends BaseClient {
     ): Promise<Output<Report>> {
         return this.post<Report>(
             "/api/v1/reports",
-            { account_id, ...options },
+            { accountId, ...options },
             extra,
         );
     }
@@ -2002,14 +2185,14 @@ export class LysandClient extends BaseClient {
      * @param token will be get #fetchAccessToken
      */
     public revokeToken(
-        client_id: string,
-        client_secret: string,
+        clientId: string,
+        clientSecret: string,
         token: string,
         extra?: RequestInit,
     ): Promise<Output<void>> {
         return this.post<void>(
             "/oauth/revoke",
-            { client_id, client_secret, token },
+            { clientId, clientSecret, token },
             extra,
         );
     }
@@ -2044,12 +2227,12 @@ export class LysandClient extends BaseClient {
      */
     public scheduleStatus(
         id: string,
-        scheduled_at?: Date,
+        scheduledAt?: Date,
         extra?: RequestInit,
     ): Promise<Output<ScheduledStatus>> {
         return this.put<ScheduledStatus>(
             `/api/v1/scheduled_statuses/${id}`,
-            { scheduled_at: scheduled_at?.toISOString() },
+            { scheduled_at: scheduledAt?.toISOString() },
             extra,
         );
     }
@@ -2088,17 +2271,33 @@ export class LysandClient extends BaseClient {
         params.set("q", q);
 
         if (options) {
-            if (options.account_id)
+            if (options.account_id) {
                 params.set("account_id", options.account_id);
-            if (options.exclude_unreviewed)
+            }
+            if (options.exclude_unreviewed) {
                 params.set("exclude_unreviewed", "true");
-            if (options.following) params.set("following", "true");
-            if (options.limit) params.set("limit", options.limit.toString());
-            if (options.max_id) params.set("max_id", options.max_id);
-            if (options.min_id) params.set("min_id", options.min_id);
-            if (options.offset) params.set("offset", options.offset.toString());
-            if (options.resolve) params.set("resolve", "true");
-            if (options.type) params.set("type", options.type);
+            }
+            if (options.following) {
+                params.set("following", "true");
+            }
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
+            if (options.max_id) {
+                params.set("max_id", options.max_id);
+            }
+            if (options.min_id) {
+                params.set("min_id", options.min_id);
+            }
+            if (options.offset) {
+                params.set("offset", options.offset.toString());
+            }
+            if (options.resolve) {
+                params.set("resolve", "true");
+            }
+            if (options.type) {
+                params.set("type", options.type);
+            }
         }
 
         return this.get<Results>(`/api/v2/search?${params}`, extra);
@@ -2131,11 +2330,21 @@ export class LysandClient extends BaseClient {
         params.set("q", q);
 
         if (options) {
-            if (options.following) params.set("following", "true");
-            if (options.limit) params.set("limit", options.limit.toString());
-            if (options.max_id) params.set("max_id", options.max_id);
-            if (options.resolve) params.set("resolve", "true");
-            if (options.since_id) params.set("since_id", options.since_id);
+            if (options.following) {
+                params.set("following", "true");
+            }
+            if (options.limit) {
+                params.set("limit", options.limit.toString());
+            }
+            if (options.max_id) {
+                params.set("max_id", options.max_id);
+            }
+            if (options.resolve) {
+                params.set("resolve", "true");
+            }
+            if (options.since_id) {
+                params.set("since_id", options.since_id);
+            }
         }
 
         return this.get<Account[]>(`/api/v1/accounts/search?${params}`, extra);

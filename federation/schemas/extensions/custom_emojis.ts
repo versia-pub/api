@@ -33,7 +33,7 @@ import { emojiRegex } from "../regex";
  *     // ...
  * }
  */
-export const CustomEmojiExtension = z.object({
+export const CustomEmojiExtensionSchema = z.object({
     emojis: z.array(
         z.object({
             name: z
