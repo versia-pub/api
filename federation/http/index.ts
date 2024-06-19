@@ -1,27 +1,32 @@
+import type {
+    Dislike,
+    Extension,
+    Follow,
+    FollowAccept,
+    FollowReject,
+    Like,
+    Note,
+    Patch,
+    ServerMetadata,
+    Undo,
+    User,
+} from "../schemas";
 import type { EntityValidator } from "../validator/index";
 
 type MaybePromise<T> = T | Promise<T>;
 
 type ParserCallbacks<T> = {
-    note: (note: typeof EntityValidator.$Note) => MaybePromise<T>;
-    follow: (follow: typeof EntityValidator.$Follow) => MaybePromise<T>;
-    followAccept: (
-        followAccept: typeof EntityValidator.$FollowAccept,
-    ) => MaybePromise<T>;
-    followReject: (
-        followReject: typeof EntityValidator.$FollowReject,
-    ) => MaybePromise<T>;
-    user: (user: typeof EntityValidator.$User) => MaybePromise<T>;
-    like: (like: typeof EntityValidator.$Like) => MaybePromise<T>;
-    dislike: (dislike: typeof EntityValidator.$Dislike) => MaybePromise<T>;
-    undo: (undo: typeof EntityValidator.$Undo) => MaybePromise<T>;
-    serverMetadata: (
-        serverMetadata: typeof EntityValidator.$ServerMetadata,
-    ) => MaybePromise<T>;
-    extension: (
-        extension: typeof EntityValidator.$Extension,
-    ) => MaybePromise<T>;
-    patch: (patch: typeof EntityValidator.$Patch) => MaybePromise<T>;
+    note: (note: Note) => MaybePromise<T>;
+    follow: (follow: Follow) => MaybePromise<T>;
+    followAccept: (followAccept: FollowAccept) => MaybePromise<T>;
+    followReject: (followReject: FollowReject) => MaybePromise<T>;
+    user: (user: User) => MaybePromise<T>;
+    like: (like: Like) => MaybePromise<T>;
+    dislike: (dislike: Dislike) => MaybePromise<T>;
+    undo: (undo: Undo) => MaybePromise<T>;
+    serverMetadata: (serverMetadata: ServerMetadata) => MaybePromise<T>;
+    extension: (extension: Extension) => MaybePromise<T>;
+    patch: (patch: Patch) => MaybePromise<T>;
 };
 
 /**

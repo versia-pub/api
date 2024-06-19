@@ -4,7 +4,8 @@
     "workspaces": ["federation", "client"],
     "scripts": {
         "lint": "bunx @biomejs/biome check .",
-        "build": "bun run build.ts"
+        "build": "bun run build.ts",
+        "check": "bunx tsc -p ."
     },
     "devDependencies": {
         "@biomejs/biome": "^1.8.1",
