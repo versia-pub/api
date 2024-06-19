@@ -25,7 +25,7 @@ import type {
     InstanceRule,
 } from "./types/instance";
 import type { List, RepliesPolicy } from "./types/list";
-import type { LysandRole, RolePermission } from "./types/lysand";
+import { type LysandRole, RolePermission } from "./types/lysand";
 import type { Marker } from "./types/marker";
 import type { Mention } from "./types/mention";
 import type { Notification, NotificationType } from "./types/notification";
@@ -90,7 +90,6 @@ export type {
     RepliesPolicy,
     Report,
     Results,
-    RolePermission,
     ScheduledStatus,
     Source,
     Stats,
@@ -104,3 +103,5 @@ export type {
     Token,
     URLs,
 };
+
+export { RolePermission };

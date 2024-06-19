@@ -1507,7 +1507,7 @@ export class LysandClient extends BaseClient {
     ): Promise<Output<Relationship>> {
         return this.getRelationships([id], options, extra).then((r) => ({
             ...r,
-            data: r.data[0],
+            data: r.data[0] as Relationship,
         }));
     }
 
