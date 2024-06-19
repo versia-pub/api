@@ -1,30 +1,33 @@
 import { OAuth2Client } from "@badgateway/oauth2-client";
-import type { Account } from "../types/account";
-import type { Activity } from "../types/activity";
-import type { Announcement } from "../types/announcement";
-import type { Application, ApplicationData } from "../types/application";
-import type { AsyncAttachment } from "../types/async_attachment";
-import type { Attachment } from "../types/attachment";
-import type { Context } from "../types/context";
-import type { Conversation } from "../types/conversation";
-import type { Emoji } from "../types/emoji";
-import type { FeaturedTag } from "../types/featured_tag";
-import type { ExtendedDescription, Instance } from "../types/instance";
-import type { List } from "../types/list";
-import type { LysandRole } from "../types/lysand";
-import type { Marker } from "../types/marker";
-import type { Notification } from "../types/notification";
-import type { Poll } from "../types/poll";
-import type { Preferences } from "../types/preferences";
-import type { PushSubscription } from "../types/push_subscription";
-import type { Relationship } from "../types/relationship";
-import type { Category, Report } from "../types/report";
-import type { Results } from "../types/results";
-import type { ScheduledStatus } from "../types/scheduled_status";
-import type { Status, StatusVisibility } from "../types/status";
-import type { StatusSource } from "../types/status_source";
-import type { Tag } from "../types/tag";
-import type { Token } from "../types/token";
+import type {
+    Account,
+    Activity,
+    Announcement,
+    Application,
+    ApplicationData,
+    AsyncAttachment,
+    Attachment,
+    Category,
+    Context,
+    Conversation,
+    Emoji,
+    ExtendedDescription,
+    FeaturedTag,
+    Instance,
+    List,
+    LysandRole,
+    Marker,
+    Poll,
+    Preferences,
+    Relationship,
+    Results,
+    ScheduledStatus,
+    Status,
+    StatusSource,
+    StatusVisibility,
+    Tag,
+    Token,
+} from "../types";
 import { BaseClient, type Output } from "./base";
 import { DEFAULT_SCOPE, NO_REDIRECT } from "./constants";
 
@@ -1503,8 +1506,8 @@ export class LysandClient extends BaseClient {
         extra?: RequestInit,
     ): Promise<Output<Relationship>> {
         return this.getRelationships([id], options, extra).then((r) => ({
+            ...r,
             data: r.data[0],
-            headers: r.headers,
         }));
     }
 

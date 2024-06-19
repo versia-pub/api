@@ -19,7 +19,8 @@ type ConvertibleObject = {
  */
 export interface Output<ReturnType> {
     data: ReturnType;
-    headers: Headers;
+    ok: boolean;
+    raw: Response;
 }
 
 const objectToFormData = (obj: ConvertibleObject): FormData => {
@@ -62,7 +63,11 @@ const objectToFormData = (obj: ConvertibleObject): FormData => {
  *
  * Throws if the request returns invalid or unexpected data.
  */
-export class ResponseError<ReturnType> extends Error {
+export class ResponseError<
+    ReturnType = {
+        error?: string;
+    },
+> extends Error {
     constructor(
         public response: Output<ReturnType>,
         message: string,
@@ -96,12 +101,11 @@ export class BaseClient {
 
         if (!result.ok) {
             const error = isJson ? await result.json() : await result.text();
-            throw new ResponseError<{
-                error?: string;
-            }>(
+            throw new ResponseError(
                 {
                     data: error,
-                    headers: result.headers,
+                    ok: false,
+                    raw: result,
                 },
                 `Request failed (${result.status}): ${
                     error.error || error.message || result.statusText
@@ -111,7 +115,8 @@ export class BaseClient {
 
         return {
             data: isJson ? await result.json() : (await result.text()) || null,
-            headers: result.headers,
+            ok: true,
+            raw: result,
         };
     }
 

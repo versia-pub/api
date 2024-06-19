@@ -1,7 +1,7 @@
 export type LysandRole = {
     id: string;
     name: string;
-    permissions: LysandRolePermissions[];
+    permissions: RolePermission[];
     priority: number;
     description: string | null;
     visible: boolean;
@@ -9,7 +9,7 @@ export type LysandRole = {
 };
 
 // Last updated: 2024-06-07
-export enum LysandRolePermissions {
+export enum RolePermission {
     ManageNotes = "notes",
     ManageOwnNotes = "owner:note",
     ViewNotes = "read:note",
