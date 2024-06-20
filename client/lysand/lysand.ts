@@ -74,12 +74,12 @@ export class LysandClient extends BaseClient {
      */
     public addAccountToList(
         id: string,
-        accountIds: string[],
+        account_ids: string[],
         extra?: RequestInit,
     ): Promise<Output<void>> {
         return this.post<void>(
             `/api/v1/lists/${id}/accounts`,
-            { accountIds },
+            { account_ids },
             extra,
         );
     }
@@ -108,8 +108,11 @@ export class LysandClient extends BaseClient {
      * Lysand API only.
      * @param roleId ID of the role to add to the requesting account.
      */
-    public addRole(roleId: string, extra?: RequestInit): Promise<Output<void>> {
-        return this.post<void>(`/api/v1/roles/${roleId}`, undefined, extra);
+    public addRole(
+        role_id: string,
+        extra?: RequestInit,
+    ): Promise<Output<void>> {
+        return this.post<void>(`/api/v1/roles/${role_id}`, undefined, extra);
     }
 
     /**
@@ -178,7 +181,7 @@ export class LysandClient extends BaseClient {
      * @param options.website URL to the application's website.
      */
     public createApp(
-        clientName: string,
+        client_name: string,
         options?: Partial<{
             redirect_uris: string;
             scopes: string[];
@@ -186,7 +189,7 @@ export class LysandClient extends BaseClient {
         }>,
     ): Promise<Output<ApplicationData>> {
         return this.postForm<ApplicationData>("/api/v1/apps", {
-            clientName,
+            client_name,
             ...options,
             scopes: options?.scopes?.join(" ") || DEFAULT_SCOPE.join(" "),
             redirect_uris: options?.redirect_uris || NO_REDIRECT,
@@ -246,12 +249,12 @@ export class LysandClient extends BaseClient {
      */
     public deleteAccountsFromList(
         id: string,
-        accountIds: string[],
+        account_ids: string[],
         extra?: RequestInit,
     ): Promise<Output<void>> {
         return this.delete<void>(
             `/api/v1/lists/${id}/accounts`,
-            { accountIds },
+            { account_ids },
             extra,
         );
     }
@@ -444,19 +447,19 @@ export class LysandClient extends BaseClient {
      * @param redirect_uri Must be the same URI as the time when you register your OAuth2 application
      */
     public fetchAccessToken(
-        clientId: string,
-        clientSecret: string,
+        client_id: string,
+        client_secret: string,
         code?: string,
-        redirectUri: string = NO_REDIRECT,
+        redirect_uri: string = NO_REDIRECT,
         extra?: RequestInit,
     ): Promise<Output<Token>> {
         return this.postForm<Token>(
             "/oauth/token",
             {
-                clientId,
-                clientSecret,
+                client_id,
+                client_secret,
                 code,
-                redirectUri,
+                redirect_uri,
                 grant_type: "authorization_code",
             },
             extra,
@@ -508,8 +511,8 @@ export class LysandClient extends BaseClient {
      * @returns
      */
     public generateAuthUrl(
-        clientId: string,
-        clientSecret: string,
+        client_id: string,
+        client_secret: string,
         options: Partial<{
             redirect_uri: string;
             scopes: string[];
@@ -517,8 +520,8 @@ export class LysandClient extends BaseClient {
     ): Promise<string> {
         const oauthClient = new OAuth2Client({
             server: this.baseUrl.toString(),
-            clientId: clientId,
-            clientSecret: clientSecret,
+            clientId: client_id,
+            clientSecret: client_secret,
             tokenEndpoint: "/oauth/token",
             authorizationEndpoint: "/oauth/authorize",
         });
@@ -2034,18 +2037,18 @@ export class LysandClient extends BaseClient {
      * @param token will be get #fetchAccessToken
      */
     public refreshToken(
-        clientId: string,
-        clientSecret: string,
-        refreshToken: string,
+        client_id: string,
+        client_secret: string,
+        refresh_token: string,
         extra?: RequestInit,
     ): Promise<Output<Token>> {
         return this.post<Token>(
             "/oauth/token",
             {
-                clientId,
-                clientSecret,
+                client_id,
+                client_secret,
                 grant_type: "refresh_token",
-                refreshToken,
+                refresh_token,
             },
             extra,
         );
@@ -2086,7 +2089,7 @@ export class LysandClient extends BaseClient {
      * @param options Form Data
      */
     public registerApp(
-        clientName: string,
+        client_name: string,
         options: {
             redirect_uris: string;
             scopes?: string;
@@ -2096,7 +2099,7 @@ export class LysandClient extends BaseClient {
     ): Promise<Output<ApplicationData>> {
         return this.post<ApplicationData>(
             "/api/v1/apps",
-            { clientName, ...options },
+            { client_name, ...options },
             extra,
         );
     }
@@ -2144,10 +2147,10 @@ export class LysandClient extends BaseClient {
      * @returns
      */
     public removeRole(
-        roleId: string,
+        role_id: string,
         extra?: RequestInit,
     ): Promise<Output<void>> {
-        return this.delete<void>(`/api/v1/roles/${roleId}`, undefined, extra);
+        return this.delete<void>(`/api/v1/roles/${role_id}`, undefined, extra);
     }
 
     /**
@@ -2162,7 +2165,7 @@ export class LysandClient extends BaseClient {
      * @return Report.
      */
     public report(
-        accountId: string,
+        account_id: string,
         options: {
             status_ids?: string[];
             rule_ids?: string[];
@@ -2174,7 +2177,7 @@ export class LysandClient extends BaseClient {
     ): Promise<Output<Report>> {
         return this.post<Report>(
             "/api/v1/reports",
-            { accountId, ...options },
+            { account_id, ...options },
             extra,
         );
     }
@@ -2188,14 +2191,14 @@ export class LysandClient extends BaseClient {
      * @param token will be get #fetchAccessToken
      */
     public revokeToken(
-        clientId: string,
-        clientSecret: string,
+        client_id: string,
+        client_secret: string,
         token: string,
         extra?: RequestInit,
     ): Promise<Output<void>> {
         return this.post<void>(
             "/oauth/revoke",
-            { clientId, clientSecret, token },
+            { client_id, client_secret, token },
             extra,
         );
     }
@@ -2230,12 +2233,12 @@ export class LysandClient extends BaseClient {
      */
     public scheduleStatus(
         id: string,
-        scheduledAt?: Date,
+        scheduled_at?: Date,
         extra?: RequestInit,
     ): Promise<Output<ScheduledStatus>> {
         return this.put<ScheduledStatus>(
             `/api/v1/scheduled_statuses/${id}`,
-            { scheduled_at: scheduledAt?.toISOString() },
+            { scheduled_at: scheduled_at?.toISOString() },
             extra,
         );
     }

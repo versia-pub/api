@@ -54,6 +54,13 @@
                                     "scope": "any"
                                 },
                                 "formats": ["camelCase", "PascalCase"]
+                            },
+                            {
+                                "selector": {
+                                    "kind": "functionParameter",
+                                    "scope": "any"
+                                },
+                                "formats": ["snake_case", "camelCase"]
                             }
                         ]
                     }
