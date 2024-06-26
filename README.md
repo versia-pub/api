@@ -25,11 +25,6 @@ Please see the [**`@lysand-org/federation` README**](federation/README.md) for m
 
 ### Client
 
-#### Roadmap
-
-- [x] Parity with [**megalodon**](https://github.com/h3poteto/megalodon)'s Mastodon client
-- [ ] Lysand-specific features
-
 Please see the [**`@lysand-org/client` README**](client/README.md) for more information.
 
 ## Getting Started

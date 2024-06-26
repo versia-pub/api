@@ -38,7 +38,9 @@ try {
 }
 
 // Types are also included for TypeScript users that don't use the extracted ones
-const validNoteObject: typeof EntityValidator.$Note = {
+import type { Note } from "@lysand-org/federation/types";
+
+const validNoteObject: Note = {
     type: "Note",
     // ...
 };
