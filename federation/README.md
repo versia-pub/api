@@ -52,6 +52,30 @@ const validNote = await validator.Note(validNoteObject);
 
 Your editor's IntelliSense should provide you with every method and property available, which all match the [**Lysand**](https://lysand.org) specification names.
 
+#### Validation Helper
+
+`RequestParserHandler` is a class to parse the body of a request and call the appropriate callback. It is a helper for the `EntityValidator` class.
+
+```typescript
+const body = { ... };
+const validator = new EntityValidator();
+const parser = new RequestParserHandler(body, validator);
+
+// Throws an error if the object is invalid
+// Same error as above
+await parser.parseBody({
+    note: (note) => {
+        // If the object is a Note, this will be called
+        console.log(note);
+    },
+    follow: (follow) => {
+        // If the object is a Follow, this will be called
+        console.log(follow);
+    },
+    ...
+});
+```
+
 #### Cryptography
 
 The cryptography module provides two main classes: [`SignatureConstructor`](federation/cryptography/index.ts) and [`SignatureValidator`](federation/cryptography/index.ts). These classes are used to construct and validate signatures for requests, respectively.

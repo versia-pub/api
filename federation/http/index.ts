@@ -32,13 +32,17 @@ type ParserCallbacks<T> = {
 /**
  * A class to parse the body of a request and call the appropriate callback.
  * @example
+ * const body = { ... };
+ * const validator = new EntityValidator();
  * const parser = new RequestParserHandler(body, validator);
  *
  * await parser.parseBody({
  *     note: (note) => {
+ *         // If the object is a Note, this will be called
  *         console.log(note);
  *     },
  *     follow: (follow) => {
+ *         // If the object is a Follow, this will be called
  *         console.log(follow);
  *     },
  *     ...
