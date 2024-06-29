@@ -17,6 +17,7 @@ import type {
     List,
     LysandRole,
     Marker,
+    Notification,
     Poll,
     Preferences,
     Relationship,
