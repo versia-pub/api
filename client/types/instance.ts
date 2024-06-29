@@ -26,11 +26,6 @@ export type Instance = {
         };
         accounts: {
             max_featured_tags: number;
-        };
-        statuses: {
-            max_characters: number;
-            max_media_attachments: number;
-            characters_reserved_per_url: number;
             max_note_characters: number;
             max_displayname_characters: number;
             avatar_size_limit: number;
@@ -39,6 +34,11 @@ export type Instance = {
             max_fields_value_characters: number;
             max_fields: number;
             max_username_characters: number;
+        };
+        statuses: {
+            max_characters: number;
+            max_media_attachments: number;
+            characters_reserved_per_url: number;
         };
         media_attachments: {
             supported_mime_types: string[];
