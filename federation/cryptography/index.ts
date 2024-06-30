@@ -259,7 +259,7 @@ export class SignatureConstructor {
     async sign(
         method: HttpVerb,
         url: URL,
-        body: string,
+        body?: string,
         headers?: Headers,
         date?: Date,
     ): Promise<{
@@ -302,7 +302,7 @@ export class SignatureConstructor {
             return { request, signedString };
         }
 
-        if (!(url && body && headers)) {
+        if (!(url && headers)) {
             throw new TypeError(
                 "Missing or empty required parameters: url, body or headers",
             );
@@ -312,7 +312,7 @@ export class SignatureConstructor {
 
         const digest = await crypto.subtle.digest(
             "SHA-256",
-            new TextEncoder().encode(body),
+            new TextEncoder().encode(body ?? ""),
         );
 
         const signedString =

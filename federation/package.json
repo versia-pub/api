@@ -42,6 +42,10 @@
             "import": "./index.ts",
             "default": "./index.ts"
         },
+        "./requester": {
+            "import": "./requester.ts",
+            "default": "./requester.ts"
+        },
         "./types": {
             "import": "./schemas.ts",
             "default": "./schemas.ts"

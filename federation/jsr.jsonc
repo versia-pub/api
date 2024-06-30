@@ -4,6 +4,7 @@
     "version": "0.0.0",
     "exports": {
         ".": "./index.ts",
-        "./types": "./schemas.ts"
+        "./types": "./schemas.ts",
+        "./requester": "./requester.ts"
     }
 }

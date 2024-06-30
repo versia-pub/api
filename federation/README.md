@@ -52,6 +52,31 @@ const validNote = await validator.Note(validNoteObject);
 
 Your editor's IntelliSense should provide you with every method and property available, which all match the [**Lysand**](https://lysand.org) specification names.
 
+#### Requester
+
+A `FederationRequester` class is provided to make requests to a remote server. It sets the correct headers and has multiple methods to make requesters easier.
+
+```typescript
+import { FederationRequester } from "@lysand-org/federation/requester";
+import { SignatureConstructor } from "@lysand-org/federation/cryptography";
+
+const requester = new FederationRequester(
+    new URL("https://example.com"),
+    new SignatureConstructor(privateKey, keyId),
+);
+
+const { data, ok } = await requester.get<User>("/users/1");
+
+if (!ok) {
+    console.error(data);
+}
+
+console.log(data);
+
+// Do a WebFinger request
+const userProfileUri = await requester.webFinger("banana");
+```
+
 #### Validation Helper
 
 `RequestParserHandler` is a class to parse the body of a request and call the appropriate callback. It is a helper for the `EntityValidator` class.
