@@ -10,7 +10,7 @@ const EntitySchema = z.object({
     created_at: z.string(),
     uri: z.string().url(),
     type: z.string(),
-    extensions: ExtensionPropertySchema.optional(),
+    extensions: ExtensionPropertySchema.optional().nullable().nullable(),
 });
 
 const VisibilitySchema = z.enum(["public", "unlisted", "private", "direct"]);
@@ -18,31 +18,35 @@ const VisibilitySchema = z.enum(["public", "unlisted", "private", "direct"]);
 const PublicationSchema = EntitySchema.extend({
     type: z.enum(["Note", "Patch"]),
     author: z.string().url(),
-    content: ContentFormatSchema.optional(),
-    attachments: z.array(ContentFormatSchema).optional(),
-    replies_to: z.string().url().optional(),
-    quotes: z.string().url().optional(),
-    mentions: z.array(z.string().url()).optional(),
-    subject: z.string().optional(),
-    is_sensitive: z.boolean().optional(),
+    content: ContentFormatSchema.optional().nullable(),
+    attachments: z.array(ContentFormatSchema).optional().nullable(),
+    replies_to: z.string().url().optional().nullable(),
+    quotes: z.string().url().optional().nullable(),
+    mentions: z.array(z.string().url()).optional().nullable(),
+    subject: z.string().optional().nullable(),
+    is_sensitive: z.boolean().optional().nullable(),
     visibility: VisibilitySchema,
     extensions: ExtensionPropertySchema.extend({
         "org.lysand:reactions": z
             .object({
                 reactions: z.string(),
             })
-            .optional(),
+            .optional()
+            .nullable(),
         "org.lysand:polls": z
             .object({
                 poll: z.object({
                     options: z.array(ContentFormatSchema),
                     votes: z.array(z.number().int().nonnegative()),
-                    multiple_choice: z.boolean().optional(),
+                    multiple_choice: z.boolean().optional().nullable(),
                     expires_at: z.string(),
                 }),
             })
-            .optional(),
-    }).optional(),
+            .optional()
+            .nullable(),
+    })
+        .optional()
+        .nullable(),
 });
 
 const NoteSchema = PublicationSchema.extend({
@@ -62,13 +66,13 @@ const ActorPublicKeyDataSchema = z.object({
 
 const UserSchema = EntitySchema.extend({
     type: z.literal("User"),
-    display_name: z.string().optional(),
+    display_name: z.string().optional().nullable(),
     username: z.string(),
-    avatar: ContentFormatSchema.optional(),
-    header: ContentFormatSchema.optional(),
+    avatar: ContentFormatSchema.optional().nullable(),
+    header: ContentFormatSchema.optional().nullable(),
     indexable: z.boolean(),
     public_key: ActorPublicKeyDataSchema,
-    bio: ContentFormatSchema.optional(),
+    bio: ContentFormatSchema.optional().nullable(),
     fields: z
         .array(
             z.object({
@@ -76,7 +80,8 @@ const UserSchema = EntitySchema.extend({
                 value: ContentFormatSchema,
             }),
         )
-        .optional(),
+        .optional()
+        .nullable(),
     featured: z.string().url(),
     followers: z.string().url(),
     following: z.string().url(),
@@ -85,8 +90,10 @@ const UserSchema = EntitySchema.extend({
     inbox: z.string().url(),
     outbox: z.string().url(),
     extensions: ExtensionPropertySchema.extend({
-        "org.lysand:vanity": VanityExtensionSchema.optional(),
-    }).optional(),
+        "org.lysand:vanity": VanityExtensionSchema.optional().nullable(),
+    })
+        .optional()
+        .nullable(),
 });
 
 const ActionSchema = EntitySchema.extend({
@@ -146,7 +153,7 @@ const ReportSchema = ExtensionSchema.extend({
     extension_type: z.literal("org.lysand:reports/Report"),
     objects: z.array(z.string().url()),
     reason: z.string(),
-    comment: z.string().optional(),
+    comment: z.string().optional().nullable(),
 });
 
 const ServerMetadataSchema = EntitySchema.omit({
@@ -157,14 +164,14 @@ const ServerMetadataSchema = EntitySchema.omit({
     type: z.literal("ServerMetadata"),
     name: z.string(),
     version: z.string(),
-    description: z.string().optional(),
-    website: z.string().optional(),
-    moderators: z.array(z.string()).optional(),
-    admins: z.array(z.string()).optional(),
-    logo: ContentFormatSchema.optional(),
-    banner: ContentFormatSchema.optional(),
+    description: z.string().optional().nullable(),
+    website: z.string().optional().nullable(),
+    moderators: z.array(z.string()).optional().nullable(),
+    admins: z.array(z.string()).optional().nullable(),
+    logo: ContentFormatSchema.optional().nullable(),
+    banner: ContentFormatSchema.optional().nullable(),
     supported_extensions: z.array(z.string()),
-    extensions: z.record(z.string(), z.any()).optional(),
+    extensions: z.record(z.string(), z.any()).optional().nullable(),
 });
 
 export {

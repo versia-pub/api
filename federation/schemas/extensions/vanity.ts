@@ -68,10 +68,10 @@ import { ContentFormatSchema } from "../content_format";
  * }
  */
 export const VanityExtensionSchema = z.object({
-    avatar_overlay: ContentFormatSchema.optional(),
-    avatar_mask: ContentFormatSchema.optional(),
-    background: ContentFormatSchema.optional(),
-    audio: ContentFormatSchema.optional(),
+    avatar_overlay: ContentFormatSchema.optional().nullable(),
+    avatar_mask: ContentFormatSchema.optional().nullable(),
+    background: ContentFormatSchema.optional().nullable(),
+    audio: ContentFormatSchema.optional().nullable(),
     pronouns: z.record(
         z.string(),
         z.array(
@@ -87,7 +87,7 @@ export const VanityExtensionSchema = z.object({
             ]),
         ),
     ),
-    birthday: z.string().optional(),
-    location: z.string().optional(),
-    activitypub: z.string().optional(),
+    birthday: z.string().optional().nullable(),
+    location: z.string().optional().nullable(),
+    activitypub: z.string().optional().nullable(),
 });

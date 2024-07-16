@@ -47,7 +47,7 @@ export const PollSchema = ExtensionSchema.extend({
     extension_type: z.literal("org.lysand:polls/Poll"),
     options: z.array(ContentFormatSchema),
     votes: z.array(z.number().int().nonnegative()),
-    multiple_choice: z.boolean().optional(),
+    multiple_choice: z.boolean().optional().nullable(),
     expires_at: z.string(),
 });
 
