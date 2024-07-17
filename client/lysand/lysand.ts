@@ -547,6 +547,25 @@ export class LysandClient extends BaseClient {
     }
 
     /**
+     * GET /api/v1/accounts/id
+     *
+     * Lysand API only.
+     * @param username The username.
+     * @return An account.
+     */
+    public getAccountByUsername(
+        username: string,
+        extra?: RequestInit,
+    ): Promise<Output<Account>> {
+        return this.get<Account>(
+            `/api/v1/accounts/id?${new URLSearchParams({
+                username,
+            }).toString()}`,
+            extra,
+        );
+    }
+
+    /**
      * GET /api/v1/accounts/:id/followers
      *
      * @param id The account ID.
