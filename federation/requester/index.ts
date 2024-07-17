@@ -71,6 +71,7 @@ export class FederationRequester {
     /**
      * Get the user's profile link from their username.
      * @param username The username to get the profile link for.
+     * @param hostname The hostname to get the profile link for (defaults to the server's hostname).
      * @returns The user's profile link.
      * @throws If the request fails or the response is invalid.
      * @example
@@ -79,10 +80,13 @@ export class FederationRequester {
      * console.log(profileLink);
      * // => "https://example.com/users/1"
      */
-    public async webFinger(username: string): Promise<string> {
+    public async webFinger(
+        username: string,
+        hostname = this.serverUrl.hostname,
+    ): Promise<string> {
         const result = await this.get<User>(
             `/.well-known/webfinger?${new URLSearchParams({
-                resource: `acct:${username}@${this.serverUrl.hostname}`,
+                resource: `acct:${username}@${hostname}`,
             })}`,
         );
 
