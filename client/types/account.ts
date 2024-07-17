@@ -20,6 +20,7 @@ export type Account = {
     following_count: number;
     statuses_count: number;
     note: string;
+    uri: string;
     url: string;
     avatar: string;
     avatar_static: string;
