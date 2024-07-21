@@ -2049,6 +2049,25 @@ export class LysandClient extends BaseClient {
     }
 
     /**
+     * POST /api/v1/accounts/:id/refetch
+     *
+     * Starts a refetch of an account from a remote source.
+     * Lysand API only.
+     * @param id The account ID.
+     * @return Account with updated data.
+     */
+    public refetchAccount(
+        id: string,
+        extra?: RequestInit,
+    ): Promise<Output<Account>> {
+        return this.post<Account>(
+            `/api/v1/accounts/${id}/refetch`,
+            undefined,
+            extra,
+        );
+    }
+
+    /**
      * POST /oauth/token
      *
      * Revoke an OAuth token.
