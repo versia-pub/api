@@ -15,7 +15,7 @@ import {
     type Output,
     ResponseError,
 } from "@/federation/requester/index";
-import { EntityValidator } from "@/federation/validator";
+import { EntityValidator } from "@/federation/validator/index";
 import type { ValidationError } from "zod-validation-error";
 
 export {
