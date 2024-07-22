@@ -49,9 +49,9 @@
             "types": "./dist/requester.d.ts"
         },
         "./types": {
-            "import": "./dist/schema.js",
-            "default": "./dist/schema.js",
-            "types": "./dist/schema.d.ts"
+            "import": "./dist/schemas.js",
+            "default": "./dist/schemas.js",
+            "types": "./dist/schemas.d.ts"
         }
     },
     "funding": {
