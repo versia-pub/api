@@ -1,4 +1,3 @@
-import type { z } from "zod";
 import type {
     ActionSchema,
     ActorPublicKeyDataSchema,
@@ -21,7 +20,8 @@ import type {
     UserSchema,
     VanityExtensionSchema,
     VisibilitySchema,
-} from "./schemas/base";
+} from "@/federation/schemas/base";
+import type { z } from "zod";
 
 // biome-ignore lint/suspicious/noExplicitAny: Used only as a base type
 type AnyZod = z.ZodType<any, any, any>;

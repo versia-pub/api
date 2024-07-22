@@ -1,3 +1,5 @@
+import { ExtensionSchema } from "@/federation/schemas/base";
+import { ContentFormatSchema } from "@/federation/schemas/content_format";
 /**
  * Polls extension
  * @module federation/schemas/extensions/polls
@@ -5,8 +7,6 @@
  * @see https://lysand.org/extensions/polls
  */
 import { z } from "zod";
-import { ExtensionSchema } from "../base";
-import { ContentFormatSchema } from "../content_format";
 
 /**
  * @description Poll extension entity

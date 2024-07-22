@@ -1,8 +1,8 @@
+import type { SignatureConstructor } from "@/federation/cryptography";
+import { DEFAULT_UA } from "@/federation/requester/constants";
+import type { User } from "@/federation/schemas";
+import { WebFingerSchema } from "@/federation/schemas/webfinger";
 import { fromZodError } from "zod-validation-error";
-import type { SignatureConstructor } from "../cryptography";
-import type { User } from "../schemas";
-import { WebFingerSchema } from "../schemas/webfinger";
-import { DEFAULT_UA } from "./constants";
 
 type HttpVerb = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 

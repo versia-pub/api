@@ -57,8 +57,7 @@ Your editor's IntelliSense should provide you with every method and property ava
 A `FederationRequester` class is provided to make requests to a remote server. It sets the correct headers and has multiple methods to make requesters easier.
 
 ```typescript
-import { FederationRequester } from "@lysand-org/federation/requester";
-import { SignatureConstructor } from "@lysand-org/federation/cryptography";
+import { FederationRequester, SignatureConstructor } from "@lysand-org/federation";
 
 const requester = new FederationRequester(
     new URL("https://example.com"),

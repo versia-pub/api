@@ -5,8 +5,8 @@
  * @see https://lysand.org/extensions/vanity
  */
 
+import { ContentFormatSchema } from "@/federation/schemas/content_format";
 import { z } from "zod";
-import { ContentFormatSchema } from "../content_format";
 
 /**
  * @description Vanity extension entity

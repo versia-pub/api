@@ -2,7 +2,7 @@ import dts from "bun-plugin-dts";
 import ora from "ora";
 
 const entrypoints = {
-    federation: ["index.ts", "schemas.ts", "requester.ts"],
+    federation: ["index.ts", "schemas.ts"],
     client: ["index.ts", "types.ts"],
 };
 
@@ -15,11 +15,17 @@ for (const pkg of ["federation", "client"]) {
         ),
         outdir: `${pkg}/dist`,
         format: "esm",
-        minify: true,
+        minify: false,
         sourcemap: "external",
         splitting: true,
         target: "browser",
-        plugins: [dts()],
+        plugins: [
+            dts({
+                output: {
+                    noBanner: true,
+                },
+            }),
+        ],
     }).then((output) => {
         if (!output.success) {
             subSpinner.fail(`Failed to build ${pkg} module`);

@@ -1,3 +1,5 @@
+import { ContentFormatSchema } from "@/federation/schemas/content_format";
+import { emojiRegex } from "@/federation/schemas/regex";
 /**
  * Custom emojis extension.
  * @module federation/schemas/extensions/custom_emojis
@@ -5,8 +7,6 @@
  * @see https://lysand.org/extensions/custom-emojis
  */
 import { z } from "zod";
-import { ContentFormatSchema } from "../content_format";
-import { emojiRegex } from "../regex";
 
 /**
  * @description Used to validate the properties the extension's custom field

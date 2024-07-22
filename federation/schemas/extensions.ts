@@ -1,5 +1,5 @@
+import { CustomEmojiExtensionSchema } from "@/federation/schemas/extensions/custom_emojis";
 import { z } from "zod";
-import { CustomEmojiExtensionSchema } from "./extensions/custom_emojis";
 
 export const ExtensionPropertySchema = z.object({
     "org.lysand:custom_emojis":

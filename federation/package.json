@@ -43,11 +43,6 @@
             "default": "./dist/index.js",
             "types": "./dist/index.d.ts"
         },
-        "./requester": {
-            "import": "./dist/requester.js",
-            "default": "./dist/requester.js",
-            "types": "./dist/requester.d.ts"
-        },
         "./types": {
             "import": "./dist/schemas.js",
             "default": "./dist/schemas.js",

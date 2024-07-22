@@ -10,8 +10,8 @@ import type {
     ServerMetadata,
     Undo,
     User,
-} from "../schemas";
-import type { EntityValidator } from "../validator/index";
+} from "@/federation/schemas";
+import type { EntityValidator } from "@/federation/validator/index";
 
 type MaybePromise<T> = T | Promise<T>;
 
