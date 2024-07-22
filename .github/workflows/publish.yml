@@ -54,7 +54,7 @@ jobs:
           registry-url: "https://registry.npmjs.org"
 
       - name: Build
-        run: bun run build
+        run: bun install && bun run build
 
       - name: Change version in package.json to ${{ github.event.inputs.version }}, defaulting to the truncated commit hash
         run: 'sed -i ''s/"version": ".*"/"version": "${{ github.event.inputs.version }}"/'' package.json ${{ github.event.inputs.package }}/package.json ${{ github.event.inputs.package }}/jsr.jsonc'
