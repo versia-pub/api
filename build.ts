@@ -1,11 +1,18 @@
 import dts from "bun-plugin-dts";
 import ora from "ora";
 
+const entrypoints = {
+    federation: ["index.ts", "schemas.ts", "requester.ts"],
+    client: ["index.ts", "types.ts"],
+};
+
 for (const pkg of ["federation", "client"]) {
     const subSpinner = ora(`Building ${pkg} module`).start();
 
     await Bun.build({
-        entrypoints: [`${pkg}/index.ts`],
+        entrypoints: entrypoints[pkg as "federation" | "client"].map(
+            (entrypoint) => `${pkg}/${entrypoint}`,
+        ),
         outdir: `${pkg}/dist`,
         format: "esm",
         minify: true,

@@ -39,16 +39,19 @@
     },
     "exports": {
         ".": {
-            "import": "./index.ts",
-            "default": "./index.ts"
+            "import": "./dist/index.js",
+            "default": "./dist/index.js",
+            "types": "./dist/index.d.ts"
         },
         "./requester": {
-            "import": "./requester.ts",
-            "default": "./requester.ts"
+            "import": "./dist/requester.js",
+            "default": "./dist/requester.js",
+            "types": "./dist/requester.d.ts"
         },
         "./types": {
-            "import": "./schemas.ts",
-            "default": "./schemas.ts"
+            "import": "./dist/schema.js",
+            "default": "./dist/schema.js",
+            "types": "./dist/schema.d.ts"
         }
     },
     "funding": {

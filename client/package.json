@@ -39,12 +39,14 @@
     },
     "exports": {
         ".": {
-            "import": "./index.ts",
-            "default": "./index.ts"
+            "import": "./dist/index.js",
+            "default": "./dist/index.js",
+            "types": "./dist/index.d.ts"
         },
         "./types": {
-            "import": "./types.ts",
-            "default": "./types.ts"
+            "import": "./dist/types.js",
+            "default": "./dist/types.js",
+            "types": "./dist/types.d.ts"
         }
     },
     "funding": {
