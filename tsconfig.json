@@ -22,11 +22,7 @@
         "experimentalDecorators": true,
         "verbatimModuleSyntax": true,
         "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "paths": {
-            "@/federation/*": ["./federation/*"],
-            "@/client/*": ["./client/*"]
-        }
+        "noUnusedParameters": true
     },
     "include": ["*.ts", "*.d.ts", "**/*.ts", "**/*.d.ts"]
 }

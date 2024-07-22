@@ -5,18 +5,15 @@
  * @see module:federation/schemas/base
  */
 
-import {
-    SignatureConstructor,
-    SignatureValidator,
-} from "@/federation/cryptography";
-import { RequestParserHandler } from "@/federation/http";
+import type { ValidationError } from "zod-validation-error";
+import { SignatureConstructor, SignatureValidator } from "./cryptography";
+import { RequestParserHandler } from "./http";
 import {
     FederationRequester,
     type Output,
     ResponseError,
-} from "@/federation/requester/index";
-import { EntityValidator } from "@/federation/validator/index";
-import type { ValidationError } from "zod-validation-error";
+} from "./requester/index";
+import { EntityValidator } from "./validator/index";
 
 export {
     EntityValidator,

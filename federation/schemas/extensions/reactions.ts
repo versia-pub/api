@@ -1,4 +1,3 @@
-import { ExtensionSchema } from "@/federation/schemas/base";
 /**
  * Reactions extension
  * @module federation/schemas/extensions/reactions
@@ -6,6 +5,7 @@ import { ExtensionSchema } from "@/federation/schemas/base";
  * @see https://lysand.org/extensions/reactions
  */
 import { z } from "zod";
+import { ExtensionSchema } from "../base";
 
 /**
  * @description Reaction extension entity

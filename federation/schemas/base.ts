@@ -1,9 +1,9 @@
-import { ContentFormatSchema } from "@/federation/schemas/content_format";
-import { ExtensionPropertySchema } from "@/federation/schemas/extensions";
-import { CustomEmojiExtensionSchema } from "@/federation/schemas/extensions/custom_emojis";
-import { VanityExtensionSchema } from "@/federation/schemas/extensions/vanity";
-import { extensionTypeRegex } from "@/federation/schemas/regex";
 import { z } from "zod";
+import { ContentFormatSchema } from "./content_format";
+import { ExtensionPropertySchema } from "./extensions";
+import { CustomEmojiExtensionSchema } from "./extensions/custom_emojis";
+import { VanityExtensionSchema } from "./extensions/vanity";
+import { extensionTypeRegex } from "./regex";
 
 const EntitySchema = z.object({
     id: z.string().uuid(),
