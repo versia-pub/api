@@ -206,6 +206,15 @@ export class FederationRequester {
         });
     }
 
+    public static get<ReturnType>(
+        url: string | URL,
+        extra?: RequestInit,
+    ): Promise<Output<ReturnType>> {
+        const requester = new FederationRequester(new URL(url));
+
+        return requester.get<ReturnType>(new URL(url).pathname, extra);
+    }
+
     public async post<ReturnType>(
         path: string,
         body: object,
@@ -217,5 +226,15 @@ export class FederationRequester {
             this.globalCatch(e);
             throw e;
         });
+    }
+
+    public static post<ReturnType>(
+        url: string,
+        body: object,
+        extra?: RequestInit,
+    ): Promise<Output<ReturnType>> {
+        const requester = new FederationRequester(new URL(url));
+
+        return requester.post<ReturnType>(new URL(url).pathname, body, extra);
     }
 }
