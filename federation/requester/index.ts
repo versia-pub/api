@@ -58,7 +58,7 @@ export class ResponseError<
 export class FederationRequester {
     constructor(
         private serverUrl: URL,
-        private signatureConstructor: SignatureConstructor,
+        private signatureConstructor?: SignatureConstructor,
         public globalCatch: (error: ResponseError) => void = () => {
             // Do nothing by default
         },
@@ -125,7 +125,16 @@ export class FederationRequester {
     private async request<ReturnType>(
         request: Request,
     ): Promise<Output<ReturnType>> {
-        const result = await fetch(request);
+        const result = await fetch(request).catch((e) => {
+            // If using https, try and use http
+            const url = new URL(request.url);
+            if (url.protocol === "https") {
+                url.protocol = "http";
+                return fetch(url, request);
+            }
+
+            throw e;
+        });
         const isJson = result.headers.get("Content-Type")?.includes("json");
 
         if (!result.ok) {
@@ -180,7 +189,9 @@ export class FederationRequester {
             ...extra,
         });
 
-        return (await this.signatureConstructor.sign(request)).request;
+        return this.signatureConstructor
+            ? (await this.signatureConstructor.sign(request)).request
+            : request;
     }
 
     public async get<ReturnType>(
