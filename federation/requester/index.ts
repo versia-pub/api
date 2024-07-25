@@ -210,9 +210,13 @@ export class FederationRequester {
         url: string | URL,
         extra?: RequestInit,
     ): Promise<Output<ReturnType>> {
-        const requester = new FederationRequester(new URL(url));
+        const urlUrl = new URL(url);
+        const requester = new FederationRequester(urlUrl);
 
-        return requester.get<ReturnType>(new URL(url).pathname, extra);
+        return requester.get<ReturnType>(
+            urlUrl.pathname + urlUrl.search,
+            extra,
+        );
     }
 
     public async post<ReturnType>(
@@ -233,8 +237,13 @@ export class FederationRequester {
         body: object,
         extra?: RequestInit,
     ): Promise<Output<ReturnType>> {
-        const requester = new FederationRequester(new URL(url));
+        const urlUrl = new URL(url);
+        const requester = new FederationRequester(urlUrl);
 
-        return requester.post<ReturnType>(new URL(url).pathname, body, extra);
+        return requester.post<ReturnType>(
+            urlUrl.pathname + urlUrl.search,
+            body,
+            extra,
+        );
     }
 }
