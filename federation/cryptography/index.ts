@@ -10,6 +10,12 @@ type HttpVerb =
     | "OPTIONS"
     | "HEAD";
 
+const base64ToArrayBuffer = (base64: string) =>
+    Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
+
+const arrayBufferToBase64 = (arrayBuffer: ArrayBuffer) =>
+    btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+
 const checkEvironmentSupport = () => {
     // Check if WebCrypto is supported
     if (!globalThis.crypto?.subtle) {
@@ -47,7 +53,7 @@ export class SignatureValidator {
         return new SignatureValidator(
             await crypto.subtle.importKey(
                 "spki",
-                Buffer.from(base64PublicKey, "base64"),
+                base64ToArrayBuffer(base64PublicKey),
                 "Ed25519",
                 false,
                 ["verify"],
@@ -165,15 +171,13 @@ export class SignatureValidator {
             `(request-target): ${method.toLowerCase()} ${url.pathname}\n` +
             `host: ${url.host}\n` +
             `date: ${date.toISOString()}\n` +
-            `digest: SHA-256=${Buffer.from(new Uint8Array(digest)).toString(
-                "base64",
-            )}\n`;
+            `digest: SHA-256=${arrayBufferToBase64(digest)}\n`;
 
         // Check if signed string is valid
         const isValid = await crypto.subtle.verify(
             "Ed25519",
             this.publicKey,
-            Buffer.from(signature, "base64"),
+            base64ToArrayBuffer(signature),
             new TextEncoder().encode(expectedSignedString),
         );
 
@@ -219,7 +223,7 @@ export class SignatureConstructor {
         return new SignatureConstructor(
             await crypto.subtle.importKey(
                 "pkcs8",
-                Buffer.from(base64PrivateKey, "base64"),
+                base64ToArrayBuffer(base64PrivateKey),
                 "Ed25519",
                 false,
                 ["sign"],
@@ -321,7 +325,7 @@ export class SignatureConstructor {
             }\n` +
             `host: ${url.host}\n` +
             `date: ${finalDate}\n` +
-            `digest: SHA-256=${Buffer.from(digest).toString("base64")}\n`;
+            `digest: SHA-256=${arrayBufferToBase64(digest)}\n`;
 
         const signature = await crypto.subtle.sign(
             "Ed25519",
@@ -329,9 +333,7 @@ export class SignatureConstructor {
             new TextEncoder().encode(signedString),
         );
 
-        const signatureBase64 = Buffer.from(new Uint8Array(signature)).toString(
-            "base64",
-        );
+        const signatureBase64 = arrayBufferToBase64(signature);
 
         headers.set("Date", finalDate);
         headers.set(
