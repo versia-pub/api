@@ -70,7 +70,7 @@ export class FederationRequester {
      * @returns The user's profile link.
      * @throws If the request fails or the response is invalid.
      * @example
-     * const profileLink = await requester.webFinger("example");
+     * const profileLink = await requester.webFinger("testuser", "example.com");
      *
      * console.log(profileLink);
      * // => "https://example.com/users/1"
@@ -81,9 +81,12 @@ export class FederationRequester {
         contentType = "application/json",
     ): Promise<string> {
         const result = await this.get<User>(
-            `/.well-known/webfinger?${new URLSearchParams({
-                resource: `acct:${username}@${hostname}`,
-            })}`,
+            new URL(
+                `/.well-known/webfinger?${new URLSearchParams({
+                    resource: `acct:${username}@${hostname}`,
+                })}`,
+                `https://${hostname}`,
+            ),
         );
 
         // Validate the response
@@ -159,7 +162,7 @@ export class FederationRequester {
     }
 
     private async constructRequest(
-        path: string,
+        url: string | URL,
         method: HttpVerb,
         body?: object | FormData,
         extra?: RequestInit,
@@ -178,7 +181,7 @@ export class FederationRequester {
 
         headers.set("Accept", "application/json");
 
-        const request = new Request(path, {
+        const request = new Request(url, {
             method,
             headers,
             body: body
@@ -196,16 +199,16 @@ export class FederationRequester {
 
     /**
      * Make a GET request to a URL.
-     * @param path The path to make the request to.
+     * @param url The path to make the request to.
      * @param extra Any extra options to pass to the fetch function.
      * @returns The data returned by the request.
      */
     public async get<ReturnType>(
-        path: string,
+        url: string | URL,
         extra?: RequestInit,
     ): Promise<Output<ReturnType>> {
         return this.request<ReturnType>(
-            await this.constructRequest(path, "GET", undefined, extra),
+            await this.constructRequest(url, "GET", undefined, extra),
         ).catch((e) => {
             this.globalCatch(e);
             throw e;
@@ -214,18 +217,18 @@ export class FederationRequester {
 
     /**
      * Make a POST request to a URL.
-     * @param path The path to make the request to.
+     * @param url The path to make the request to.
      * @param body The body of the request.
      * @param extra Any extra options to pass to the fetch function.
      * @returns The data returned by the request.
      */
     public async post<ReturnType>(
-        path: string,
+        url: string | URL,
         body: object,
         extra?: RequestInit,
     ): Promise<Output<ReturnType>> {
         return this.request<ReturnType>(
-            await this.constructRequest(path, "POST", body, extra),
+            await this.constructRequest(url, "POST", body, extra),
         ).catch((e) => {
             this.globalCatch(e);
             throw e;
