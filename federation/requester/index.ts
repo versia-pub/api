@@ -39,12 +39,10 @@ export class ResponseError<
 
 /**
  * Class to handle requests to a remote server.
- * @param serverUrl The URL of the server to send requests to.
  * @param signatureConstructor The constructor to sign requests with.
  * @param globalCatch A function to call when a request fails.
  * @example
  * const requester = new FederationRequester(
- *     new URL("https://example.com"),
  *     new SignatureConstructor(privateKey, keyId),
  * );
  *
@@ -58,16 +56,11 @@ export class ResponseError<
  */
 export class FederationRequester {
     constructor(
-        private serverUrl: URL,
         private signatureConstructor?: SignatureConstructor,
         public globalCatch: (error: ResponseError) => void = () => {
             // Do nothing by default
         },
     ) {}
-
-    get url(): URL {
-        return this.serverUrl;
-    }
 
     /**
      * Get the user's profile link from their username.
@@ -84,7 +77,7 @@ export class FederationRequester {
      */
     public async webFinger(
         username: string,
-        hostname = this.serverUrl.hostname,
+        hostname: string,
         contentType = "application/json",
     ): Promise<string> {
         const result = await this.get<User>(
@@ -185,7 +178,7 @@ export class FederationRequester {
 
         headers.set("Accept", "application/json");
 
-        const request = new Request(new URL(path, this.serverUrl).toString(), {
+        const request = new Request(path, {
             method,
             headers,
             body: body
@@ -201,6 +194,12 @@ export class FederationRequester {
             : request;
     }
 
+    /**
+     * Make a GET request to a URL.
+     * @param path The path to make the request to.
+     * @param extra Any extra options to pass to the fetch function.
+     * @returns The data returned by the request.
+     */
     public async get<ReturnType>(
         path: string,
         extra?: RequestInit,
@@ -213,19 +212,13 @@ export class FederationRequester {
         });
     }
 
-    public static get<ReturnType>(
-        url: string | URL,
-        extra?: RequestInit,
-    ): Promise<Output<ReturnType>> {
-        const urlUrl = new URL(url);
-        const requester = new FederationRequester(urlUrl);
-
-        return requester.get<ReturnType>(
-            urlUrl.pathname + urlUrl.search,
-            extra,
-        );
-    }
-
+    /**
+     * Make a POST request to a URL.
+     * @param path The path to make the request to.
+     * @param body The body of the request.
+     * @param extra Any extra options to pass to the fetch function.
+     * @returns The data returned by the request.
+     */
     public async post<ReturnType>(
         path: string,
         body: object,
@@ -237,20 +230,5 @@ export class FederationRequester {
             this.globalCatch(e);
             throw e;
         });
-    }
-
-    public static post<ReturnType>(
-        url: string,
-        body: object,
-        extra?: RequestInit,
-    ): Promise<Output<ReturnType>> {
-        const urlUrl = new URL(url);
-        const requester = new FederationRequester(urlUrl);
-
-        return requester.post<ReturnType>(
-            urlUrl.pathname + urlUrl.search,
-            body,
-            extra,
-        );
     }
 }

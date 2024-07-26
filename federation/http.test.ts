@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, jest, test } from "bun:test";
-import { RequestParserHandler } from "../http/index.ts";
-import { EntityValidator } from "../validator/index.ts";
+import { RequestParserHandler } from "./http.ts";
+import { EntityValidator } from "./validator.ts";
 
 // Pulled from social.lysand.org
 const validUser = {

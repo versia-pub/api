@@ -1,3 +1,8 @@
+/**
+ * @file TypeScript type definitions
+ * @module federation/types
+ */
+
 import type { z } from "zod";
 import type {
     ActionSchema,

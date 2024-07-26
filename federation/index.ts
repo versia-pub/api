@@ -13,7 +13,7 @@ import {
     type Output,
     ResponseError,
 } from "./requester/index";
-import { EntityValidator } from "./validator/index";
+import { EntityValidator } from "./validator";
 
 export {
     EntityValidator,

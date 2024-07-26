@@ -22,7 +22,7 @@ import {
     UserSchema,
     VanityExtensionSchema,
     VisibilitySchema,
-} from "../schemas/base";
+} from "./schemas/base";
 
 // biome-ignore lint/suspicious/noExplicitAny: Used only as a base type
 type AnyZod = z.ZodType<any, any, any>;
