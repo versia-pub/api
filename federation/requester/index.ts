@@ -177,11 +177,7 @@ export class FederationRequester {
                 : extra?.headers),
         });
 
-        if (
-            body &&
-            !(body instanceof FormData) &&
-            !headers.has("Content-Type")
-        ) {
+        if (body) {
             headers.set("Content-Type", "application/json; charset=utf-8");
         }
 
