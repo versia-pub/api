@@ -170,18 +170,18 @@ export class FederationRequester {
         extra?: RequestInit,
     ): Promise<Request> {
         const headers = new Headers({
+            Accept: "application/json",
             "User-Agent": DEFAULT_UA,
+            ...extra?.headers,
         });
 
-        if (body) {
+        if (
+            body &&
+            !(body instanceof FormData) &&
+            !headers.has("Content-Type")
+        ) {
             headers.set("Content-Type", "application/json; charset=utf-8");
         }
-
-        for (const [key, value] of Object.entries(extra?.headers || {})) {
-            headers.set(key, value);
-        }
-
-        headers.set("Accept", "application/json");
 
         const request = new Request(url, {
             method,
