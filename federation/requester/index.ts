@@ -14,6 +14,7 @@ export interface Output<ReturnType> {
     data: ReturnType;
     ok: boolean;
     raw: Response;
+    request: Request;
 }
 
 /**
@@ -144,6 +145,7 @@ export class FederationRequester {
                     data: error,
                     ok: false,
                     raw: result,
+                    request,
                 },
                 `Request failed (${result.status}): ${
                     error.error || error.message || result.statusText
@@ -155,6 +157,7 @@ export class FederationRequester {
             data: isJson ? await result.json() : (await result.text()) || null,
             ok: true,
             raw: result,
+            request,
         };
     }
 
