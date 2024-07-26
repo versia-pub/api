@@ -139,7 +139,9 @@ export class FederationRequester {
         const isJson = result.headers.get("Content-Type")?.includes("json");
 
         if (!result.ok) {
-            const error = isJson ? await result.json() : await result.text();
+            const error = isJson
+                ? await result.clone().json()
+                : await result.clone().text();
             throw new ResponseError(
                 {
                     data: error,
@@ -154,7 +156,9 @@ export class FederationRequester {
         }
 
         return {
-            data: isJson ? await result.json() : (await result.text()) || null,
+            data: isJson
+                ? await result.clone().json()
+                : (await result.clone().text()) || null,
             ok: true,
             raw: result,
             request,
