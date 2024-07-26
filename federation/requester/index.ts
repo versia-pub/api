@@ -172,7 +172,9 @@ export class FederationRequester {
         const headers = new Headers({
             Accept: "application/json",
             "User-Agent": DEFAULT_UA,
-            ...extra?.headers,
+            ...(extra?.headers instanceof Headers
+                ? Object.fromEntries(extra.headers.entries())
+                : extra?.headers),
         });
 
         if (
