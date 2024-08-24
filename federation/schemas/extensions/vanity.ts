@@ -2,7 +2,7 @@
  * Vanity extension schema.
  * @module federation/schemas/extensions/vanity
  * @see module:federation/schemas/base
- * @see https://lysand.org/extensions/vanity
+ * @see https://versia.pub/extensions/vanity
  */
 
 import { z } from "zod";
@@ -10,7 +10,7 @@ import { ContentFormatSchema } from "../content_format";
 
 /**
  * @description Vanity extension entity
- * @see https://lysand.org/extensions/vanity
+ * @see https://versia.pub/extensions/vanity
  * @example
  * {
  *     // ...

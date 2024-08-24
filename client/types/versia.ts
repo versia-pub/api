@@ -1,4 +1,4 @@
-export type LysandRole = {
+export type VersiaRole = {
     id: string;
     name: string;
     permissions: RolePermission[];

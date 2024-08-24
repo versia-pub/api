@@ -1,8 +1,8 @@
 import type { Emoji } from "./emoji";
 import type { Field } from "./field";
-import type { LysandRole } from "./lysand";
 import type { Role } from "./role";
 import type { Source } from "./source";
+import type { VersiaRole } from "./versia";
 
 export type Account = {
     id: string;
@@ -32,6 +32,6 @@ export type Account = {
     bot: boolean | null;
     source?: Source;
     role?: Role;
-    roles: LysandRole[];
+    roles: VersiaRole[];
     mute_expires_at?: string;
 };

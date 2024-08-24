@@ -2,13 +2,13 @@
   <a href="https://lysand.org"><img src="https://cdn.lysand.org/logo-long-dark.webp" alt="Lysand Logo" height="110"></a>
 </p>
 
-<center><h1><code>@lysand-org/client</code></h1></center>
+<center><h1><code>@versia/client</code></h1></center>
 
-TypeScript client API for Lysand and Mastodon servers.
+TypeScript client API for Versia and Mastodon servers.
 
 ## Efficiency
 
-The built output of the package is not even `32 KB` in size, making it a lightweight and efficient solution for your Lysand needs. Installing the package adds around `5 MB` to your `node_modules` folder, but this does not affect the final bundle size.
+The built output of the package is not even `32 KB` in size, making it a lightweight and efficient solution for your Versia needs. Installing the package adds around `5 MB` to your `node_modules` folder, but this does not affect the final bundle size.
 
 Compilation (bundling/minifying) time is a few seconds, almost all of which is spent on type-checking. The actual compilation time is less than a tenth of a second.
 
@@ -19,12 +19,12 @@ This application may be used in the same was as [`megalodon`](https://github.com
 Initialize the client with the following code:
 
 ```typescript
-import { LysandClient } from "@lysand-org/client";
+import { Client } from "@versia/client";
 
-const baseUrl = new URL("https://social.lysand.org");
+const baseUrl = new URL("https://versia.social");
 const accessToken  = "...";
 
-const client = new LysandClient(baseUrl, accessToken);
+const client = new Client(baseUrl, accessToken);
 ```
 
 The client can then be used to interact with the server:
@@ -98,18 +98,18 @@ We strongly recommend using JSR over NPM for all your packages that are availabl
 
 ```bash
 # NPM version
-deno add npm:@lysand-org/client # For Deno
-npm install @lysand-org/client # For NPM
-yarn add @lysand-org/client # For Yarn
-pnpm add @lysand-org/client # For PNPM
-bun add @lysand-org/client # For Bun
+deno add npm:@versia/client # For Deno
+npm install @versia/client # For NPM
+yarn add @versia/client # For Yarn
+pnpm add @versia/client # For PNPM
+bun add @versia/client # For Bun
 
 # JSR version
-deno add @lysand-org/client # For Deno
-npx jsr add @lysand-org/client # For JSR
-yarn dlx jsr add @lysand-org/client # For Yarn
-pnpm dlx jsr add @lysand-org/client # For PNPM
-bunx jsr add @lysand-org/client # For Bun
+deno add @versia/client # For Deno
+npx jsr add @versia/client # For JSR
+yarn dlx jsr add @versia/client # For Yarn
+pnpm dlx jsr add @versia/client # For PNPM
+bunx jsr add @versia/client # For Bun
 ```
 
 #### From Source
@@ -138,4 +138,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ### People
 
-- [**April John**](https://github.com/cutestnekoaqua): Creator and maintainer of the Lysand Server ActivityPub bridge.
+- [**April John**](https://github.com/cutestnekoaqua): Creator and maintainer of the Versia Server ActivityPub bridge.

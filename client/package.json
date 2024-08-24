@@ -1,6 +1,6 @@
 {
-    "name": "@lysand-org/client",
-    "displayName": "Lysand Client",
+    "name": "@versia/client",
+    "displayName": "Versia Client",
     "version": "0.0.0",
     "author": {
         "email": "jesse.wierzbinski@lysand.org",
@@ -31,7 +31,7 @@
             "url": "https://cpluspatch.com"
         }
     ],
-    "description": "Client for Mastodon and Lysand API",
+    "description": "Client for Mastodon and Versia API",
     "categories": ["Other"],
     "type": "module",
     "engines": {
@@ -53,8 +53,8 @@
         "type": "opencollective",
         "url": "https://opencollective.com/lysand"
     },
-    "homepage": "https://lysand.org",
-    "keywords": ["lysand", "mastodon", "api", "typescript", "rest"],
+    "homepage": "https://versia.pub",
+    "keywords": ["versia", "mastodon", "api", "typescript", "rest"],
     "packageManager": "bun@1.1.8",
     "dependencies": {
         "@badgateway/oauth2-client": "^2.3.0"

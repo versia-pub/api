@@ -2,13 +2,13 @@
   <a href="https://lysand.org"><img src="https://cdn.lysand.org/logo-long-dark.webp" alt="Lysand Logo" height="110"></a>
 </p>
 
-<center><h1><code>@lysand-org/federation</code></h1></center>
+<center><h1><code>@versia/federation</code></h1></center>
 
-Federation types, validators and cryptography for Lysand server implementations.
+Federation types, validators and cryptography for Versia server implementations.
 
 ## Efficiency
 
-The built output of the package is not even `200 KB` in size, making it a lightweight and efficient solution for your Lysand needs. Installing the package adds around `5 MB` to your `node_modules` folder, but this does not affect the final bundle size.
+The built output of the package is not even `200 KB` in size, making it a lightweight and efficient solution for your Versia needs. Installing the package adds around `5 MB` to your `node_modules` folder, but this does not affect the final bundle size.
 
 Compilation (bundling/minifying) time is a few seconds, almost all of which is spent on type-checking. The actual compilation time is less than a tenth of a second.
 
@@ -18,10 +18,10 @@ Compilation (bundling/minifying) time is a few seconds, almost all of which is s
 
 #### Validation
 
-[**Zod**](https://zod.dev) is used to validate and parse the objects. All Lysand objects are already written for you.
+[**Zod**](https://zod.dev) is used to validate and parse the objects. All Versia entities are already written for you.
 
 ```typescript
-import { EntityValidator, type ValidationError } from "@lysand-org/federation";
+import { EntityValidator, type ValidationError } from "@versia/federation";
 
 const validator = new EntityValidator();
 
@@ -38,7 +38,7 @@ try {
 }
 
 // Types are also included for TypeScript users that don't use the extracted ones
-import type { Note } from "@lysand-org/federation/types";
+import type { Note } from "@versia/federation/types";
 
 const validNoteObject: Note = {
     type: "Note",
@@ -50,14 +50,14 @@ const validNote = await validator.Note(validNoteObject);
 // validNote is still the same as noteObject
 ```
 
-Your editor's IntelliSense should provide you with every method and property available, which all match the [**Lysand**](https://lysand.org) specification names.
+Your editor's IntelliSense should provide you with every method and property available, which all match the [**Versia**](https://versia.pub) specification names.
 
 #### Requester
 
 A `FederationRequester` class is provided to make requests to a remote server. It sets the correct headers and has multiple methods to make requesters easier.
 
 ```typescript
-import { FederationRequester, SignatureConstructor } from "@lysand-org/federation";
+import { FederationRequester, SignatureConstructor } from "@versia/federation";
 
 const requester = new FederationRequester(
     new URL("https://example.com"),
@@ -217,18 +217,18 @@ We strongly recommend using JSR over NPM for all your packages that are availabl
 
 ```bash
 # NPM version
-deno add npm:@lysand-org/federation # For Deno
-npm install @lysand-org/federation # For NPM
-yarn add @lysand-org/federation # For Yarn
-pnpm add @lysand-org/federation # For PNPM
-bun add @lysand-org/federation # For Bun
+deno add npm:@versia/federation # For Deno
+npm install @versia/federation # For NPM
+yarn add @versia/federation # For Yarn
+pnpm add @versia/federation # For PNPM
+bun add @versia/federation # For Bun
 
 # JSR version
-deno add @lysand-org/federation # For Deno
-npx jsr add @lysand-org/federation # For JSR
-yarn dlx jsr add @lysand-org/federation # For Yarn
-pnpm dlx jsr add @lysand-org/federation # For PNPM
-bunx jsr add @lysand-org/federation # For Bun
+deno add @versia/federation # For Deno
+npx jsr add @versia/federation # For JSR
+yarn dlx jsr add @versia/federation # For Yarn
+pnpm dlx jsr add @versia/federation # For PNPM
+bunx jsr add @versia/federation # For Bun
 ```
 
 #### From Source
@@ -257,4 +257,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ### People
 
-- [**April John**](https://github.com/cutestnekoaqua): Creator and maintainer of the Lysand Server ActivityPub bridge.
+- [**April John**](https://github.com/cutestnekoaqua): Creator and maintainer of the Versia Server ActivityPub bridge.

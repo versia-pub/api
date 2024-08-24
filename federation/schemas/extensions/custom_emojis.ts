@@ -2,7 +2,7 @@
  * Custom emojis extension.
  * @module federation/schemas/extensions/custom_emojis
  * @see module:federation/schemas/base
- * @see https://lysand.org/extensions/custom-emojis
+ * @see https://versia.pub/extensions/custom-emojis
  */
 import { z } from "zod";
 import { ContentFormatSchema } from "../content_format";
@@ -10,7 +10,7 @@ import { emojiRegex } from "../regex";
 
 /**
  * @description Used to validate the properties the extension's custom field
- * @see https://lysand.org/extensions/custom-emojis
+ * @see https://versia.pub/extensions/custom-emojis
  * @example
  * {
  *     // ...

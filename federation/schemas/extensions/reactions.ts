@@ -2,14 +2,14 @@
  * Reactions extension
  * @module federation/schemas/extensions/reactions
  * @see module:federation/schemas/base
- * @see https://lysand.org/extensions/reactions
+ * @see https://versia.pub/extensions/reactions
  */
 import { z } from "zod";
 import { ExtensionSchema } from "../base";
 
 /**
  * @description Reaction extension entity
- * @see https://lysand.org/extensions/reactions
+ * @see https://versia.pub/extensions/reactions
  * @example
  * {
  *     "type": "Extension",

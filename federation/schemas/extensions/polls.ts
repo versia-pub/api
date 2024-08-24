@@ -2,7 +2,7 @@
  * Polls extension
  * @module federation/schemas/extensions/polls
  * @see module:federation/schemas/base
- * @see https://lysand.org/extensions/polls
+ * @see https://versia.pub/extensions/polls
  */
 import { z } from "zod";
 import { ExtensionSchema } from "../base";
@@ -10,7 +10,7 @@ import { ContentFormatSchema } from "../content_format";
 
 /**
  * @description Poll extension entity
- * @see https://lysand.org/extensions/polls
+ * @see https://versia.pub/extensions/polls
  * @example
  * {
  *     "type": "Extension",
@@ -53,7 +53,7 @@ export const PollSchema = ExtensionSchema.extend({
 
 /**
  * @description Vote extension entity
- * @see https://lysand.org/extensions/polls
+ * @see https://versia.pub/extensions/polls
  * @example
  * {
  *     "type": "Extension",
@@ -73,7 +73,7 @@ export const VoteSchema = ExtensionSchema.extend({
 
 /**
  * @description Vote result extension entity
- * @see https://lysand.org/extensions/polls
+ * @see https://versia.pub/extensions/polls
  * @example
  * {
  *     "type": "Extension",

@@ -1,5 +1,5 @@
 {
-    "name": "lysand-api",
+    "name": "versia-api",
     "private": true,
     "workspaces": ["federation", "client"],
     "scripts": {

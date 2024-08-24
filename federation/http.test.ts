@@ -45,7 +45,7 @@ const validUser = {
     extensions: { "org.lysand:custom_emojis": { emojis: [] } },
 };
 
-describe("LysandRequestHandler", () => {
+describe("RequestParserHandler", () => {
     let validator: EntityValidator;
 
     beforeEach(() => {

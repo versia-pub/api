@@ -1,6 +1,6 @@
 {
     "$schema": "https://jsr.io/schema/config-file.v1.json",
-    "name": "@lysand-org/federation",
+    "name": "@versia/federation",
     "version": "0.0.0",
     "exports": {
         ".": "./index.ts",

@@ -15,7 +15,6 @@ import type {
     FeaturedTag,
     Instance,
     List,
-    LysandRole,
     Marker,
     Notification,
     Poll,
@@ -28,6 +27,7 @@ import type {
     StatusVisibility,
     Tag,
     Token,
+    VersiaRole,
 } from "../types";
 import { BaseClient, type Output } from "./base";
 import { DEFAULT_SCOPE, NO_REDIRECT } from "./constants";
@@ -39,17 +39,17 @@ type StatusContentType =
     | "text/x.misskeymarkdown";
 
 /**
- * LysandClient is a client for interacting with the Lysand API.
+ * Client is a client for interacting with the Versia API.
  *
  * @extends BaseClient
  * @example
- * const client = new LysandClient(new URL("https://example.com"));
+ * const client = new Client(new URL("https://example.com"));
  *
  * const { data } = await client.getInstance();
  *
  * console.log(data);
  */
-export class LysandClient extends BaseClient {
+export class Client extends BaseClient {
     /**
      * POST /api/v1/follow_requests/:id/authorize
      *
@@ -106,7 +106,7 @@ export class LysandClient extends BaseClient {
     /**
      * POST /api/v1/roles/:roleId
      *
-     * Lysand API only.
+     * Versia API only.
      * @param roleId ID of the role to add to the requesting account.
      */
     public addRole(
@@ -549,7 +549,7 @@ export class LysandClient extends BaseClient {
     /**
      * GET /api/v1/accounts/id
      *
-     * Lysand API only.
+     * Versia API only.
      * @param username The username.
      * @return An account.
      */
@@ -1164,7 +1164,7 @@ export class LysandClient extends BaseClient {
     /**
      * GET /api/v1/instance/privacy_policy
      *
-     * Lysand API only.
+     * Versia API only.
      * @returns
      */
     public getInstancePrivacyPolicy(
@@ -1179,7 +1179,7 @@ export class LysandClient extends BaseClient {
     /**
      * GET /api/v1/instance/tos
      *
-     * Lysand API only.
+     * Versia API only.
      * @returns
      */
     public getInstanceTermsOfService(
@@ -1575,18 +1575,18 @@ export class LysandClient extends BaseClient {
     public getRole(
         id: string,
         extra?: RequestInit,
-    ): Promise<Output<LysandRole>> {
-        return this.get<LysandRole>(`/api/v1/roles/${id}`, extra);
+    ): Promise<Output<VersiaRole>> {
+        return this.get<VersiaRole>(`/api/v1/roles/${id}`, extra);
     }
 
     /**
      * GET /api/v1/roles
      *
-     * Lysand API only.
+     * Versia API only.
      * @returns Array of roles.
      */
-    public getRoles(extra?: RequestInit): Promise<Output<LysandRole[]>> {
-        return this.get<LysandRole[]>("/api/v1/roles", extra);
+    public getRoles(extra?: RequestInit): Promise<Output<VersiaRole[]>> {
+        return this.get<VersiaRole[]>("/api/v1/roles", extra);
     }
 
     /**
@@ -2052,7 +2052,7 @@ export class LysandClient extends BaseClient {
      * POST /api/v1/accounts/:id/refetch
      *
      * Starts a refetch of an account from a remote source.
-     * Lysand API only.
+     * Versia API only.
      * @param id The account ID.
      * @return Account with updated data.
      */
@@ -2181,7 +2181,7 @@ export class LysandClient extends BaseClient {
     /**
      * DELETE /api/v1/roles/:roleId
      *
-     * Lysand API only.
+     * Versia API only.
      * @param roleId Role ID to remove from requesting account.
      * @returns
      */

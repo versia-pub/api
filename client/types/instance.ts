@@ -4,7 +4,7 @@ export type Instance = {
     domain: string;
     title: string;
     version: string;
-    lysand_version: string;
+    versia_version: string;
     source_url: string;
     description: string;
     usage: {

@@ -1,5 +1,5 @@
-import { type Output, ResponseError } from "./lysand/base";
-import { LysandClient } from "./lysand/lysand";
 import type { Token } from "./types/token";
+import { type Output, ResponseError } from "./versia/base";
+import { Client } from "./versia/client";
 
-export { LysandClient, ResponseError, type Output, type Token };
+export { Client, ResponseError, type Output, type Token };

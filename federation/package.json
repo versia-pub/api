@@ -1,6 +1,6 @@
 {
-    "name": "@lysand-org/federation",
-    "displayName": "Lysand Federation",
+    "name": "@versia/federation",
+    "displayName": "Versia Federation",
     "version": "0.0.0",
     "author": {
         "email": "jesse.wierzbinski@lysand.org",
@@ -31,7 +31,7 @@
             "url": "https://cpluspatch.com"
         }
     ],
-    "description": "Type definitions for Lysand Federation, with validators.",
+    "description": "SDK for Versia implementations.",
     "categories": ["Other"],
     "type": "module",
     "engines": {
@@ -53,9 +53,9 @@
         "type": "opencollective",
         "url": "https://opencollective.com/lysand"
     },
-    "homepage": "https://lysand.org",
+    "homepage": "https://versia.pub",
     "keywords": [
-        "lysand",
+        "versia",
         "federation",
         "api",
         "typescript",

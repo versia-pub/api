@@ -28,7 +28,7 @@ const checkEvironmentSupport = () => {
 
 /**
  * Validates the signature of a request.
- * @see https://lysand.org/security/signing
+ * @see https://versia.pub/signatures
  */
 export class SignatureValidator {
     /**
@@ -67,7 +67,7 @@ export class SignatureValidator {
      * @returns A Promise that resolves to a boolean indicating whether the signature is valid.
      * @throws TypeError if any required headers are missing in the request.
      * @example
-     * const request = new Request(); // Should be a Request from a Lysand federation request
+     * const request = new Request(); // Should be a Request from a Versia federation request
      * const isValid = await validator.validate(request);
      */
     async validate(request: Request): Promise<boolean>;
@@ -187,7 +187,7 @@ export class SignatureValidator {
 
 /**
  * Constructs a signature for a request.
- * @see https://lysand.org/security/signing
+ * @see https://versia.pub/signatures
  */
 export class SignatureConstructor {
     /**

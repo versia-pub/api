@@ -2,18 +2,18 @@
   <a href="https://lysand.org"><img src="https://cdn.lysand.org/logo-long-dark.webp" alt="Lysand Logo" height="110"></a>
 </p>
 
-<center><h1>Lysand API</h1></center>
+<center><h1>Versia API</h1></center>
 
-Set of NPM packages written in TypeScript to interact with Lysand-compatible services.
+Set of NPM packages written in TypeScript to interact with Versia-compatible services.
 
 ## Packages
 
-- **`@lysand-org/federation`**: Federation types, validators and cryptography for Lysand server implementations.
-- **`@lysand-org/client`**: Client for the reference Lysand Server implementation.
+- **`@versia/federation`**: Federation types, validators and cryptography for Versia server implementations.
+- **`@versia/client`**: Client for the reference Versia Server implementation.
 
 ## Efficiency
 
-The built output of each package is not even `200 KB` in size, making it a lightweight and efficient solution for your Lysand needs. Installing the package adds around `5 MB` to your `node_modules` folder, but this does not affect the final bundle size.
+The built output of each package is not even `200 KB` in size, making it a lightweight and efficient solution for your Versia needs. Installing the package adds around `5 MB` to your `node_modules` folder, but this does not affect the final bundle size.
 
 Compilation (bundling/minifying) time is a few seconds, almost all of which is spent on type-checking. The actual compilation time is less than a tenth of a second.
 
@@ -21,11 +21,11 @@ Compilation (bundling/minifying) time is a few seconds, almost all of which is s
 
 ### Federation
 
-Please see the [**`@lysand-org/federation` README**](federation/README.md) for more information.
+Please see the [**`@versia/federation` README**](federation/README.md) for more information.
 
 ### Client
 
-Please see the [**`@lysand-org/client` README**](client/README.md) for more information.
+Please see the [**`@versia/client` README**](client/README.md) for more information.
 
 ## Getting Started
 
@@ -76,18 +76,18 @@ We strongly recommend using JSR over NPM for all your packages that are availabl
 
 ```bash
 # NPM version
-deno add npm:@lysand-org/federation npm:@lysand-org/client # For Deno
-npm install @lysand-org/federation @lysand-org/client # For NPM
-yarn add @lysand-org/federation @lysand-org/client # For Yarn
-pnpm add @lysand-org/federation @lysand-org/client # For PNPM
-bun add @lysand-org/federation @lysand-org/client # For Bun
+deno add npm:@versia/federation npm:@versia/client # For Deno
+npm install @versia/federation @versia/client # For NPM
+yarn add @versia/federation @versia/client # For Yarn
+pnpm add @versia/federation @versia/client # For PNPM
+bun add @versia/federation @versia/client # For Bun
 
 # JSR version
-deno add @lysand-org/federation @lysand-org/client # For Deno
-npx jsr add @lysand-org/federation @lysand-org/client # For JSR
-yarn dlx jsr add @lysand-org/federation @lysand-org/client # For Yarn
-pnpm dlx jsr add @lysand-org/federation @lysand-org/client # For PNPM
-bunx jsr add @lysand-org/federation @lysand-org/client # For Bun
+deno add @versia/federation @versia/client # For Deno
+npx jsr add @versia/federation @versia/client # For JSR
+yarn dlx jsr add @versia/federation @versia/client # For Yarn
+pnpm dlx jsr add @versia/federation @versia/client # For PNPM
+bunx jsr add @versia/federation @versia/client # For Bun
 ```
 
 #### From Source
@@ -114,4 +114,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ### People
 
-- [**April John**](https://github.com/cutestnekoaqua): Creator and maintainer of the Lysand Server ActivityPub bridge.
+- [**April John**](https://github.com/cutestnekoaqua): Creator and maintainer of the Versia Server ActivityPub bridge.

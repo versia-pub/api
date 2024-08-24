@@ -34,7 +34,7 @@ type InferType<T extends AnyZod> = z.infer<T>;
  * @module federation/validator
  * @see module:federation/schemas/base
  * @example
- * import { EntityValidator, type ValidationError } from "@lysand-org/federation";
+ * import { EntityValidator, type ValidationError } from "@versia/federation";
  * const validator = new EntityValidator();
  *
  * // Will throw a special ValidationError with a human-friendly error message
@@ -54,7 +54,7 @@ type InferType<T extends AnyZod> = z.infer<T>;
  * }
  *
  * // Types are also included for TypeScript users that don't use the extracted ones
- * import type { Note } from "@lysand-org/federation/types";
+ * import type { Note } from "@versia/federation/types";
  *
  * const note: Note = {
  *     ...

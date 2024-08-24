@@ -25,7 +25,6 @@ import type {
     InstanceRule,
 } from "./types/instance";
 import type { List, RepliesPolicy } from "./types/list";
-import { type LysandRole, RolePermission } from "./types/lysand";
 import type { Marker } from "./types/marker";
 import type { Mention } from "./types/mention";
 import type { Notification, NotificationType } from "./types/notification";
@@ -45,6 +44,7 @@ import type { StatusSource } from "./types/status_source";
 import type { Tag } from "./types/tag";
 import type { Token } from "./types/token";
 import type { URLs } from "./types/urls";
+import { RolePermission, type VersiaRole } from "./types/versia";
 
 export type {
     Account,
@@ -75,7 +75,7 @@ export type {
     Instance,
     InstanceRule,
     List,
-    LysandRole,
+    VersiaRole,
     Marker,
     Mention,
     Meta,
