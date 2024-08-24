@@ -7,7 +7,7 @@ describe("SignatureValidator", () => {
     let publicKey: CryptoKey;
     let body: string;
     let signature: string;
-    let date: string;
+    let nonce: string;
 
     beforeAll(async () => {
         const keys = await crypto.subtle.generateKey("Ed25519", true, [
@@ -25,8 +25,8 @@ describe("SignatureValidator", () => {
             "https://bob.org/users/6a18f2c3-120e-4949-bda4-2aa4c8264d51",
         ).sign("GET", new URL("https://example.com"), body);
 
-        signature = headers.get("Signature") ?? "";
-        date = headers.get("Date") ?? "";
+        signature = headers.get("X-Signature") ?? "";
+        nonce = headers.get("X-Nonce") ?? "";
     });
 
     test("fromStringKey", async () => {
@@ -46,8 +46,8 @@ describe("SignatureValidator", () => {
             const request = new Request("https://example.com", {
                 method: "GET",
                 headers: {
-                    Signature: signature,
-                    Date: date,
+                    "X-Signature": signature,
+                    "X-Nonce": nonce,
                 },
                 body: body,
             });
@@ -55,47 +55,40 @@ describe("SignatureValidator", () => {
             expect(isValid).toBe(true);
         });
 
-        test("should throw with an invalid signature", async () => {
+        test("should return false with an invalid signature", async () => {
             const request = new Request("https://example.com", {
                 method: "GET",
                 headers: {
-                    Signature: "invalid",
-                    Date: date,
+                    "X-Signature": "invalid",
+                    "X-Nonce": nonce,
                 },
                 body: body,
             });
 
-            expect(() => validator.validate(request)).toThrow(TypeError);
+            const isValid = await validator.validate(request);
+
+            expect(isValid).toBe(false);
         });
 
-        test("should throw with missing headers", async () => {
+        test("should throw with missing nonce", async () => {
             const request = new Request("https://example.com", {
                 method: "GET",
                 headers: {
-                    Signature: signature,
+                    "X-Signature": signature,
                 },
                 body: body,
             });
-            expect(() => validator.validate(request)).toThrow(TypeError);
-        });
-
-        test("should throw with missing date", async () => {
-            const request = new Request("https://example.com", {
-                method: "GET",
-                headers: {
-                    Signature: signature,
-                },
-                body: body,
-            });
-            expect(() => validator.validate(request)).toThrow(TypeError);
+            expect(() => validator.validate(request)).toThrow(
+                "Headers are missing in request: X-Nonce",
+            );
         });
 
         test("should not verify a valid signature with a different body", async () => {
             const request = new Request("https://example.com", {
                 method: "GET",
                 headers: {
-                    Signature: signature,
-                    Date: date,
+                    "X-Signature": signature,
+                    "X-Nonce": nonce,
                 },
                 body: "different",
             });
@@ -104,19 +97,19 @@ describe("SignatureValidator", () => {
             expect(isValid).toBe(false);
         });
 
-        test("should not verify a signature with a wrong key", async () => {
+        test("should throw if signature is not base64", async () => {
             const request = new Request("https://example.com", {
                 method: "GET",
                 headers: {
-                    Signature:
-                        'keyId="badbbadwrong",algorithm="ed25519",headers="(request-target) host date digest",signature="ohno"',
-                    Date: date,
+                    "X-Signature": "thisIsNotbase64OhNo$^ù",
+                    "X-Nonce": nonce,
                 },
                 body: body,
             });
 
-            const isValid = await validator.validate(request);
-            expect(isValid).toBe(false);
+            expect(() => validator.validate(request)).toThrow(
+                "Signature is not valid base64",
+            );
         });
     });
 });
@@ -158,27 +151,11 @@ describe("SignatureConstructor", () => {
         test("should correctly sign ", async () => {
             const url = new URL("https://example.com");
             headers = (await ctor.sign("GET", url, body)).headers;
-            expect(headers.get("Signature")).toBeDefined();
-            expect(headers.get("Date")).toBeDefined();
+            expect(headers.get("X-Signature")).toBeDefined();
+            expect(headers.get("X-Nonce")).toBeDefined();
 
-            // Check structure of Signature
-            const signature = headers.get("Signature") ?? "";
-            const parts = signature.split(",");
-            expect(parts).toHaveLength(4);
-
-            expect(parts[0].split("=")[0]).toBe("keyId");
-            expect(parts[1].split("=")[0]).toBe("algorithm");
-            expect(parts[2].split("=")[0]).toBe("headers");
-            expect(parts[3].split("=")[0]).toBe("signature");
-
-            expect(parts[0].split("=")[1]).toBe(
-                '"https://bob.org/users/6a18f2c3-120e-4949-bda4-2aa4c8264d51"',
-            );
-            expect(parts[1].split("=")[1]).toBe('"ed25519"');
-            expect(parts[2].split("=")[1]).toBe(
-                '"(request-target) host date digest"',
-            );
-            expect(parts[3].split("=")[1]).toBeString();
+            expect(headers.get("X-Nonce")?.length).toBeGreaterThan(10);
+            expect(headers.get("X-Signature")?.length).toBeGreaterThan(10);
         });
 
         test("should correctly sign a Request", async () => {
@@ -190,8 +167,8 @@ describe("SignatureConstructor", () => {
             const { request: newRequest } = await ctor.sign(request);
 
             headers = newRequest.headers;
-            expect(headers.get("Signature")).toBeDefined();
-            expect(headers.get("Date")).toBeDefined();
+            expect(headers.get("X-Signature")).toBeDefined();
+            expect(headers.get("X-Nonce")).toBeDefined();
 
             expect(await newRequest.text()).toBe(body);
         });

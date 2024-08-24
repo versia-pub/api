@@ -9,7 +9,8 @@
     },
     "devDependencies": {
         "@biomejs/biome": "^1.8.3",
-        "@types/bun": "^1.1.6",
+        "@types/bun": "^1.1.7",
+        "@types/node": "^22.5.0",
         "bun-plugin-dts": "^0.2.3"
     },
     "trustedDependencies": ["@biomejs/biome"],

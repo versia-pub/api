@@ -16,6 +16,9 @@ const base64ToArrayBuffer = (base64: string) =>
 const arrayBufferToBase64 = (arrayBuffer: ArrayBuffer) =>
     btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
 
+const uint8ArrayToBase64 = (uint8Array: Uint8Array) =>
+    btoa(String.fromCharCode(...uint8Array));
+
 const checkEvironmentSupport = () => {
     // Check if WebCrypto is supported
     if (!globalThis.crypto?.subtle) {
@@ -75,23 +78,23 @@ export class SignatureValidator {
     /**
      * Validates the signature of a request.
      * @param signature The signature string.
-     * @param date The date that the request was signed.
+     * @param nonce Signature nonce.
      * @param method The HTTP verb.
      * @param url The URL object.
      * @param body The request body.
      * @returns A Promise that resolves to a boolean indicating whether the signature is valid.
      * @throws TypeError if any required parameters are missing or empty.
      * @example
-     * const signature = "keyId=\"https://example.com\",algorithm=\"ed25519\",headers=\"(request-target) host date digest\",signature=\"base64Signature\"";
-     * const date = new Date("2021-01-01T00:00:00.000Z");
+     * const signature = "k4QNt5Grl40KK8orIdiaq118Z+P5pa6vIeArq55wsvfL7wNy4cE3f2fhsGcpZql+PStm+x2ZjZIhudrAC/32Cg==";
+     * const nonce = "bJzyhTNK2RXUCetKIpm0Fw==";
      * const method = "GET";
      * const url = new URL("https://example.com/users/ff54ee40-2ce9-4d2e-86ac-3cd06a1e1480");
      * const body = "{ ... }";
-     * const isValid = await validator.validate(signature, date, method, url, body);
+     * const isValid = await validator.validate(signature, nonce, method, url, body);
      */
     async validate(
         signature: string,
-        date: Date,
+        nonce: string,
         method: HttpVerb,
         url: URL,
         body: string,
@@ -99,28 +102,25 @@ export class SignatureValidator {
 
     async validate(
         requestOrSignature: Request | string,
-        date?: Date,
+        nonce?: string,
         method?: HttpVerb,
         url?: URL,
         body?: string,
     ): Promise<boolean> {
         if (requestOrSignature instanceof Request) {
-            const signature = requestOrSignature.headers.get("Signature");
-            const date = requestOrSignature.headers.get("Date");
+            const signature = requestOrSignature.headers.get("X-Signature");
+            const nonce = requestOrSignature.headers.get("X-Nonce");
             const url = new URL(requestOrSignature.url);
             const body = await requestOrSignature.text();
             const method = requestOrSignature.method as HttpVerb;
 
             const missingHeaders = [
-                !signature && "Signature",
-                !date && "Date",
-                !method && "Method",
-                !url && "URL",
-                !body && "Body",
+                !signature && "X-Signature",
+                !nonce && "X-Nonce",
             ].filter(Boolean);
 
             // Check if all headers are present
-            if (!(signature && date && method && url && body)) {
+            if (!(signature && nonce && method && url && body)) {
                 // Say which headers are missing
                 throw new TypeError(
                     `Headers are missing in request: ${missingHeaders.join(
@@ -129,49 +129,30 @@ export class SignatureValidator {
                 );
             }
 
-            if (signature.split("signature=").length < 2) {
-                throw new TypeError(
-                    "Invalid Signature header (wrong format or missing signature)",
-                );
-            }
-
-            const extractedSignature = signature
-                .split("signature=")[1]
-                .replace(/"/g, "");
-
-            if (!extractedSignature) {
-                throw new TypeError(
-                    "Invalid Signature header (wrong format or missing signature)",
-                );
-            }
-
-            return this.validate(
-                extractedSignature,
-                new Date(date),
-                method as HttpVerb,
-                url,
-                body,
-            );
+            return this.validate(signature, nonce, method, url, body);
         }
 
-        if (!(date && method && url && body)) {
+        if (!(nonce && method && url && body)) {
             throw new TypeError(
-                "Missing or empty required parameters: date, method, url or body",
+                "Missing or empty required parameters: nonce, method, url or body",
             );
         }
 
         const signature = requestOrSignature;
+
+        // Check if signature is base64
+        try {
+            atob(signature);
+        } catch {
+            throw new TypeError("Signature is not valid base64");
+        }
 
         const digest = await crypto.subtle.digest(
             "SHA-256",
             new TextEncoder().encode(body),
         );
 
-        const expectedSignedString =
-            `(request-target): ${method.toLowerCase()} ${url.pathname}\n` +
-            `host: ${url.host}\n` +
-            `date: ${date.toISOString()}\n` +
-            `digest: SHA-256=${arrayBufferToBase64(digest)}\n`;
+        const expectedSignedString = `${method.toLowerCase()} ${encodeURIComponent(url.pathname)} ${nonce} ${arrayBufferToBase64(digest)}`;
 
         // Check if signed string is valid
         const isValid = await crypto.subtle.verify(
@@ -193,15 +174,15 @@ export class SignatureConstructor {
     /**
      * Creates a new instance of SignatureConstructor.
      * @param privateKey The private key used for signature generation.
-     * @param keyId The key ID used for the Signature header.
+     * @param authorUri URI of the User who is signing the request.
      * @example
      * const privateKey = // CryptoKey
-     * const keyId = "https://example.com/users/6a18f2c3-120e-4949-bda4-2aa4c8264d51";
-     * const constructor = new SignatureConstructor(privateKey, keyId);
+     * const authorUri = "https://example.com/users/6a18f2c3-120e-4949-bda4-2aa4c8264d51";
+     * const constructor = new SignatureConstructor(privateKey, authorUri);
      */
     constructor(
         private privateKey: CryptoKey,
-        private keyId: string,
+        private authorUri: URL | string,
     ) {
         checkEvironmentSupport();
     }
@@ -209,16 +190,16 @@ export class SignatureConstructor {
     /**
      * Creates a SignatureConstructor instance from a base64-encoded private key.
      * @param base64PrivateKey The base64-encoded private key.
-     * @param keyId The key ID used for the Signature header.
+     * @param authorUri URI of the User who is signing the request.
      * @returns A Promise that resolves to a SignatureConstructor instance.
      * @example
      * const privateKey = "base64PrivateKey";
-     * const keyId = "https://example.com/users/6a18f2c3-120e-4949-bda4-2aa4c8264d51";
-     * const constructor = await SignatureConstructor.fromStringKey(privateKey, keyId);
+     * const authorUri = "https://example.com/users/6a18f2c3-120e-4949-bda4-2aa4c8264d51";
+     * const constructor = await SignatureConstructor.fromStringKey(privateKey, authorUri);
      */
     static async fromStringKey(
         base64PrivateKey: string,
-        keyId: string,
+        authorUri: URL | string,
     ): Promise<SignatureConstructor> {
         return new SignatureConstructor(
             await crypto.subtle.importKey(
@@ -228,7 +209,7 @@ export class SignatureConstructor {
                 false,
                 ["sign"],
             ),
-            keyId,
+            authorUri,
         );
     }
 
@@ -251,7 +232,7 @@ export class SignatureConstructor {
      * @param url The URL object.
      * @param body The request body.
      * @param headers The request headers.
-     * @param date The date that the request was signed (optional)
+     * @param nonce The signature nonce (optional).
      * @returns A Promise that resolves to the signed headers, and the signed string.
      * @throws TypeError if any required parameters are missing or empty.
      * @example
@@ -265,7 +246,7 @@ export class SignatureConstructor {
         url: URL,
         body?: string,
         headers?: Headers,
-        date?: Date,
+        nonce?: string,
     ): Promise<{
         headers: Headers;
         signedString: string;
@@ -276,7 +257,7 @@ export class SignatureConstructor {
         url?: URL,
         body?: string,
         headers: Headers = new Headers(),
-        date?: Date,
+        nonce?: string,
     ): Promise<
         | {
               headers: Headers;
@@ -295,13 +276,14 @@ export class SignatureConstructor {
                 new URL(requestOrMethod.url),
                 await requestOrMethod.text(),
                 requestOrMethod.headers,
-                requestOrMethod.headers.get("Date")
-                    ? new Date(requestOrMethod.headers.get("Date") ?? "")
-                    : undefined,
+                requestOrMethod.headers.get("X-Nonce") ?? undefined,
             );
 
-            request.headers.set("Date", headers.get("Date") ?? "");
-            request.headers.set("Signature", headers.get("Signature") ?? "");
+            request.headers.set("X-Nonce", headers.get("X-Nonce") ?? "");
+            request.headers.set(
+                "X-Signature",
+                headers.get("X-Signature") ?? "",
+            );
 
             return { request, signedString };
         }
@@ -312,20 +294,18 @@ export class SignatureConstructor {
             );
         }
 
-        const finalDate = date?.toISOString() ?? new Date().toISOString();
+        const finalNonce =
+            nonce ||
+            uint8ArrayToBase64(crypto.getRandomValues(new Uint8Array(16)));
 
         const digest = await crypto.subtle.digest(
             "SHA-256",
             new TextEncoder().encode(body ?? ""),
         );
 
-        const signedString =
-            `(request-target): ${requestOrMethod.toLowerCase()} ${
-                url.pathname
-            }\n` +
-            `host: ${url.host}\n` +
-            `date: ${finalDate}\n` +
-            `digest: SHA-256=${arrayBufferToBase64(digest)}\n`;
+        const signedString = `${requestOrMethod.toLowerCase()} ${encodeURIComponent(
+            url.pathname,
+        )} ${finalNonce} ${arrayBufferToBase64(digest)}`;
 
         const signature = await crypto.subtle.sign(
             "Ed25519",
@@ -335,11 +315,9 @@ export class SignatureConstructor {
 
         const signatureBase64 = arrayBufferToBase64(signature);
 
-        headers.set("Date", finalDate);
-        headers.set(
-            "Signature",
-            `keyId="${this.keyId}",algorithm="ed25519",headers="(request-target) host date digest",signature="${signatureBase64}"`,
-        );
+        headers.set("X-Nonce", finalNonce);
+        headers.set("X-Signature", signatureBase64);
+        headers.set("X-Signed-By", this.authorUri.toString());
 
         return {
             headers,
