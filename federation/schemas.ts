@@ -7,11 +7,8 @@ import type { z } from "zod";
 import type {
     ActionSchema,
     ActorPublicKeyDataSchema,
-    ContentFormatSchema,
-    CustomEmojiExtensionSchema,
     DislikeSchema,
     EntitySchema,
-    ExtensionPropertySchema,
     ExtensionSchema,
     FollowAcceptSchema,
     FollowRejectSchema,
@@ -24,9 +21,12 @@ import type {
     ServerMetadataSchema,
     UndoSchema,
     UserSchema,
-    VanityExtensionSchema,
     VisibilitySchema,
 } from "./schemas/base";
+import type { ContentFormatSchema } from "./schemas/content_format";
+import type { ExtensionPropertySchema } from "./schemas/extensions";
+import type { CustomEmojiExtensionSchema } from "./schemas/extensions/custom_emojis";
+import type { VanityExtensionSchema } from "./schemas/extensions/vanity";
 
 // biome-ignore lint/suspicious/noExplicitAny: Used only as a base type
 type AnyZod = z.ZodType<any, any, any>;

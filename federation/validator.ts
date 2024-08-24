@@ -3,11 +3,8 @@ import { fromError } from "zod-validation-error";
 import {
     ActionSchema,
     ActorPublicKeyDataSchema,
-    ContentFormatSchema,
-    CustomEmojiExtensionSchema,
     DislikeSchema,
     EntitySchema,
-    ExtensionPropertySchema,
     ExtensionSchema,
     FollowAcceptSchema,
     FollowRejectSchema,
@@ -20,9 +17,12 @@ import {
     ServerMetadataSchema,
     UndoSchema,
     UserSchema,
-    VanityExtensionSchema,
     VisibilitySchema,
 } from "./schemas/base";
+import { ContentFormatSchema } from "./schemas/content_format";
+import { ExtensionPropertySchema } from "./schemas/extensions";
+import { CustomEmojiExtensionSchema } from "./schemas/extensions/custom_emojis";
+import { VanityExtensionSchema } from "./schemas/extensions/vanity";
 
 // biome-ignore lint/suspicious/noExplicitAny: Used only as a base type
 type AnyZod = z.ZodType<any, any, any>;

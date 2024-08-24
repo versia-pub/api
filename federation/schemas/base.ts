@@ -1,11 +1,10 @@
 import { z } from "zod";
 import { ContentFormatSchema } from "./content_format";
 import { ExtensionPropertySchema } from "./extensions";
-import { CustomEmojiExtensionSchema } from "./extensions/custom_emojis";
 import { VanityExtensionSchema } from "./extensions/vanity";
 import { extensionTypeRegex } from "./regex";
 
-const EntitySchema = z.object({
+export const EntitySchema = z.object({
     id: z.string().uuid(),
     created_at: z.string(),
     uri: z.string().url(),
@@ -13,9 +12,14 @@ const EntitySchema = z.object({
     extensions: ExtensionPropertySchema.optional().nullable().nullable(),
 });
 
-const VisibilitySchema = z.enum(["public", "unlisted", "private", "direct"]);
+export const VisibilitySchema = z.enum([
+    "public",
+    "unlisted",
+    "private",
+    "direct",
+]);
 
-const PublicationSchema = EntitySchema.extend({
+export const PublicationSchema = EntitySchema.extend({
     type: z.enum(["Note", "Patch"]),
     author: z.string().url(),
     content: ContentFormatSchema.optional().nullable(),
@@ -49,22 +53,22 @@ const PublicationSchema = EntitySchema.extend({
         .nullable(),
 });
 
-const NoteSchema = PublicationSchema.extend({
+export const NoteSchema = PublicationSchema.extend({
     type: z.literal("Note"),
 });
 
-const PatchSchema = PublicationSchema.extend({
+export const PatchSchema = PublicationSchema.extend({
     type: z.literal("Patch"),
     patched_id: z.string().uuid(),
     patched_at: z.string(),
 });
 
-const ActorPublicKeyDataSchema = z.object({
+export const ActorPublicKeyDataSchema = z.object({
     public_key: z.string(),
     actor: z.string().url(),
 });
 
-const UserSchema = EntitySchema.extend({
+export const UserSchema = EntitySchema.extend({
     type: z.literal("User"),
     display_name: z.string().optional().nullable(),
     username: z.string(),
@@ -96,7 +100,7 @@ const UserSchema = EntitySchema.extend({
         .nullable(),
 });
 
-const ActionSchema = EntitySchema.extend({
+export const ActionSchema = EntitySchema.extend({
     type: z.union([
         z.literal("Like"),
         z.literal("Dislike"),
@@ -109,37 +113,37 @@ const ActionSchema = EntitySchema.extend({
     author: z.string().url(),
 });
 
-const LikeSchema = ActionSchema.extend({
+export const LikeSchema = ActionSchema.extend({
     type: z.literal("Like"),
     object: z.string().url(),
 });
 
-const UndoSchema = ActionSchema.extend({
+export const UndoSchema = ActionSchema.extend({
     type: z.literal("Undo"),
     object: z.string().url(),
 });
 
-const DislikeSchema = ActionSchema.extend({
+export const DislikeSchema = ActionSchema.extend({
     type: z.literal("Dislike"),
     object: z.string().url(),
 });
 
-const FollowSchema = ActionSchema.extend({
+export const FollowSchema = ActionSchema.extend({
     type: z.literal("Follow"),
     followee: z.string().url(),
 });
 
-const FollowAcceptSchema = ActionSchema.extend({
+export const FollowAcceptSchema = ActionSchema.extend({
     type: z.literal("FollowAccept"),
     follower: z.string().url(),
 });
 
-const FollowRejectSchema = ActionSchema.extend({
+export const FollowRejectSchema = ActionSchema.extend({
     type: z.literal("FollowReject"),
     follower: z.string().url(),
 });
 
-const ExtensionSchema = EntitySchema.extend({
+export const ExtensionSchema = EntitySchema.extend({
     type: z.literal("Extension"),
     extension_type: z
         .string()
@@ -149,14 +153,14 @@ const ExtensionSchema = EntitySchema.extend({
         ),
 });
 
-const ReportSchema = ExtensionSchema.extend({
+export const ReportSchema = ExtensionSchema.extend({
     extension_type: z.literal("org.lysand:reports/Report"),
     objects: z.array(z.string().url()),
     reason: z.string(),
     comment: z.string().optional().nullable(),
 });
 
-const ServerMetadataSchema = EntitySchema.omit({
+export const ServerMetadataSchema = EntitySchema.omit({
     created_at: true,
     id: true,
     uri: true,
@@ -173,27 +177,3 @@ const ServerMetadataSchema = EntitySchema.omit({
     supported_extensions: z.array(z.string()),
     extensions: z.record(z.string(), z.any()).optional().nullable(),
 });
-
-export {
-    EntitySchema,
-    VisibilitySchema,
-    PublicationSchema,
-    NoteSchema,
-    PatchSchema,
-    ActorPublicKeyDataSchema,
-    VanityExtensionSchema,
-    UserSchema,
-    ActionSchema,
-    LikeSchema,
-    UndoSchema,
-    DislikeSchema,
-    FollowSchema,
-    FollowAcceptSchema,
-    FollowRejectSchema,
-    ExtensionSchema,
-    ReportSchema,
-    ServerMetadataSchema,
-    ContentFormatSchema,
-    CustomEmojiExtensionSchema,
-    ExtensionPropertySchema,
-};
