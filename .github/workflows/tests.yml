@@ -1,0 +1,26 @@
+name: Run Tests
+
+on:
+  push:
+
+permissions:
+  contents: read
+  # For provenance generation
+  id-token: write
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    environment: NPM Deploy
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Install
+        run: bun install
+
+      - name: Test
+        run: bun run test

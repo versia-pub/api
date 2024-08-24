@@ -1,0 +1,37 @@
+name: Test Publish
+
+on:
+  push:
+
+permissions:
+  contents: read
+  # For provenance generation
+  id-token: write
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    environment: NPM Deploy
+    strategy:
+      matrix:
+        package: ["federation", "client"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Install
+        run: cd ${{ matrix.package }} && bun install
+
+      - name: Build
+        run: bun run Build
+
+      - name: Publish to NPM
+        run: npm publish --dry-run
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish to JSR
+        run: bunx jsr publish --allow-slow-types --allow-dirty --dry-run
