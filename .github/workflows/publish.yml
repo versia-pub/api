@@ -1,36 +1,9 @@
 name: Build & Publish Package
 
 on:
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-    inputs:
-      version:
-        description: "Version to publish"
-        required: true
-        type: string
-        # Default to truncated commit hash
-        default: "0.0.0"
-      tag:
-        description: "Tag to publish"
-        required: true
-        type: string
-        default: "latest"
-      package:
-        description: "Package to publish"
-        options:
-          - federation
-          - client
-        type: choice
-        required: true
-      registry:
-        description: "Registry to publish to"
-        required: true
-        type: choice
-        options:
-          - npm
-          - jsr
-          - both
-        default: "both"
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -38,10 +11,10 @@ permissions:
   id-token: write
 
 jobs:
-  # Build job
-  build:
+  publish:
     runs-on: ubuntu-latest
     environment: NPM Deploy
+    if: contains(github.event.head_commit.message, '[publish')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -56,15 +29,22 @@ jobs:
       - name: Build
         run: bun install && bun run build
 
-      - name: Change version in package.json to ${{ github.event.inputs.version }}
-        run: 'sed -i ''s/"version": ".*"/"version": "${{ github.event.inputs.version }}"/'' package.json ${{ github.event.inputs.package }}/package.json ${{ github.event.inputs.package }}/jsr.jsonc'
-
-      - name: Publish to NPM
-        if: ${{ github.event.inputs.registry == 'npm' }} || ${{ github.event.inputs.registry == 'both' }}
-        run: cd ${{ github.event.inputs.package }} && npm publish --provenance --tag ${{ github.event.inputs.tag }} --access public
+      - name: Publish Federation to NPM
+        if: contains(github.event.head_commit.message, '(federation)')
+        run: cd federation && npm publish --provenance --tag ${{ contains(github.event.head_commit.message, '[publish nightly]') && 'nightly' || 'latest' }} --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Publish to JSR
-        if: ${{ github.event.inputs.registry == 'jsr' }} || ${{ github.event.inputs.registry == 'both' }}
-        run: cd ${{ github.event.inputs.package }} && bun install --frozen-lockfile && bunx jsr publish --allow-slow-types --allow-dirty
+      - name: Publish Federation to JSR
+        if: contains(github.event.head_commit.message, '(federation)')
+        run: cd federation && bunx jsr publish --allow-slow-types --allow-dirty
+
+      - name: Publish Client to NPM
+        if: contains(github.event.head_commit.message, '(client)')
+        run: cd client && npm publish --provenance --tag ${{ contains(github.event.head_commit.message, '[publish nightly]') && 'nightly' || 'latest' }} --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish Client to JSR
+        if: contains(github.event.head_commit.message, '(client)')
+        run: cd client && bunx jsr publish --allow-slow-types --allow-dirty
