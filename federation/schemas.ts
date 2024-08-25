@@ -5,23 +5,17 @@
 
 import type { z } from "zod";
 import type {
-    ActionSchema,
-    ActorPublicKeyDataSchema,
-    DislikeSchema,
+    DeleteSchema,
     EntitySchema,
-    ExtensionSchema,
     FollowAcceptSchema,
     FollowRejectSchema,
     FollowSchema,
-    LikeSchema,
+    GroupSchema,
+    InstanceMetadataSchema,
     NoteSchema,
-    PatchSchema,
-    PublicationSchema,
-    ReportSchema,
-    ServerMetadataSchema,
-    UndoSchema,
+    PublicKeyDataSchema,
+    UnfollowSchema,
     UserSchema,
-    VisibilitySchema,
 } from "./schemas/base";
 import type { ContentFormatSchema } from "./schemas/content_format";
 import type { ExtensionPropertySchema } from "./schemas/extensions";
@@ -34,23 +28,17 @@ type AnyZod = z.ZodType<any, any, any>;
 type InferType<T extends AnyZod> = z.infer<T>;
 
 export type Note = InferType<typeof NoteSchema>;
-export type Patch = InferType<typeof PatchSchema>;
-export type ActorPublicKeyData = InferType<typeof ActorPublicKeyDataSchema>;
+export type ActorPublicKeyData = InferType<typeof PublicKeyDataSchema>;
 export type ExtensionProperty = InferType<typeof ExtensionPropertySchema>;
 export type VanityExtension = InferType<typeof VanityExtensionSchema>;
 export type User = InferType<typeof UserSchema>;
-export type Action = InferType<typeof ActionSchema>;
-export type Like = InferType<typeof LikeSchema>;
-export type Undo = InferType<typeof UndoSchema>;
-export type Dislike = InferType<typeof DislikeSchema>;
 export type Follow = InferType<typeof FollowSchema>;
 export type FollowAccept = InferType<typeof FollowAcceptSchema>;
 export type FollowReject = InferType<typeof FollowRejectSchema>;
-export type Extension = InferType<typeof ExtensionSchema>;
-export type Report = InferType<typeof ReportSchema>;
-export type ServerMetadata = InferType<typeof ServerMetadataSchema>;
 export type ContentFormat = InferType<typeof ContentFormatSchema>;
 export type CustomEmojiExtension = InferType<typeof CustomEmojiExtensionSchema>;
-export type Visibility = InferType<typeof VisibilitySchema>;
-export type Publication = InferType<typeof PublicationSchema>;
 export type Entity = InferType<typeof EntitySchema>;
+export type Delete = InferType<typeof DeleteSchema>;
+export type Group = InferType<typeof GroupSchema>;
+export type InstanceMetadata = InferType<typeof InstanceMetadataSchema>;
+export type Unfollow = InferType<typeof UnfollowSchema>;

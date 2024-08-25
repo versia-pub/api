@@ -1,23 +1,13 @@
 import type { z } from "zod";
 import { fromError } from "zod-validation-error";
 import {
-    ActionSchema,
-    ActorPublicKeyDataSchema,
-    DislikeSchema,
     EntitySchema,
-    ExtensionSchema,
     FollowAcceptSchema,
     FollowRejectSchema,
     FollowSchema,
-    LikeSchema,
     NoteSchema,
-    PatchSchema,
-    PublicationSchema,
-    ReportSchema,
-    ServerMetadataSchema,
-    UndoSchema,
+    PublicKeyDataSchema,
     UserSchema,
-    VisibilitySchema,
 } from "./schemas/base";
 import { ContentFormatSchema } from "./schemas/content_format";
 import { ExtensionPropertySchema } from "./schemas/extensions";
@@ -82,23 +72,14 @@ export class EntityValidator {
     }
 
     /**
-     * Validates a Patch entity.
-     * @param data - The data to validate
-     * @returns A promise that resolves to the validated data.
-     */
-    public Patch(data: unknown): Promise<InferType<typeof PatchSchema>> {
-        return this.validate(PatchSchema, data);
-    }
-
-    /**
      * Validates an ActorPublicKeyData entity.
      * @param data - The data to validate
      * @returns A promise that resolves to the validated data.
      */
     public ActorPublicKeyData(
         data: unknown,
-    ): Promise<InferType<typeof ActorPublicKeyDataSchema>> {
-        return this.validate(ActorPublicKeyDataSchema, data);
+    ): Promise<InferType<typeof PublicKeyDataSchema>> {
+        return this.validate(PublicKeyDataSchema, data);
     }
 
     /**
@@ -119,42 +100,6 @@ export class EntityValidator {
      */
     public User(data: unknown): Promise<InferType<typeof UserSchema>> {
         return this.validate(UserSchema, data);
-    }
-
-    /**
-     * Validates an Action entity.
-     * @param data - The data to validate
-     * @returns A promise that resolves to the validated data.
-     */
-    public Action(data: unknown): Promise<InferType<typeof ActionSchema>> {
-        return this.validate(ActionSchema, data);
-    }
-
-    /**
-     * Validates a Like entity.
-     * @param data - The data to validate
-     * @returns A promise that resolves to the validated data.
-     */
-    public Like(data: unknown): Promise<InferType<typeof LikeSchema>> {
-        return this.validate(LikeSchema, data);
-    }
-
-    /**
-     * Validates an Undo entity.
-     * @param data - The data to validate
-     * @returns A promise that resolves to the validated data.
-     */
-    public Undo(data: unknown): Promise<InferType<typeof UndoSchema>> {
-        return this.validate(UndoSchema, data);
-    }
-
-    /**
-     * Validates a Dislike entity.
-     * @param data - The data to validate
-     * @returns A promise that resolves to the validated data.
-     */
-    public Dislike(data: unknown): Promise<InferType<typeof DislikeSchema>> {
-        return this.validate(DislikeSchema, data);
     }
 
     /**
@@ -189,37 +134,6 @@ export class EntityValidator {
     }
 
     /**
-     * Validates an Extension entity.
-     * @param data - The data to validate
-     * @returns A promise that resolves to the validated data.
-     */
-    public Extension(
-        data: unknown,
-    ): Promise<InferType<typeof ExtensionSchema>> {
-        return this.validate(ExtensionSchema, data);
-    }
-
-    /**
-     * Validates a Report entity.
-     * @param data - The data to validate
-     * @returns A promise that resolves to the validated data.
-     */
-    public Report(data: unknown): Promise<InferType<typeof ReportSchema>> {
-        return this.validate(ReportSchema, data);
-    }
-
-    /**
-     * Validates a ServerMetadata entity.
-     * @param data - The data to validate
-     * @returns A promise that resolves to the validated data.
-     */
-    public ServerMetadata(
-        data: unknown,
-    ): Promise<InferType<typeof ServerMetadataSchema>> {
-        return this.validate(ServerMetadataSchema, data);
-    }
-
-    /**
      * Validates a ContentFormat entity.
      * @param data - The data to validate
      * @returns A promise that resolves to the validated data.
@@ -239,28 +153,6 @@ export class EntityValidator {
         data: unknown,
     ): Promise<InferType<typeof CustomEmojiExtensionSchema>> {
         return this.validate(CustomEmojiExtensionSchema, data);
-    }
-
-    /**
-     * Validates a Visibility entity.
-     * @param data - The data to validate
-     * @returns A promise that resolves to the validated data.
-     */
-    public Visibility(
-        data: unknown,
-    ): Promise<InferType<typeof VisibilitySchema>> {
-        return this.validate(VisibilitySchema, data);
-    }
-
-    /**
-     * Validates a Publication entity.
-     * @param data - The data to validate
-     * @returns A promise that resolves to the validated data.
-     */
-    public Publication(
-        data: unknown,
-    ): Promise<InferType<typeof PublicationSchema>> {
-        return this.validate(PublicationSchema, data);
     }
 
     /**
