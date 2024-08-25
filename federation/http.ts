@@ -1,18 +1,18 @@
 import type {
     Delete,
-    Dislike,
+    DislikeExtension,
     Follow,
     FollowAccept,
     FollowReject,
     Group,
     InstanceMetadata,
-    Like,
+    LikeExtension,
     Note,
-    Reaction,
-    Share,
+    PollVoteExtension,
+    ReactionExtension,
+    ShareExtension,
     Unfollow,
     User,
-    Vote,
 } from "./schemas";
 import type { EntityValidator } from "./validator";
 
@@ -24,14 +24,16 @@ type ParserCallbacks<T> = {
     followAccept: (followAccept: FollowAccept) => MaybePromise<T>;
     followReject: (followReject: FollowReject) => MaybePromise<T>;
     user: (user: User) => MaybePromise<T>;
-    like: (like: Like) => MaybePromise<T>;
-    dislike: (dislike: Dislike) => MaybePromise<T>;
+    "pub.versia:likes/Like": (like: LikeExtension) => MaybePromise<T>;
+    "pub.versia:likes/Dislike": (dislike: DislikeExtension) => MaybePromise<T>;
     delete: (undo: Delete) => MaybePromise<T>;
     instanceMetadata: (instanceMetadata: InstanceMetadata) => MaybePromise<T>;
     group: (group: Group) => MaybePromise<T>;
-    reaction: (reaction: Reaction) => MaybePromise<T>;
-    share: (share: Share) => MaybePromise<T>;
-    vote: (vote: Vote) => MaybePromise<T>;
+    "pub.versia:reactions/Reaction": (
+        reaction: ReactionExtension,
+    ) => MaybePromise<T>;
+    "pub.versia:share/Share": (share: ShareExtension) => MaybePromise<T>;
+    "pub.versia:polls/Vote": (vote: PollVoteExtension) => MaybePromise<T>;
     unfollow: (unfollow: Unfollow) => MaybePromise<T>;
     unknown: (data: unknown) => MaybePromise<T>;
 };
@@ -140,19 +142,21 @@ export class RequestParserHandler {
                 break;
             }
             case "Like": {
-                const like = await this.validator.Like(this.body);
+                const like = await this.validator.LikeExtension(this.body);
 
-                if (callbacks.like) {
-                    return await callbacks.like(like);
+                if (callbacks["pub.versia:likes/Like"]) {
+                    return await callbacks["pub.versia:likes/Like"](like);
                 }
 
                 break;
             }
             case "Dislike": {
-                const dislike = await this.validator.Dislike(this.body);
+                const dislike = await this.validator.DislikeExtension(
+                    this.body,
+                );
 
-                if (callbacks.dislike) {
-                    return await callbacks.dislike(dislike);
+                if (callbacks["pub.versia:likes/Dislike"]) {
+                    return await callbacks["pub.versia:likes/Dislike"](dislike);
                 }
 
                 break;
@@ -188,28 +192,32 @@ export class RequestParserHandler {
                 break;
             }
             case "Reaction": {
-                const reaction = await this.validator.Reaction(this.body);
+                const reaction = await this.validator.ReactionExtension(
+                    this.body,
+                );
 
-                if (callbacks.reaction) {
-                    return await callbacks.reaction(reaction);
+                if (callbacks["pub.versia:reactions/Reaction"]) {
+                    return await callbacks["pub.versia:reactions/Reaction"](
+                        reaction,
+                    );
                 }
 
                 break;
             }
             case "Share": {
-                const share = await this.validator.Share(this.body);
+                const share = await this.validator.ShareExtension(this.body);
 
-                if (callbacks.share) {
-                    return await callbacks.share(share);
+                if (callbacks["pub.versia:share/Share"]) {
+                    return await callbacks["pub.versia:share/Share"](share);
                 }
 
                 break;
             }
             case "Vote": {
-                const vote = await this.validator.Vote(this.body);
+                const vote = await this.validator.PollVoteExtension(this.body);
 
-                if (callbacks.vote) {
-                    return await callbacks.vote(vote);
+                if (callbacks["pub.versia:polls/Vote"]) {
+                    return await callbacks["pub.versia:polls/Vote"](vote);
                 }
 
                 break;

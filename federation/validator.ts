@@ -1,5 +1,26 @@
 import type { z } from "zod";
 import { fromError } from "zod-validation-error";
+import type {
+    ContentFormat,
+    CustomEmojiExtension,
+    Delete,
+    DislikeExtension,
+    Entity,
+    EntityExtensionProperty,
+    Follow,
+    FollowAccept,
+    FollowReject,
+    Group,
+    InstanceMetadata,
+    LikeExtension,
+    Note,
+    PollVoteExtension,
+    ReactionExtension,
+    ShareExtension,
+    Unfollow,
+    User,
+    VanityExtension,
+} from "./schemas";
 import {
     DeleteSchema,
     EntitySchema,
@@ -9,7 +30,6 @@ import {
     GroupSchema,
     InstanceMetadataSchema,
     NoteSchema,
-    PublicKeyDataSchema,
     UnfollowSchema,
     UserSchema,
 } from "./schemas/base";
@@ -75,19 +95,8 @@ export class EntityValidator {
      * @param data - The data to validate
      * @returns A promise that resolves to the validated data.
      */
-    public Note(data: unknown): Promise<InferType<typeof NoteSchema>> {
+    public Note(data: unknown): Promise<Note> {
         return this.validate(NoteSchema, data);
-    }
-
-    /**
-     * Validates an ActorPublicKeyData entity.
-     * @param data - The data to validate
-     * @returns A promise that resolves to the validated data.
-     */
-    public ActorPublicKeyData(
-        data: unknown,
-    ): Promise<InferType<typeof PublicKeyDataSchema>> {
-        return this.validate(PublicKeyDataSchema, data);
     }
 
     /**
@@ -95,9 +104,7 @@ export class EntityValidator {
      * @param data - The data to validate
      * @returns A promise that resolves to the validated data.
      */
-    public VanityExtension(
-        data: unknown,
-    ): Promise<InferType<typeof VanityExtensionSchema>> {
+    public VanityExtension(data: unknown): Promise<VanityExtension> {
         return this.validate(VanityExtensionSchema, data);
     }
 
@@ -106,7 +113,7 @@ export class EntityValidator {
      * @param data - The data to validate
      * @returns A promise that resolves to the validated data.
      */
-    public User(data: unknown): Promise<InferType<typeof UserSchema>> {
+    public User(data: unknown): Promise<User> {
         return this.validate(UserSchema, data);
     }
 
@@ -115,7 +122,7 @@ export class EntityValidator {
      * @param data - The data to validate
      * @returns A promise that resolves to the validated data.
      */
-    public Follow(data: unknown): Promise<InferType<typeof FollowSchema>> {
+    public Follow(data: unknown): Promise<Follow> {
         return this.validate(FollowSchema, data);
     }
 
@@ -124,9 +131,7 @@ export class EntityValidator {
      * @param data - The data to validate
      * @returns A promise that resolves to the validated data.
      */
-    public FollowAccept(
-        data: unknown,
-    ): Promise<InferType<typeof FollowAcceptSchema>> {
+    public FollowAccept(data: unknown): Promise<FollowAccept> {
         return this.validate(FollowAcceptSchema, data);
     }
 
@@ -135,9 +140,7 @@ export class EntityValidator {
      * @param data - The data to validate
      * @returns A promise that resolves to the validated data.
      */
-    public FollowReject(
-        data: unknown,
-    ): Promise<InferType<typeof FollowRejectSchema>> {
+    public FollowReject(data: unknown): Promise<FollowReject> {
         return this.validate(FollowRejectSchema, data);
     }
 
@@ -146,9 +149,7 @@ export class EntityValidator {
      * @param data - The data to validate
      * @returns A promise that resolves to the validated data.
      */
-    public ContentFormat(
-        data: unknown,
-    ): Promise<InferType<typeof ContentFormatSchema>> {
+    public ContentFormat(data: unknown): Promise<ContentFormat> {
         return this.validate(ContentFormatSchema, data);
     }
 
@@ -157,9 +158,7 @@ export class EntityValidator {
      * @param data - The data to validate
      * @returns A promise that resolves to the validated data.
      */
-    public CustomEmojiExtension(
-        data: unknown,
-    ): Promise<InferType<typeof CustomEmojiExtensionSchema>> {
+    public CustomEmojiExtension(data: unknown): Promise<CustomEmojiExtension> {
         return this.validate(CustomEmojiExtensionSchema, data);
     }
 
@@ -168,7 +167,7 @@ export class EntityValidator {
      * @param data - The data to validate
      * @returns A promise that resolves to the validated data.
      */
-    public Entity(data: unknown): Promise<InferType<typeof EntitySchema>> {
+    public Entity(data: unknown): Promise<Entity> {
         return this.validate(EntitySchema, data);
     }
 
@@ -177,9 +176,9 @@ export class EntityValidator {
      * @param data - The data to validate
      * @returns A promise that resolves to the validated data.
      */
-    public ExtensionProperty(
+    public EntityExtensionProperty(
         data: unknown,
-    ): Promise<InferType<typeof ExtensionPropertySchema>> {
+    ): Promise<EntityExtensionProperty> {
         return this.validate(ExtensionPropertySchema, data);
     }
 
@@ -188,7 +187,7 @@ export class EntityValidator {
      * @param data - The data to validate
      * @returns A promise that resolves to the validated data.
      */
-    public Delete(data: unknown): Promise<InferType<typeof DeleteSchema>> {
+    public Delete(data: unknown): Promise<Delete> {
         return this.validate(DeleteSchema, data);
     }
 
@@ -197,7 +196,7 @@ export class EntityValidator {
      * @param data - The data to validate
      * @returns A promise that resolves to the validated data.
      */
-    public Group(data: unknown): Promise<InferType<typeof GroupSchema>> {
+    public Group(data: unknown): Promise<Group> {
         return this.validate(GroupSchema, data);
     }
 
@@ -206,9 +205,7 @@ export class EntityValidator {
      * @param data - The data to validate
      * @returns A promise that resolves to the validated data.
      */
-    public InstanceMetadata(
-        data: unknown,
-    ): Promise<InferType<typeof InstanceMetadataSchema>> {
+    public InstanceMetadata(data: unknown): Promise<InstanceMetadata> {
         return this.validate(InstanceMetadataSchema, data);
     }
 
@@ -217,7 +214,7 @@ export class EntityValidator {
      * @param data - The data to validate
      * @returns A promise that resolves to the validated data.
      */
-    public Unfollow(data: unknown): Promise<InferType<typeof UnfollowSchema>> {
+    public Unfollow(data: unknown): Promise<Unfollow> {
         return this.validate(UnfollowSchema, data);
     }
 
@@ -226,7 +223,7 @@ export class EntityValidator {
      * @param data - The data to validate
      * @returns A promise that resolves to the validated data.
      */
-    public Like(data: unknown): Promise<InferType<typeof LikeSchema>> {
+    public LikeExtension(data: unknown): Promise<LikeExtension> {
         return this.validate(LikeSchema, data);
     }
 
@@ -235,7 +232,7 @@ export class EntityValidator {
      * @param data - The data to validate
      * @returns A promise that resolves to the validated data.
      */
-    public Dislike(data: unknown): Promise<InferType<typeof LikeSchema>> {
+    public DislikeExtension(data: unknown): Promise<DislikeExtension> {
         return this.validate(LikeSchema, data);
     }
 
@@ -244,7 +241,7 @@ export class EntityValidator {
      * @param data - The data to validate
      * @returns A promise that resolves to the validated data.
      */
-    public Vote(data: unknown): Promise<InferType<typeof VoteSchema>> {
+    public PollVoteExtension(data: unknown): Promise<PollVoteExtension> {
         return this.validate(VoteSchema, data);
     }
 
@@ -253,7 +250,7 @@ export class EntityValidator {
      * @param data - The data to validate
      * @returns A promise that resolves to the validated data.
      */
-    public Reaction(data: unknown): Promise<InferType<typeof ReactionSchema>> {
+    public ReactionExtension(data: unknown): Promise<ReactionExtension> {
         return this.validate(ReactionSchema, data);
     }
 
@@ -262,7 +259,7 @@ export class EntityValidator {
      * @param data - The data to validate
      * @returns A promise that resolves to the validated data.
      */
-    public Share(data: unknown): Promise<InferType<typeof ShareSchema>> {
+    public ShareExtension(data: unknown): Promise<ShareExtension> {
         return this.validate(ShareSchema, data);
     }
 }
