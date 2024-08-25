@@ -79,7 +79,7 @@ describe("RequestParserHandler", () => {
         expect(noteCallback).not.toHaveBeenCalled();
     });
 
-    test("Throw on incorrect body type property", async () => {
+    test("Correctly handle unknown body type property", async () => {
         const handler = new RequestParserHandler(
             {
                 type: "DoesntExist",
@@ -89,9 +89,7 @@ describe("RequestParserHandler", () => {
         );
 
         const noteCallback = jest.fn();
-        await expect(
-            handler.parseBody({ note: noteCallback }),
-        ).rejects.toThrow();
-        expect(noteCallback).not.toHaveBeenCalled();
+        await handler.parseBody({ unknown: noteCallback });
+        expect(noteCallback).toHaveBeenCalled();
     });
 });

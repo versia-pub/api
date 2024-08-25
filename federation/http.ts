@@ -1,15 +1,18 @@
 import type {
+    Delete,
     Dislike,
-    Extension,
     Follow,
     FollowAccept,
     FollowReject,
+    Group,
+    InstanceMetadata,
     Like,
     Note,
-    Patch,
-    ServerMetadata,
-    Undo,
+    Reaction,
+    Share,
+    Unfollow,
     User,
+    Vote,
 } from "./schemas";
 import type { EntityValidator } from "./validator";
 
@@ -23,10 +26,14 @@ type ParserCallbacks<T> = {
     user: (user: User) => MaybePromise<T>;
     like: (like: Like) => MaybePromise<T>;
     dislike: (dislike: Dislike) => MaybePromise<T>;
-    undo: (undo: Undo) => MaybePromise<T>;
-    serverMetadata: (serverMetadata: ServerMetadata) => MaybePromise<T>;
-    extension: (extension: Extension) => MaybePromise<T>;
-    patch: (patch: Patch) => MaybePromise<T>;
+    delete: (undo: Delete) => MaybePromise<T>;
+    instanceMetadata: (instanceMetadata: InstanceMetadata) => MaybePromise<T>;
+    group: (group: Group) => MaybePromise<T>;
+    reaction: (reaction: Reaction) => MaybePromise<T>;
+    share: (share: Share) => MaybePromise<T>;
+    vote: (vote: Vote) => MaybePromise<T>;
+    unfollow: (unfollow: Unfollow) => MaybePromise<T>;
+    unknown: (data: unknown) => MaybePromise<T>;
 };
 
 /**
@@ -92,15 +99,6 @@ export class RequestParserHandler {
 
                 break;
             }
-            case "Patch": {
-                const patch = await this.validator.Patch(this.body);
-
-                if (callbacks.patch) {
-                    return await callbacks.patch(patch);
-                }
-
-                break;
-            }
             case "Follow": {
                 const follow = await this.validator.Follow(this.body);
 
@@ -159,41 +157,79 @@ export class RequestParserHandler {
 
                 break;
             }
-            case "Undo": {
-                const undo = await this.validator.Undo(this.body);
+            case "Delete": {
+                // "delete" isn't an allowed variable name
+                const delete_ = await this.validator.Delete(this.body);
 
-                if (callbacks.undo) {
-                    return await callbacks.undo(undo);
+                if (callbacks.delete) {
+                    return await callbacks.delete(delete_);
                 }
 
                 break;
             }
-            case "ServerMetadata": {
-                const serverMetadata = await this.validator.ServerMetadata(
+            case "InstanceMetadata": {
+                const instanceMetadata = await this.validator.InstanceMetadata(
                     this.body,
                 );
 
-                if (callbacks.serverMetadata) {
-                    return await callbacks.serverMetadata(serverMetadata);
+                if (callbacks.instanceMetadata) {
+                    return await callbacks.instanceMetadata(instanceMetadata);
                 }
 
                 break;
             }
-            case "Extension": {
-                const extension = await this.validator.Extension(this.body);
+            case "Group": {
+                const group = await this.validator.Group(this.body);
 
-                if (callbacks.extension) {
-                    return await callbacks.extension(extension);
+                if (callbacks.group) {
+                    return await callbacks.group(group);
                 }
 
                 break;
             }
-            default:
-                throw new Error(
-                    `Invalid type field in body: ${this.body.type}`,
-                );
+            case "Reaction": {
+                const reaction = await this.validator.Reaction(this.body);
+
+                if (callbacks.reaction) {
+                    return await callbacks.reaction(reaction);
+                }
+
+                break;
+            }
+            case "Share": {
+                const share = await this.validator.Share(this.body);
+
+                if (callbacks.share) {
+                    return await callbacks.share(share);
+                }
+
+                break;
+            }
+            case "Vote": {
+                const vote = await this.validator.Vote(this.body);
+
+                if (callbacks.vote) {
+                    return await callbacks.vote(vote);
+                }
+
+                break;
+            }
+            case "Unfollow": {
+                const unfollow = await this.validator.Unfollow(this.body);
+
+                if (callbacks.unfollow) {
+                    return await callbacks.unfollow(unfollow);
+                }
+
+                break;
+            }
+            default: {
+                if (callbacks.unknown) {
+                    return await callbacks.unknown(this.body);
+                }
+            }
         }
 
-        throw new Error(`Invalid type field in body: ${this.body.type}`);
+        return undefined as ReturnType;
     }
 }

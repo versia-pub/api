@@ -1,17 +1,25 @@
 import type { z } from "zod";
 import { fromError } from "zod-validation-error";
 import {
+    DeleteSchema,
     EntitySchema,
     FollowAcceptSchema,
     FollowRejectSchema,
     FollowSchema,
+    GroupSchema,
+    InstanceMetadataSchema,
     NoteSchema,
     PublicKeyDataSchema,
+    UnfollowSchema,
     UserSchema,
 } from "./schemas/base";
 import { ContentFormatSchema } from "./schemas/content_format";
 import { ExtensionPropertySchema } from "./schemas/extensions";
 import { CustomEmojiExtensionSchema } from "./schemas/extensions/custom_emojis";
+import { LikeSchema } from "./schemas/extensions/likes";
+import { VoteSchema } from "./schemas/extensions/polls";
+import { ReactionSchema } from "./schemas/extensions/reactions";
+import { ShareSchema } from "./schemas/extensions/share";
 import { VanityExtensionSchema } from "./schemas/extensions/vanity";
 
 // biome-ignore lint/suspicious/noExplicitAny: Used only as a base type
@@ -173,5 +181,88 @@ export class EntityValidator {
         data: unknown,
     ): Promise<InferType<typeof ExtensionPropertySchema>> {
         return this.validate(ExtensionPropertySchema, data);
+    }
+
+    /**
+     * Validates a Delete entity.
+     * @param data - The data to validate
+     * @returns A promise that resolves to the validated data.
+     */
+    public Delete(data: unknown): Promise<InferType<typeof DeleteSchema>> {
+        return this.validate(DeleteSchema, data);
+    }
+
+    /**
+     * Validates a Group entity.
+     * @param data - The data to validate
+     * @returns A promise that resolves to the validated data.
+     */
+    public Group(data: unknown): Promise<InferType<typeof GroupSchema>> {
+        return this.validate(GroupSchema, data);
+    }
+
+    /**
+     * Validates an InstanceMetadata entity.
+     * @param data - The data to validate
+     * @returns A promise that resolves to the validated data.
+     */
+    public InstanceMetadata(
+        data: unknown,
+    ): Promise<InferType<typeof InstanceMetadataSchema>> {
+        return this.validate(InstanceMetadataSchema, data);
+    }
+
+    /**
+     * Validates an Unfollow entity.
+     * @param data - The data to validate
+     * @returns A promise that resolves to the validated data.
+     */
+    public Unfollow(data: unknown): Promise<InferType<typeof UnfollowSchema>> {
+        return this.validate(UnfollowSchema, data);
+    }
+
+    /**
+     * Validates a Like entity.
+     * @param data - The data to validate
+     * @returns A promise that resolves to the validated data.
+     */
+    public Like(data: unknown): Promise<InferType<typeof LikeSchema>> {
+        return this.validate(LikeSchema, data);
+    }
+
+    /**
+     * Validates a Dislike entity.
+     * @param data - The data to validate
+     * @returns A promise that resolves to the validated data.
+     */
+    public Dislike(data: unknown): Promise<InferType<typeof LikeSchema>> {
+        return this.validate(LikeSchema, data);
+    }
+
+    /**
+     * Validates a Vote entity.
+     * @param data - The data to validate
+     * @returns A promise that resolves to the validated data.
+     */
+    public Vote(data: unknown): Promise<InferType<typeof VoteSchema>> {
+        return this.validate(VoteSchema, data);
+    }
+
+    /**
+     * Validates a Reaction entity.
+     * @param data - The data to validate
+     * @returns A promise that resolves to the validated data.
+     */
+    public Reaction(data: unknown): Promise<InferType<typeof ReactionSchema>> {
+        return this.validate(ReactionSchema, data);
+    }
+
+    /**
+     * Validates a Share entity.
+     * @param data - The data to validate
+     * @returns A promise that resolves to the validated data.
+     */
+    public Share(data: unknown): Promise<InferType<typeof ShareSchema>> {
+        return this.validate(ShareSchema, data);
     }
 }
