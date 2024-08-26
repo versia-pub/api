@@ -161,7 +161,7 @@ export const UserSchema = EntitySchema.extend({
 export const DeleteSchema = EntitySchema.extend({
     uri: z.null().optional(),
     type: z.literal("Delete"),
-    author: z.string().url(),
+    author: z.string().url().nullable(),
     deleted_type: z.string(),
     target: z.string().url(),
 });
