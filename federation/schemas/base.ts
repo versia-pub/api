@@ -105,6 +105,20 @@ export const NoteSchema = EntitySchema.extend({
         .nullable(),
 });
 
+export const CollectionSchema = z.object({
+    author: z.string().url().nullable(),
+    first: z.string().url(),
+    last: z.string().url(),
+    total: z
+        .number()
+        .int()
+        .nonnegative()
+        .max(2 ** 64 - 1),
+    next: z.string().url().nullable(),
+    previous: z.string().url().nullable(),
+    items: z.array(z.any()),
+});
+
 export const PublicKeyDataSchema = z
     .object({
         key: z.string().min(1),

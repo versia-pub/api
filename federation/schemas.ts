@@ -5,6 +5,7 @@
 
 import type { z } from "zod";
 import type {
+    CollectionSchema,
     DeleteSchema,
     EntitySchema,
     FollowAcceptSchema,
@@ -31,6 +32,7 @@ type AnyZod = z.ZodType<any, any, any>;
 type InferType<T extends AnyZod> = z.infer<T>;
 
 export type Note = InferType<typeof NoteSchema>;
+export type Collection = InferType<typeof CollectionSchema>;
 export type EntityExtensionProperty = InferType<typeof ExtensionPropertySchema>;
 export type VanityExtension = InferType<typeof VanityExtensionSchema>;
 export type User = InferType<typeof UserSchema>;

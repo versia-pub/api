@@ -1,6 +1,7 @@
 import type { z } from "zod";
 import { fromError } from "zod-validation-error";
 import type {
+    Collection,
     ContentFormat,
     CustomEmojiExtension,
     Delete,
@@ -22,6 +23,7 @@ import type {
     VanityExtension,
 } from "./schemas";
 import {
+    CollectionSchema,
     DeleteSchema,
     EntitySchema,
     FollowAcceptSchema,
@@ -97,6 +99,15 @@ export class EntityValidator {
      */
     public Note(data: unknown): Promise<Note> {
         return this.validate(NoteSchema, data);
+    }
+
+    /**
+     * Validates a Collection entity.
+     * @param data - The data to validate
+     * @returns A promise that resolves to the validated data.
+     */
+    public Collection(data: unknown): Promise<Collection> {
+        return this.validate(CollectionSchema, data);
     }
 
     /**
