@@ -243,7 +243,7 @@ export const InstanceMetadataSchema = EntitySchema.extend({
             ),
         })
         .strict(),
-    description: TextOnlyContentFormatSchema.optional().nullable(),
+    description: z.string().optional().nullable(),
     host: z.string(),
     shared_inbox: z.string().url().optional().nullable(),
     public_key: z
