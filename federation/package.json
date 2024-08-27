@@ -10,11 +10,11 @@
     "readme": "README.md",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/lysand-org/api.git",
+        "url": "git+https://github.com/versia-pub/api.git",
         "directory": "federation"
     },
     "bugs": {
-        "url": "https://github.com/lysand-org/api/issues"
+        "url": "https://github.com/versia-pub/api/issues"
     },
     "license": "MIT",
     "contributors": [

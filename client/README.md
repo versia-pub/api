@@ -114,7 +114,7 @@ bunx jsr add @versia/client # For Bun
 
 #### From Source
 
-If you want to install from source, you can clone [this repository](https://github.com/lysand-org/api) and run the following commands:
+If you want to install from source, you can clone [this repository](https://github.com/versia-pub/api) and run the following commands:
 
 ```bash
 bun install # Install dependencies
