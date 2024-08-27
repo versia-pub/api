@@ -57,6 +57,6 @@
     "keywords": ["versia", "mastodon", "api", "typescript", "rest"],
     "packageManager": "bun@1.1.8",
     "dependencies": {
-        "@badgateway/oauth2-client": "^2.3.0"
+        "@badgateway/oauth2-client": "^2.4.1"
     }
 }

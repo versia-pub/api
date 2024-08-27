@@ -67,7 +67,7 @@
         "magic-regexp": "^0.8.0",
         "mime-types": "^2.1.35",
         "zod": "^3.23.8",
-        "zod-validation-error": "^3.3.0"
+        "zod-validation-error": "^3.3.1"
     },
     "devDependencies": {
         "@types/mime-types": "^2.1.4",
