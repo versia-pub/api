@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://versia.pub"><img src="https://cdn.versia.pub/branding/versia-dark.webp" alt="Versia Logo" height="110"></a>
+  <a href="https://versia.pub"><img src="https://cdn.versia.pub/branding/logo-dark.svg" alt="Versia Logo" height="110"></a>
 </p>
 
 <center><h1><code>@versia/client</code></h1></center>
