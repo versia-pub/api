@@ -4,6 +4,7 @@
     "version": "0.1.0",
     "exports": {
         ".": "./index.ts",
-        "./types": "./schemas.ts"
+        "./types": "./types.ts",
+        "./schemas": "./schemas.ts"
     }
 }

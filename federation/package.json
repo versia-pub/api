@@ -44,6 +44,11 @@
             "types": "./dist/index.d.ts"
         },
         "./types": {
+            "import": "./dist/types.js",
+            "default": "./dist/types.js",
+            "types": "./dist/types.d.ts"
+        },
+        "./schemas": {
             "import": "./dist/schemas.js",
             "default": "./dist/schemas.js",
             "types": "./dist/schemas.d.ts"

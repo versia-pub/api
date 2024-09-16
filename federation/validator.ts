@@ -1,27 +1,5 @@
 import type { z } from "zod";
 import { fromError } from "zod-validation-error";
-import type {
-    Collection,
-    ContentFormat,
-    CustomEmojiExtension,
-    Delete,
-    DislikeExtension,
-    Entity,
-    EntityExtensionProperty,
-    Follow,
-    FollowAccept,
-    FollowReject,
-    Group,
-    InstanceMetadata,
-    LikeExtension,
-    Note,
-    PollVoteExtension,
-    ReactionExtension,
-    ShareExtension,
-    Unfollow,
-    User,
-    VanityExtension,
-} from "./schemas";
 import {
     CollectionSchema,
     DeleteSchema,
@@ -43,6 +21,28 @@ import { VoteSchema } from "./schemas/extensions/polls";
 import { ReactionSchema } from "./schemas/extensions/reactions";
 import { ShareSchema } from "./schemas/extensions/share";
 import { VanityExtensionSchema } from "./schemas/extensions/vanity";
+import type {
+    Collection,
+    ContentFormat,
+    CustomEmojiExtension,
+    Delete,
+    DislikeExtension,
+    Entity,
+    EntityExtensionProperty,
+    Follow,
+    FollowAccept,
+    FollowReject,
+    Group,
+    InstanceMetadata,
+    LikeExtension,
+    Note,
+    PollVoteExtension,
+    ReactionExtension,
+    ShareExtension,
+    Unfollow,
+    User,
+    VanityExtension,
+} from "./types";
 
 // biome-ignore lint/suspicious/noExplicitAny: Used only as a base type
 type AnyZod = z.ZodType<any, any, any>;

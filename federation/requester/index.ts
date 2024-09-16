@@ -1,7 +1,7 @@
 import { fromZodError } from "zod-validation-error";
 import type { SignatureConstructor } from "../cryptography";
-import type { User } from "../schemas";
 import { WebFingerSchema } from "../schemas/webfinger";
+import type { User } from "../types";
 import { DEFAULT_UA } from "./constants";
 
 type HttpVerb = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";

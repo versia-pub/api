@@ -2,7 +2,7 @@ import dts from "bun-plugin-dts";
 import ora from "ora";
 
 const entrypoints = {
-    federation: ["index.ts", "schemas.ts"],
+    federation: ["index.ts", "schemas.ts", "types.ts"],
     client: ["index.ts", "types.ts"],
 };
 

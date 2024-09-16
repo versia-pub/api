@@ -13,7 +13,7 @@ import type {
     ShareExtension,
     Unfollow,
     User,
-} from "./schemas";
+} from "./types";
 import type { EntityValidator } from "./validator";
 
 type MaybePromise<T> = T | Promise<T>;
