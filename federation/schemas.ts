@@ -24,6 +24,7 @@ import { VoteSchema } from "./schemas/extensions/polls.ts";
 import { ReactionSchema } from "./schemas/extensions/reactions.ts";
 import { ShareSchema } from "./schemas/extensions/share.ts";
 import { VanityExtensionSchema } from "./schemas/extensions/vanity.ts";
+import { WebFingerSchema } from "./schemas/webfinger.ts";
 
 export {
     NoteSchema as Note,
@@ -46,4 +47,5 @@ export {
     VoteSchema as PollVoteExtension,
     ReactionSchema as ReactionExtension,
     ShareSchema as ShareExtension,
+    WebFingerSchema as WebFinger,
 };
