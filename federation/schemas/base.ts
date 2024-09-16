@@ -3,10 +3,10 @@ import {
     ContentFormatSchema,
     ImageOnlyContentFormatSchema,
     TextOnlyContentFormatSchema,
-} from "./content_format";
-import { ExtensionPropertySchema } from "./extensions";
-import { VanityExtensionSchema } from "./extensions/vanity";
-import { extensionRegex, isISOString, semverRegex } from "./regex";
+} from "./content_format.ts";
+import { ExtensionPropertySchema } from "./extensions.ts";
+import { VanityExtensionSchema } from "./extensions/vanity.ts";
+import { extensionRegex, isISOString, semverRegex } from "./regex.ts";
 
 export const EntitySchema = z
     .object({

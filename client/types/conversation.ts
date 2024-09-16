@@ -1,5 +1,5 @@
-import type { Account } from "./account";
-import type { Status } from "./status";
+import type { Account } from "./account.ts";
+import type { Status } from "./status.ts";
 
 export type Conversation = {
     id: string;

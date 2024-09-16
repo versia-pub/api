@@ -15,15 +15,15 @@ import {
     NoteSchema,
     UnfollowSchema,
     UserSchema,
-} from "./schemas/base";
-import { ContentFormatSchema } from "./schemas/content_format";
-import { ExtensionPropertySchema } from "./schemas/extensions";
-import { CustomEmojiExtensionSchema } from "./schemas/extensions/custom_emojis";
-import { DislikeSchema, LikeSchema } from "./schemas/extensions/likes";
-import { VoteSchema } from "./schemas/extensions/polls";
-import { ReactionSchema } from "./schemas/extensions/reactions";
-import { ShareSchema } from "./schemas/extensions/share";
-import { VanityExtensionSchema } from "./schemas/extensions/vanity";
+} from "./schemas/base.ts";
+import { ContentFormatSchema } from "./schemas/content_format.ts";
+import { ExtensionPropertySchema } from "./schemas/extensions.ts";
+import { CustomEmojiExtensionSchema } from "./schemas/extensions/custom_emojis.ts";
+import { DislikeSchema, LikeSchema } from "./schemas/extensions/likes.ts";
+import { VoteSchema } from "./schemas/extensions/polls.ts";
+import { ReactionSchema } from "./schemas/extensions/reactions.ts";
+import { ShareSchema } from "./schemas/extensions/share.ts";
+import { VanityExtensionSchema } from "./schemas/extensions/vanity.ts";
 
 export {
     NoteSchema as Note,

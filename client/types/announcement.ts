@@ -1,5 +1,5 @@
-import type { Emoji } from "./emoji";
-import type { StatusTag } from "./status";
+import type { Emoji } from "./emoji.ts";
+import type { StatusTag } from "./status.ts";
 
 export type Announcement = {
     id: string;

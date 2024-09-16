@@ -28,9 +28,9 @@ import type {
     Tag,
     Token,
     VersiaRole,
-} from "../types";
-import { BaseClient, type Output } from "./base";
-import { DEFAULT_SCOPE, NO_REDIRECT } from "./constants";
+} from "../types.ts";
+import { BaseClient, type Output } from "./base.ts";
+import { DEFAULT_SCOPE, NO_REDIRECT } from "./constants.ts";
 
 type StatusContentType =
     | "text/plain"

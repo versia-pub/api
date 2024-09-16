@@ -13,8 +13,8 @@ import type {
     ShareExtension,
     Unfollow,
     User,
-} from "./types";
-import type { EntityValidator } from "./validator";
+} from "./types.ts";
+import type { EntityValidator } from "./validator.ts";
 
 type MaybePromise<T> = T | Promise<T>;
 

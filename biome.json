@@ -1,18 +1,21 @@
 {
-    "$schema": "https://biomejs.dev/schemas/1.8.1/schema.json",
+    "$schema": "https://biomejs.dev/schemas/1.9.1/schema.json",
     "organizeImports": {
-        "enabled": true,
-        "ignore": ["node_modules", "dist"]
+        "enabled": true
     },
     "linter": {
         "enabled": true,
         "rules": {
             "all": true,
             "correctness": {
-                "noNodejsModules": "off"
+                "noNodejsModules": "off",
+                "noUndeclaredDependencies": "off"
             },
             "complexity": {
                 "noExcessiveCognitiveComplexity": "off"
+            },
+            "suspicious": {
+                "noConsole": "off"
             },
             "style": {
                 "noDefaultExport": "off",
@@ -67,25 +70,19 @@
                 }
             },
             "nursery": {
-                "noDuplicateElseIf": "warn",
-                "noDuplicateJsonKeys": "warn",
-                "noEvolvingTypes": "warn",
-                "noYodaExpression": "warn",
-                "useConsistentBuiltinInstantiation": "warn",
-                "useErrorMessage": "warn",
-                "useImportExtensions": "off",
-                "useThrowNewError": "warn"
+                "noDuplicateElseIf": "warn"
             }
-        },
-        "ignore": ["node_modules", "dist"]
+        }
     },
     "formatter": {
         "enabled": true,
         "indentStyle": "space",
-        "indentWidth": 4,
-        "ignore": ["node_modules", "dist"]
+        "indentWidth": 4
     },
     "javascript": {
         "globals": ["Bun"]
+    },
+    "files": {
+        "ignore": ["node_modules", "dist"]
     }
 }

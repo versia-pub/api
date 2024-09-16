@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { EntityValidator } from "../index";
+import { EntityValidator } from "../index.ts";
 
 describe("Package testing", () => {
     it("should not validate a bad Note", () => {

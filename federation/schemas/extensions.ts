@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CustomEmojiExtensionSchema } from "./extensions/custom_emojis";
+import { CustomEmojiExtensionSchema } from "./extensions/custom_emojis.ts";
 
 export const ExtensionPropertySchema = z
     .object({

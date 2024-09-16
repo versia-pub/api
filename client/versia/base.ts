@@ -1,4 +1,4 @@
-import { DEFAULT_UA } from "./constants";
+import { DEFAULT_UA } from "./constants.ts";
 
 type HttpVerb = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 type ConvertibleObject = {

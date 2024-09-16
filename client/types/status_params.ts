@@ -1,4 +1,4 @@
-import type { StatusVisibility } from "./status";
+import type { StatusVisibility } from "./status.ts";
 
 export type StatusParams = {
     text: string;

@@ -1,4 +1,4 @@
-import type { Field } from "./field";
+import type { Field } from "./field.ts";
 
 export type Source = {
     privacy: string | null;

@@ -1,8 +1,8 @@
-import type { Emoji } from "./emoji";
-import type { Field } from "./field";
-import type { Role } from "./role";
-import type { Source } from "./source";
-import type { VersiaRole } from "./versia";
+import type { Emoji } from "./emoji.ts";
+import type { Field } from "./field.ts";
+import type { Role } from "./role.ts";
+import type { Source } from "./source.ts";
+import type { VersiaRole } from "./versia.ts";
 
 export type Account = {
     id: string;

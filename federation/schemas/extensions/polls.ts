@@ -5,7 +5,7 @@
  * @see https://versia.pub/extensions/polls
  */
 import { z } from "zod";
-import { EntitySchema } from "../base";
+import { EntitySchema } from "../base.ts";
 
 /**
  * @description Vote extension entity

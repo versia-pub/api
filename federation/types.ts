@@ -16,15 +16,15 @@ import type {
     NoteSchema,
     UnfollowSchema,
     UserSchema,
-} from "./schemas/base";
-import type { ContentFormatSchema } from "./schemas/content_format";
-import type { ExtensionPropertySchema } from "./schemas/extensions";
-import type { CustomEmojiExtensionSchema } from "./schemas/extensions/custom_emojis";
-import type { DislikeSchema, LikeSchema } from "./schemas/extensions/likes";
-import type { VoteSchema } from "./schemas/extensions/polls";
-import type { ReactionSchema } from "./schemas/extensions/reactions";
-import type { ShareSchema } from "./schemas/extensions/share";
-import type { VanityExtensionSchema } from "./schemas/extensions/vanity";
+} from "./schemas/base.ts";
+import type { ContentFormatSchema } from "./schemas/content_format.ts";
+import type { ExtensionPropertySchema } from "./schemas/extensions.ts";
+import type { CustomEmojiExtensionSchema } from "./schemas/extensions/custom_emojis.ts";
+import type { DislikeSchema, LikeSchema } from "./schemas/extensions/likes.ts";
+import type { VoteSchema } from "./schemas/extensions/polls.ts";
+import type { ReactionSchema } from "./schemas/extensions/reactions.ts";
+import type { ShareSchema } from "./schemas/extensions/share.ts";
+import type { VanityExtensionSchema } from "./schemas/extensions/vanity.ts";
 
 // biome-ignore lint/suspicious/noExplicitAny: Used only as a base type
 type AnyZod = z.ZodType<any, any, any>;

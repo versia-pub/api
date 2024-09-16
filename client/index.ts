@@ -1,5 +1,5 @@
-import type { Token } from "./types/token";
-import { type Output, ResponseError } from "./versia/base";
-import { Client } from "./versia/client";
+import type { Token } from "./types/token.ts";
+import { type Output, ResponseError } from "./versia/base.ts";
+import { Client } from "./versia/client.ts";
 
 export { Client, ResponseError, type Output, type Token };

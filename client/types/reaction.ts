@@ -1,4 +1,4 @@
-import type { Account } from "./account";
+import type { Account } from "./account.ts";
 
 export type Reaction = {
     count: number;

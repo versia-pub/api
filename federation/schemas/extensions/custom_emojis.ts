@@ -5,8 +5,8 @@
  * @see https://versia.pub/extensions/custom-emojis
  */
 import { z } from "zod";
-import { ImageOnlyContentFormatSchema } from "../content_format";
-import { emojiRegex } from "../regex";
+import { ImageOnlyContentFormatSchema } from "../content_format.ts";
+import { emojiRegex } from "../regex.ts";
 
 /**
  * @description Used to validate the properties the extension's custom field

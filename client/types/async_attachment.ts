@@ -1,4 +1,4 @@
-import type { Meta } from "./attachment";
+import type { Meta } from "./attachment.ts";
 
 export type AsyncAttachment = {
     id: string;

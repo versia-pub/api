@@ -1,11 +1,11 @@
-import type { Account } from "./account";
-import type { Application } from "./application";
-import type { Attachment } from "./attachment";
-import type { Card } from "./card";
-import type { Emoji } from "./emoji";
-import type { Mention } from "./mention";
-import type { Poll } from "./poll";
-import type { Reaction } from "./reaction";
+import type { Account } from "./account.ts";
+import type { Application } from "./application.ts";
+import type { Attachment } from "./attachment.ts";
+import type { Card } from "./card.ts";
+import type { Emoji } from "./emoji.ts";
+import type { Mention } from "./mention.ts";
+import type { Poll } from "./poll.ts";
+import type { Reaction } from "./reaction.ts";
 
 export type Status = {
     id: string;

@@ -9,8 +9,8 @@ import { z } from "zod";
 import {
     AudioOnlyContentFormatSchema,
     ImageOnlyContentFormatSchema,
-} from "../content_format";
-import { isISOString } from "../regex";
+} from "../content_format.ts";
+import { isISOString } from "../regex.ts";
 
 /**
  * @description Vanity extension entity

@@ -1,6 +1,6 @@
-import type { Account } from "./account";
-import type { Reaction } from "./reaction";
-import type { Status } from "./status";
+import type { Account } from "./account.ts";
+import type { Reaction } from "./reaction.ts";
+import type { Status } from "./status.ts";
 
 export type Notification = {
     account: Account | null;

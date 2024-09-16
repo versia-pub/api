@@ -12,15 +12,15 @@ import {
     NoteSchema,
     UnfollowSchema,
     UserSchema,
-} from "./schemas/base";
-import { ContentFormatSchema } from "./schemas/content_format";
-import { ExtensionPropertySchema } from "./schemas/extensions";
-import { CustomEmojiExtensionSchema } from "./schemas/extensions/custom_emojis";
-import { LikeSchema } from "./schemas/extensions/likes";
-import { VoteSchema } from "./schemas/extensions/polls";
-import { ReactionSchema } from "./schemas/extensions/reactions";
-import { ShareSchema } from "./schemas/extensions/share";
-import { VanityExtensionSchema } from "./schemas/extensions/vanity";
+} from "./schemas/base.ts";
+import { ContentFormatSchema } from "./schemas/content_format.ts";
+import { ExtensionPropertySchema } from "./schemas/extensions.ts";
+import { CustomEmojiExtensionSchema } from "./schemas/extensions/custom_emojis.ts";
+import { DislikeSchema, LikeSchema } from "./schemas/extensions/likes.ts";
+import { VoteSchema } from "./schemas/extensions/polls.ts";
+import { ReactionSchema } from "./schemas/extensions/reactions.ts";
+import { ShareSchema } from "./schemas/extensions/share.ts";
+import { VanityExtensionSchema } from "./schemas/extensions/vanity.ts";
 import type {
     Collection,
     ContentFormat,
@@ -42,7 +42,7 @@ import type {
     Unfollow,
     User,
     VanityExtension,
-} from "./types";
+} from "./types.ts";
 
 // biome-ignore lint/suspicious/noExplicitAny: Used only as a base type
 type AnyZod = z.ZodType<any, any, any>;
@@ -244,7 +244,7 @@ export class EntityValidator {
      * @returns A promise that resolves to the validated data.
      */
     public DislikeExtension(data: unknown): Promise<DislikeExtension> {
-        return this.validate(LikeSchema, data);
+        return this.validate(DislikeSchema, data);
     }
 
     /**

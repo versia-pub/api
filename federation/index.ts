@@ -6,14 +6,17 @@
  */
 
 import type { ValidationError } from "zod-validation-error";
-import { SignatureConstructor, SignatureValidator } from "./cryptography";
-import { RequestParserHandler } from "./http";
+import {
+    SignatureConstructor,
+    SignatureValidator,
+} from "./cryptography/index.ts";
+import { RequestParserHandler } from "./http.ts";
 import {
     FederationRequester,
     type Output,
     ResponseError,
-} from "./requester/index";
-import { EntityValidator } from "./validator";
+} from "./requester/index.ts";
+import { EntityValidator } from "./validator.ts";
 
 export {
     EntityValidator,

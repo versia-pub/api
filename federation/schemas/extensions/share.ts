@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { EntitySchema } from "../base";
+import { EntitySchema } from "../base.ts";
 
 /**
  * @description Share entity

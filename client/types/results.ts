@@ -1,6 +1,6 @@
-import type { Account } from "./account";
-import type { Status } from "./status";
-import type { Tag } from "./tag";
+import type { Account } from "./account.ts";
+import type { Status } from "./status.ts";
+import type { Tag } from "./tag.ts";
 
 export type Results = {
     accounts: Account[];

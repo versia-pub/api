@@ -1,5 +1,5 @@
-import type { Attachment } from "./attachment";
-import type { StatusParams } from "./status_params";
+import type { Attachment } from "./attachment.ts";
+import type { StatusParams } from "./status_params.ts";
 
 export type ScheduledStatus = {
     id: string;
