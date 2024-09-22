@@ -48,10 +48,10 @@
             "default": "./dist/types.js",
             "types": "./dist/types.d.ts"
         },
-        "./schemas": {
-            "import": "./dist/schemas.js",
-            "default": "./dist/schemas.js",
-            "types": "./dist/schemas.d.ts"
+        "./validators": {
+            "import": "./dist/validators.js",
+            "default": "./dist/validators.js",
+            "types": "./dist/validators.d.ts"
         }
     },
     "funding": {
