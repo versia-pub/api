@@ -2,7 +2,7 @@
  * @file index.ts
  * @fileoverview Main entrypoint and export for the module
  * @module federation
- * @see module:federation/validators/base
+ * @see module:federation/schemas/base
  */
 
 import type { ValidationError } from "zod-validation-error";

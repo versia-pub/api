@@ -1,6 +1,6 @@
 import { fromZodError } from "zod-validation-error";
 import type { SignatureConstructor } from "../cryptography/index.ts";
-import { WebFingerSchema } from "../validators/webfinger.ts";
+import { WebFingerSchema } from "../schemas/webfinger.ts";
 import type { User } from "../types.ts";
 import { DEFAULT_UA } from "./constants.ts";
 

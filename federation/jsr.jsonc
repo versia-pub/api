@@ -5,6 +5,6 @@
     "exports": {
         ".": "./index.ts",
         "./types": "./types.ts",
-        "./validators": "./validators.ts"
+        "./schemas": "./schemas.ts"
     }
 }
