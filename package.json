@@ -8,10 +8,10 @@
         "check": "bunx tsc -p ."
     },
     "devDependencies": {
-        "@biomejs/biome": "^1.9.1",
-        "@types/bun": "^1.1.9",
-        "@types/node": "^22.5.5",
-        "bun-plugin-dts": "^0.2.3"
+        "@biomejs/biome": "^1.9.3",
+        "@types/bun": "^1.1.11",
+        "@types/node": "^22.7.5",
+        "bun-plugin-dts": "^0.3.0"
     },
     "trustedDependencies": ["@biomejs/biome"],
     "dependencies": {
