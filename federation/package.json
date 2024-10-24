@@ -1,7 +1,7 @@
 {
     "name": "@versia/federation",
     "displayName": "Versia Federation",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "author": {
         "email": "jesse.wierzbinski@lysand.org",
         "name": "Jesse Wierzbinski (CPlusPatch)",
