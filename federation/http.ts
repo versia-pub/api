@@ -141,7 +141,7 @@ export class RequestParserHandler {
 
                 break;
             }
-            case "Like": {
+            case "pub.versia:likes/Like": {
                 const like = await this.validator.LikeExtension(this.body);
 
                 if (callbacks["pub.versia:likes/Like"]) {
@@ -150,7 +150,7 @@ export class RequestParserHandler {
 
                 break;
             }
-            case "Dislike": {
+            case "pub.versia:likes/Dislike": {
                 const dislike = await this.validator.DislikeExtension(
                     this.body,
                 );
@@ -191,7 +191,7 @@ export class RequestParserHandler {
 
                 break;
             }
-            case "Reaction": {
+            case "pub.versia:reactions/Reaction": {
                 const reaction = await this.validator.ReactionExtension(
                     this.body,
                 );
@@ -204,7 +204,7 @@ export class RequestParserHandler {
 
                 break;
             }
-            case "Share": {
+            case "pub.versia:share/Share": {
                 const share = await this.validator.ShareExtension(this.body);
 
                 if (callbacks["pub.versia:share/Share"]) {
@@ -213,7 +213,7 @@ export class RequestParserHandler {
 
                 break;
             }
-            case "Vote": {
+            case "pub.versia:polls/Vote": {
                 const vote = await this.validator.PollVoteExtension(this.body);
 
                 if (callbacks["pub.versia:polls/Vote"]) {
