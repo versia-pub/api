@@ -177,7 +177,7 @@ export const DeleteSchema = EntitySchema.extend({
     type: z.literal("Delete"),
     author: z.string().url().nullable(),
     deleted_type: z.string(),
-    target: z.string().url(),
+    deleted: z.string().url(),
 });
 
 export const FollowSchema = EntitySchema.extend({
