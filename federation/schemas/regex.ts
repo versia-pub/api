@@ -60,7 +60,9 @@ export const extensionRegex: RegExp = createRegExp(
     ),
 );
 
+// This will accept a lot of stuff that isn't an ISO string
+// but ISO validation is incredibly complex so fuck it
 export const isISOString = (val: string | Date) => {
     const d = new Date(val);
-    return !Number.isNaN(d.valueOf()) && d.toISOString() === val;
+    return !Number.isNaN(d.valueOf());
 };
