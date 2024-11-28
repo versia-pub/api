@@ -8,7 +8,7 @@ export type VersiaRole = {
     icon: string | null;
 };
 
-// Last updated: 2024-06-07
+// Last updated: 2024-11-28
 export enum RolePermission {
     ManageNotes = "notes",
     ManageOwnNotes = "owner:note",

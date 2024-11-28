@@ -1,4 +1,5 @@
 export type Emoji = {
+    id: string;
     shortcode: string;
     static_url: string;
     url: string;

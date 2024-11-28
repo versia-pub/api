@@ -277,6 +277,16 @@ export class Client extends BaseClient {
     }
 
     /**
+     * DELETE /api/v1/emojis/:id
+     *
+     * @param id The emoji to delete's ID.
+     * @return Empty.
+     */
+    public deleteEmoji(id: string, extra?: RequestInit): Promise<Output<void>> {
+        return this.delete<void>(`/api/v1/emojis/${id}`, undefined, extra);
+    }
+
+    /**
      * DELETE /api/v1/statuses/:id/reactions/:emoji
      *
      * @param id The target status ID.
@@ -901,6 +911,16 @@ export class Client extends BaseClient {
         }
 
         return this.get<string[]>(`/api/v1/domain_blocks?${params}`);
+    }
+
+    /**
+     * GET /api/v1/emojis/:id
+     *
+     * @param id The emoji ID.
+     * @return Emoji.
+     */
+    public getEmoji(id: string, extra?: RequestInit): Promise<Output<Emoji>> {
+        return this.get<Emoji>(`/api/v1/emojis/${id}`, extra);
     }
 
     /**
@@ -2640,6 +2660,42 @@ export class Client extends BaseClient {
         );
     }
 
+    /**
+     * PATCH /api/v1/emojis/:id
+     *
+     * @param id Target emoji ID.
+     * @param options.shortcode Emoji shortcode.
+     * @param options.image Emoji image, as a File, or a URL.
+     * @param options.category Emoji category.
+     * @param options.alt Emoji description.
+     * @param options.global Whether the emoji should be visible to all users (requires `emoji` permission).
+     * @return Emoji.
+     */
+    public updateEmoji(
+        id: string,
+        options: Partial<{
+            alt: string;
+            category: string;
+            global: boolean;
+            image: File | URL;
+            shortcode: string;
+        }>,
+        extra?: RequestInit,
+    ): Promise<Output<Emoji>> {
+        return this.patchForm<Emoji>(
+            `/api/v1/emojis/${id}`,
+            {
+                ...options,
+                image: undefined,
+                element:
+                    options.image instanceof File
+                        ? options.image
+                        : options.image?.toString(),
+            },
+            extra,
+        );
+    }
+
     // TODO: updateFilter
 
     /**
@@ -2727,6 +2783,37 @@ export class Client extends BaseClient {
         return this.put<PushSubscription>(
             "/api/v1/push/subscription",
             { ...data, policy },
+            extra,
+        );
+    }
+
+    /**
+     * POST /api/v1/emojis
+     *
+     * @param shortcode The shortcode of the emoji.
+     * @param image The image file to be uploaded, as a File or URL.
+     * @param options.category A category for the emoji.
+     * @param options.alt Text description of the emoji.
+     * @param options.global Whether the emoji should be visible to all users (requires `emoji` permission).
+     * @return Emoji
+     */
+    public uploadEmoji(
+        shortcode: string,
+        image: File | URL,
+        options?: Partial<{
+            alt: string;
+            category: string;
+            global: boolean;
+        }>,
+        extra?: RequestInit,
+    ): Promise<Output<Emoji>> {
+        return this.postForm<Emoji>(
+            "/api/v1/emojis",
+            {
+                shortcode,
+                element: image instanceof File ? image : image.toString(),
+                ...options,
+            },
             extra,
         );
     }
