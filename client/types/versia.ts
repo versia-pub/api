@@ -3,9 +3,9 @@ export type VersiaRole = {
     name: string;
     permissions: RolePermission[];
     priority: number;
-    description: string | null;
+    description?: string;
     visible: boolean;
-    icon: string | null;
+    icon?: string;
 };
 
 // Last updated: 2024-11-28

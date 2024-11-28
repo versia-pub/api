@@ -104,16 +104,22 @@ export class Client extends BaseClient {
     }
 
     /**
-     * POST /api/v1/roles/:roleId
+     * POST /api/v1/accounts/:account_id/roles/:role_id
      *
      * Versia API only.
-     * @param roleId ID of the role to add to the requesting account.
+     * @param account_id The account ID.
+     * @param role_id The role ID.
      */
-    public addRole(
+    public assignRole(
+        account_id: string,
         role_id: string,
         extra?: RequestInit,
     ): Promise<Output<void>> {
-        return this.post<void>(`/api/v1/roles/${role_id}`, undefined, extra);
+        return this.post<void>(
+            `/api/v1/accounts/${account_id}/roles/${role_id}`,
+            undefined,
+            extra,
+        );
     }
 
     /**
@@ -243,6 +249,36 @@ export class Client extends BaseClient {
     }
 
     /**
+     * POST /api/v1/roles
+     *
+     * Versia API only.
+     * @param name Name of the role.
+     * @param options.permissions Array of permissions.
+     * @param options.priority Role priority.
+     * @param options.description Role description.
+     * @param options.visible Role visibility.
+     * @param options.icon Role icon (URL).
+     * @returns Role
+     */
+    public createRole(
+        name: string,
+        options: Partial<{
+            permissions: string[];
+            priority: number;
+            description: string;
+            visible: boolean;
+            icon: string;
+        }>,
+        extra?: RequestInit,
+    ): Promise<Output<VersiaRole>> {
+        return this.post<VersiaRole>(
+            "/api/v1/roles",
+            { name, ...options },
+            extra,
+        );
+    }
+
+    /**
      * DELETE /api/v1/lists/:id/accounts
      *
      * @param id Target list ID.
@@ -279,6 +315,7 @@ export class Client extends BaseClient {
     /**
      * DELETE /api/v1/emojis/:id
      *
+     * Versia API only.
      * @param id The emoji to delete's ID.
      * @return Empty.
      */
@@ -336,6 +373,17 @@ export class Client extends BaseClient {
      */
     public deletePushSubscription(extra?: RequestInit): Promise<Output<void>> {
         return this.delete<void>("/api/v1/push/subscription", undefined, extra);
+    }
+
+    /**
+     * DELETE /api/v1/roles/:id
+     *
+     * Versia API only.
+     * @param id The role ID.
+     * @return Empty.
+     */
+    public deleteRole(id: string, extra?: RequestInit): Promise<Output<void>> {
+        return this.delete<void>(`/api/v1/roles/${id}`, undefined, extra);
     }
 
     /**
@@ -423,11 +471,7 @@ export class Client extends BaseClient {
         }>,
         extra?: RequestInit,
     ): Promise<Output<Status>> {
-        return this.put<Status>(
-            `/api/v1/statuses/${id}`,
-            { ...options },
-            extra,
-        );
+        return this.put<Status>(`/api/v1/statuses/${id}`, options, extra);
     }
 
     /**
@@ -497,7 +541,7 @@ export class Client extends BaseClient {
     ): Promise<Output<Relationship>> {
         return this.post<Relationship>(
             `/api/v1/accounts/${id}/follow`,
-            { ...options },
+            options,
             extra,
         );
     }
@@ -662,6 +706,20 @@ export class Client extends BaseClient {
         extra?: RequestInit,
     ): Promise<Output<List[]>> {
         return this.get<List[]>(`/api/v1/accounts/${id}/lists`, extra);
+    }
+
+    /**
+     * GET /api/v1/accounts/:id/roles
+     *
+     * Versia API only.
+     * @param id The account ID.
+     * @return Array of roles.
+     */
+    public getAccountRoles(
+        id: string,
+        extra?: RequestInit,
+    ): Promise<Output<VersiaRole[]>> {
+        return this.get<VersiaRole[]>(`/api/v1/accounts/${id}/roles`, extra);
     }
 
     /**
@@ -916,6 +974,7 @@ export class Client extends BaseClient {
     /**
      * GET /api/v1/emojis/:id
      *
+     * Versia API only.
      * @param id The emoji ID.
      * @return Emoji.
      */
@@ -1589,6 +1648,7 @@ export class Client extends BaseClient {
     /**
      * GET /api/v1/roles/:id
      *
+     * Versia API only.
      * @param id Target role ID.
      * @return Role.
      */
@@ -1932,7 +1992,7 @@ export class Client extends BaseClient {
     ): Promise<Output<Relationship>> {
         return this.post<Relationship>(
             `/api/v1/accounts/${id}/mute`,
-            { ...options },
+            options,
             extra,
         );
     }
@@ -2063,7 +2123,7 @@ export class Client extends BaseClient {
     ): Promise<Output<Status>> {
         return this.post<Status>(
             `/api/v1/statuses/${id}/reblog`,
-            { ...options },
+            options,
             extra,
         );
     }
@@ -2471,6 +2531,26 @@ export class Client extends BaseClient {
     // TODO: tagStreaming
 
     /**
+     * DELETE /api/v1/accounts/:account_id/roles/:role_id
+     *
+     * Versia API only.
+     * @param account_id Account ID to remove the role from.
+     * @param role_id Role ID to remove from the account.
+     * @returns No content.
+     */
+    public unassignRole(
+        account_id: string,
+        role_id: string,
+        extra?: RequestInit,
+    ): Promise<Output<void>> {
+        return this.delete<void>(
+            `/api/v1/accounts/${account_id}/roles/${role_id}`,
+            undefined,
+            extra,
+        );
+    }
+
+    /**
      * POST /api/v1/accounts/:id/unblock
      *
      * @param id The account ID.
@@ -2663,6 +2743,7 @@ export class Client extends BaseClient {
     /**
      * PATCH /api/v1/emojis/:id
      *
+     * Versia API only.
      * @param id Target emoji ID.
      * @param options.shortcode Emoji shortcode.
      * @param options.image Emoji image, as a File, or a URL.
@@ -2716,7 +2797,7 @@ export class Client extends BaseClient {
         },
         extra?: RequestInit,
     ): Promise<Output<List>> {
-        return this.put<List>(`/api/v1/lists/${id}`, { ...options }, extra);
+        return this.put<List>(`/api/v1/lists/${id}`, options, extra);
     }
 
     /**
@@ -2788,8 +2869,37 @@ export class Client extends BaseClient {
     }
 
     /**
+     * PATCH /api/v1/roles/:id
+     *
+     * Versia API only.
+     * @param id Role ID to update.
+     * @param options.name New role name.
+     * @param options.permissions New role permissions.
+     * @param options.priority New role priority.
+     * @param options.description New role description.
+     * @param options.visible New role visibility.
+     * @param options.icon New role icon.
+     * @returns New role data.
+     */
+    public updateRole(
+        id: string,
+        options: Partial<{
+            name: string;
+            permissions: string[];
+            priority: number;
+            description: string;
+            visible: boolean;
+            icon: string;
+        }>,
+        extra?: RequestInit,
+    ): Promise<Output<VersiaRole>> {
+        return this.patch<VersiaRole>(`/api/v1/roles/${id}`, options, extra);
+    }
+
+    /**
      * POST /api/v1/emojis
      *
+     * Versia API only.
      * @param shortcode The shortcode of the emoji.
      * @param image The image file to be uploaded, as a File or URL.
      * @param options.category A category for the emoji.
