@@ -5,4 +5,5 @@ export type Emoji = {
     url: string;
     visible_in_picker: boolean;
     category?: string;
+    global: boolean;
 };
