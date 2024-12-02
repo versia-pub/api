@@ -1972,9 +1972,9 @@ export class Client extends BaseClient {
     ): Promise<Output<Account>> {
         const params = new URLSearchParams();
 
-        params.set("q", acct);
+        params.set("acct", acct);
 
-        return this.get<Account>(`/api/v1/accounts/search?${params}`, extra);
+        return this.get<Account>(`/api/v1/accounts/lookup?${params}`, extra);
     }
 
     /**
