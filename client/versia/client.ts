@@ -1350,7 +1350,7 @@ export class Client extends BaseClient {
     }
 
     /**
-     * GET /api/v1/timelines/public
+     * GET /api/v1/timelines/public?local=true
      *
      * @param options.only_media Show only statuses with media attached? Defaults to false.
      * @param options.limit Max number of results to return. Defaults to 20.
@@ -1371,6 +1371,8 @@ export class Client extends BaseClient {
         extra?: RequestInit,
     ): Promise<Output<Status[]>> {
         const params = new URLSearchParams();
+
+        params.set("local", "true");
 
         if (options) {
             if (options.max_id) {
