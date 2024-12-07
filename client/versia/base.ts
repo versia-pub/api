@@ -23,38 +23,48 @@ export interface Output<ReturnType> {
     raw: Response;
 }
 
-const objectToFormData = (obj: ConvertibleObject): FormData => {
-    return Object.keys(obj).reduce((formData, key) => {
-        if (obj[key] === undefined || obj[key] === null) {
-            return formData;
-        }
-        if (obj[key] instanceof File) {
-            formData.append(key, obj[key] as Blob);
-            return formData;
-        }
-        if (Array.isArray(obj[key])) {
-            (obj[key] as ConvertibleObject[]).forEach((item, index) => {
-                if (item instanceof File) {
-                    formData.append(`${key}[${index}]`, item as Blob);
-                    return;
-                }
-                formData.append(`${key}[${index}]`, String(item));
-            });
-
-            return formData;
-        }
-        if (typeof obj[key] === "object") {
-            const nested = objectToFormData(obj[key] as ConvertibleObject);
-
-            for (const [nestedKey, value] of nested.entries()) {
-                formData.append(`${key}[${nestedKey}]`, value);
-            }
-
-            return formData;
-        }
-        formData.append(key, String(obj[key]));
+const objectToFormData = (
+    obj: ConvertibleObject,
+    formData = new FormData(),
+    parentKey = "",
+): FormData => {
+    if (obj === undefined || obj === null) {
         return formData;
-    }, new FormData());
+    }
+
+    for (const key of Object.keys(obj)) {
+        const value = obj[key];
+        const fullKey = parentKey ? `${parentKey}[${key}]` : key;
+
+        if (value === undefined || value === null) {
+            continue;
+        }
+
+        if (value instanceof File) {
+            formData.append(fullKey, value as Blob);
+        } else if (Array.isArray(value)) {
+            for (const [index, item] of value.entries()) {
+                const arrayKey = `${fullKey}[${index}]`;
+                if (item instanceof File) {
+                    formData.append(arrayKey, item as Blob);
+                } else if (typeof item === "object") {
+                    objectToFormData(
+                        item as ConvertibleObject,
+                        formData,
+                        arrayKey,
+                    );
+                } else {
+                    formData.append(arrayKey, String(item));
+                }
+            }
+        } else if (typeof value === "object") {
+            objectToFormData(value as ConvertibleObject, formData, fullKey);
+        } else {
+            formData.append(fullKey, String(value));
+        }
+    }
+
+    return formData;
 };
 
 /**
