@@ -4,6 +4,7 @@ export type Emoji = {
     static_url: string;
     url: string;
     visible_in_picker: boolean;
-    category?: string;
     global: boolean;
+    category?: string;
+    description?: string;
 };
