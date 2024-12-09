@@ -49,6 +49,11 @@ export type Instance = {
             video_matrix_limit: number;
             max_description_characters: number;
         };
+        emojis: {
+            emoji_size_limit: number;
+            max_emoji_shortcode_characters: number;
+            max_emoji_description_characters: number;
+        };
         polls: {
             max_characters_per_option: number;
             max_expiration: number;
