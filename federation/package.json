@@ -71,7 +71,7 @@
     "dependencies": {
         "magic-regexp": "^0.8.0",
         "mime-types": "^2.1.35",
-        "zod": "^3.23.8",
+        "zod": "^3.24.1",
         "zod-validation-error": "^3.4.0"
     },
     "devDependencies": {
