@@ -8,7 +8,7 @@ export type VersiaRole = {
     icon?: string;
 };
 
-// Last updated: 2024-11-28
+// Last updated: 2025-01-02
 export enum RolePermission {
     ManageNotes = "notes",
     ManageOwnNotes = "owner:note",
@@ -26,6 +26,9 @@ export enum RolePermission {
     ManageEmojis = "emojis",
     ViewEmojis = "read:emoji",
     ManageOwnEmojis = "owner:emoji",
+    ViewReactions = "read:reaction",
+    ManageReactions = "reactions",
+    ManageOwnReactions = "owner:reaction",
     ManageMedia = "media",
     ManageOwnMedia = "owner:media",
     ManageBlocks = "blocks",
@@ -45,8 +48,9 @@ export enum RolePermission {
     ManageOwnFollows = "owner:follow",
     ManageOwnApps = "owner:app",
     Search = "search",
+    UsePushNotifications = "push_notifications",
     ViewPublicTimelines = "public_timelines",
-    ViewPrimateTimelines = "private_timelines",
+    ViewPrivateTimelines = "private_timelines",
     IgnoreRateLimits = "ignore_rate_limits",
     Impersonate = "impersonate",
     ManageInstance = "instance",

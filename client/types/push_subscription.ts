@@ -4,6 +4,11 @@ export type Alerts = {
     mention: boolean;
     reblog: boolean;
     poll: boolean;
+    status: boolean;
+    follow_request: boolean;
+    update: boolean;
+    "admin.sign_up": boolean;
+    "admin.report": boolean;
 };
 
 export type PushSubscription = {
