@@ -10,7 +10,7 @@ import {
     AudioOnlyContentFormatSchema,
     ImageOnlyContentFormatSchema,
 } from "../content_format.ts";
-import { isISOString } from "../regex.ts";
+import { ianaTimezoneRegex, isISOString } from "../regex.ts";
 
 /**
  * @description Vanity extension entity
@@ -103,5 +103,10 @@ export const VanityExtensionSchema = z
             .nullable(),
         location: z.string().optional().nullable(),
         aliases: z.array(z.string().url()).optional().nullable(),
+        timezone: z
+            .string()
+            .regex(ianaTimezoneRegex, "must be a valid IANA timezone")
+            .optional()
+            .nullable(),
     })
     .strict();

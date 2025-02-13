@@ -11,7 +11,7 @@ export {
     FollowAcceptSchema as FollowAccept,
     FollowRejectSchema as FollowReject,
     FollowSchema as Follow,
-    GroupSchema as Group,
+    URICollectionSchema as URICollection,
     InstanceMetadataSchema as InstanceMetadata,
     NoteSchema as Note,
     UnfollowSchema as Unfollow,
@@ -20,6 +20,13 @@ export {
 export { ContentFormatSchema as ContentFormat } from "./schemas/content_format.ts";
 export { ExtensionPropertySchema as EntityExtensionProperty } from "./schemas/extensions.ts";
 export { CustomEmojiExtensionSchema as CustomEmojiExtension } from "./schemas/extensions/custom_emojis.ts";
+export {
+    GroupSchema as GroupExtension,
+    GroupSubscribeSchema as GroupExtensionSubscribe,
+    GroupSubscribeAcceptSchema as GroupExtensionSubscribeAccept,
+    GroupSubscribeRejectSchema as GroupExtensionSubscribeReject,
+    GroupUnsubscribeSchema as GroupExtensionUnsubscribe,
+} from "./schemas/extensions/groups.ts";
 export {
     DislikeSchema as DislikeExtension,
     LikeSchema as LikeExtension,

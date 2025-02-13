@@ -7,15 +7,22 @@ import {
     FollowAcceptSchema,
     FollowRejectSchema,
     FollowSchema,
-    GroupSchema,
     InstanceMetadataSchema,
     NoteSchema,
+    URICollectionSchema,
     UnfollowSchema,
     UserSchema,
 } from "./schemas/base.ts";
 import { ContentFormatSchema } from "./schemas/content_format.ts";
 import { ExtensionPropertySchema } from "./schemas/extensions.ts";
 import { CustomEmojiExtensionSchema } from "./schemas/extensions/custom_emojis.ts";
+import {
+    GroupSchema,
+    GroupSubscribeAcceptSchema,
+    GroupSubscribeRejectSchema,
+    GroupSubscribeSchema,
+    GroupUnsubscribeSchema,
+} from "./schemas/extensions/groups.ts";
 import { DislikeSchema, LikeSchema } from "./schemas/extensions/likes.ts";
 import { VoteSchema } from "./schemas/extensions/polls.ts";
 import { ReactionSchema } from "./schemas/extensions/reactions.ts";
@@ -32,18 +39,22 @@ import type {
     Follow,
     FollowAccept,
     FollowReject,
-    Group,
+    GroupExtension,
+    GroupExtensionSubscribe,
+    GroupExtensionSubscribeAccept,
+    GroupExtensionSubscribeReject,
+    GroupExtensionUnsubscribe,
     InstanceMetadata,
     LikeExtension,
     Note,
     PollVoteExtension,
     ReactionExtension,
     ShareExtension,
+    URICollection,
     Unfollow,
     User,
     VanityExtension,
 } from "./types.ts";
-
 // biome-ignore lint/suspicious/noExplicitAny: Used only as a base type
 type AnyZod = z.ZodType<any, any, any>;
 
@@ -108,6 +119,15 @@ export class EntityValidator {
      */
     public Collection(data: unknown): Promise<Collection> {
         return this.validate(CollectionSchema, data);
+    }
+
+    /**
+     * Validates a URICollection entity.
+     * @param data - The data to validate
+     * @returns A promise that resolves to the validated data.
+     */
+    public URICollection(data: unknown): Promise<URICollection> {
+        return this.validate(URICollectionSchema, data);
     }
 
     /**
@@ -207,8 +227,48 @@ export class EntityValidator {
      * @param data - The data to validate
      * @returns A promise that resolves to the validated data.
      */
-    public Group(data: unknown): Promise<Group> {
+    public Group(data: unknown): Promise<GroupExtension> {
         return this.validate(GroupSchema, data);
+    }
+
+    /**
+     * Validates a GroupSubscribe entity.
+     * @param data - The data to validate
+     * @returns A promise that resolves to the validated data.
+     */
+    public GroupSubscribe(data: unknown): Promise<GroupExtensionSubscribe> {
+        return this.validate(GroupSubscribeSchema, data);
+    }
+
+    /**
+     * Validates a GroupSubscribeAccept entity.
+     * @param data - The data to validate
+     * @returns A promise that resolves to the validated data.
+     */
+    public GroupSubscribeAccept(
+        data: unknown,
+    ): Promise<GroupExtensionSubscribeAccept> {
+        return this.validate(GroupSubscribeAcceptSchema, data);
+    }
+
+    /**
+     * Validates a GroupSubscribeReject entity.
+     * @param data - The data to validate
+     * @returns A promise that resolves to the validated data.
+     */
+    public GroupSubscribeReject(
+        data: unknown,
+    ): Promise<GroupExtensionSubscribeReject> {
+        return this.validate(GroupSubscribeRejectSchema, data);
+    }
+
+    /**
+     * Validates a GroupUnsubscribe entity.
+     * @param data - The data to validate
+     * @returns A promise that resolves to the validated data.
+     */
+    public GroupUnsubscribe(data: unknown): Promise<GroupExtensionUnsubscribe> {
+        return this.validate(GroupUnsubscribeSchema, data);
     }
 
     /**

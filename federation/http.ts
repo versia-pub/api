@@ -4,7 +4,10 @@ import type {
     Follow,
     FollowAccept,
     FollowReject,
-    Group,
+    GroupExtensionSubscribe,
+    GroupExtensionSubscribeAccept,
+    GroupExtensionSubscribeReject,
+    GroupExtensionUnsubscribe,
     InstanceMetadata,
     LikeExtension,
     Note,
@@ -28,7 +31,18 @@ type ParserCallbacks<T> = {
     "pub.versia:likes/Dislike": (dislike: DislikeExtension) => MaybePromise<T>;
     delete: (undo: Delete) => MaybePromise<T>;
     instanceMetadata: (instanceMetadata: InstanceMetadata) => MaybePromise<T>;
-    group: (group: Group) => MaybePromise<T>;
+    "pub.versia:groups/Subscribe": (
+        groupSubscribe: GroupExtensionSubscribe,
+    ) => MaybePromise<T>;
+    "pub.versia:groups/SubscribeAccept": (
+        groupSubscribeAccept: GroupExtensionSubscribeAccept,
+    ) => MaybePromise<T>;
+    "pub.versia:groups/SubscribeReject": (
+        groupSubscribeReject: GroupExtensionSubscribeReject,
+    ) => MaybePromise<T>;
+    "pub.versia:groups/Unsubscribe": (
+        groupUnsubscribe: GroupExtensionUnsubscribe,
+    ) => MaybePromise<T>;
     "pub.versia:reactions/Reaction": (
         reaction: ReactionExtension,
     ) => MaybePromise<T>;
@@ -182,11 +196,52 @@ export class RequestParserHandler {
 
                 break;
             }
-            case "Group": {
-                const group = await this.validator.Group(this.body);
+            case "pub.versia:groups/Subscribe": {
+                const groupSubscribe = await this.validator.GroupSubscribe(
+                    this.body,
+                );
 
-                if (callbacks.group) {
-                    return await callbacks.group(group);
+                if (callbacks["pub.versia:groups/Subscribe"]) {
+                    return await callbacks["pub.versia:groups/Subscribe"](
+                        groupSubscribe,
+                    );
+                }
+
+                break;
+            }
+            case "pub.versia:groups/SubscribeAccept": {
+                const groupSubscribeAccept =
+                    await this.validator.GroupSubscribeAccept(this.body);
+
+                if (callbacks["pub.versia:groups/SubscribeAccept"]) {
+                    return await callbacks["pub.versia:groups/SubscribeAccept"](
+                        groupSubscribeAccept,
+                    );
+                }
+
+                break;
+            }
+            case "pub.versia:groups/SubscribeReject": {
+                const groupSubscribeReject =
+                    await this.validator.GroupSubscribeReject(this.body);
+
+                if (callbacks["pub.versia:groups/SubscribeReject"]) {
+                    return await callbacks["pub.versia:groups/SubscribeReject"](
+                        groupSubscribeReject,
+                    );
+                }
+
+                break;
+            }
+            case "pub.versia:groups/Unsubscribe": {
+                const groupUnsubscribe = await this.validator.GroupUnsubscribe(
+                    this.body,
+                );
+
+                if (callbacks["pub.versia:groups/Unsubscribe"]) {
+                    return await callbacks["pub.versia:groups/Unsubscribe"](
+                        groupUnsubscribe,
+                    );
                 }
 
                 break;

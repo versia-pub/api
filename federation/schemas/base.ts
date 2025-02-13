@@ -10,6 +10,8 @@ import { extensionRegex, isISOString, semverRegex } from "./regex.ts";
 
 export const EntitySchema = z
     .object({
+        // biome-ignore lint/style/useNamingConvention:
+        $schema: z.string().url().optional().nullable(),
         id: z.string().max(512),
         created_at: z
             .string()
@@ -37,6 +39,17 @@ export const NoteSchema = EntitySchema.extend({
         .optional()
         .nullable(),
     content: TextOnlyContentFormatSchema.optional().nullable(),
+    collections: z.object({
+        replies: z.string().url(),
+        quotes: z.string().url(),
+        "pub.versia:reactions/Reactions": z
+            .string()
+            .url()
+            .optional()
+            .nullable(),
+        "pub.versia:likes/Likes": z.string().url().optional().nullable(),
+        "pub.versia:likes/Dislikes": z.string().url().optional().nullable(),
+    }),
     device: z
         .object({
             name: z.string(),
@@ -72,13 +85,6 @@ export const NoteSchema = EntitySchema.extend({
     replies_to: z.string().url().optional().nullable(),
     subject: z.string().optional().nullable(),
     extensions: ExtensionPropertySchema.extend({
-        "pub.versia:reactions": z
-            .object({
-                reactions: z.string().url(),
-            })
-            .strict()
-            .optional()
-            .nullable(),
         "pub.versia:polls": z
             .object({
                 options: z.array(TextOnlyContentFormatSchema),
@@ -119,6 +125,10 @@ export const CollectionSchema = z.object({
     items: z.array(z.any()),
 });
 
+export const URICollectionSchema = CollectionSchema.extend({
+    items: z.array(z.string().url()),
+});
+
 export const PublicKeyDataSchema = z
     .object({
         key: z.string().min(1),
@@ -147,8 +157,8 @@ export const UserSchema = EntitySchema.extend({
         .string()
         .min(1)
         .regex(
-            /^[a-z0-9_-]+$/,
-            "must be lowercase, alphanumeric, and may contain _ or -",
+            /^[a-zA-Z0-9_-]+$/,
+            "must be alphanumeric, and may contain _ or -",
         ),
     header: ImageOnlyContentFormatSchema.optional().nullable(),
     public_key: PublicKeyDataSchema,
@@ -206,14 +216,6 @@ export const UnfollowSchema = EntitySchema.extend({
     uri: z.null().optional(),
     author: z.string().url(),
     followee: z.string().url(),
-});
-
-export const GroupSchema = EntitySchema.extend({
-    type: z.literal("Group"),
-    name: TextOnlyContentFormatSchema.optional().nullable(),
-    description: TextOnlyContentFormatSchema.optional().nullable(),
-    members: z.string().url(),
-    notes: z.string().url().optional().nullable(),
 });
 
 export const InstanceMetadataSchema = EntitySchema.extend({

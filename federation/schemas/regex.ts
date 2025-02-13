@@ -66,3 +66,5 @@ export const isISOString = (val: string | Date) => {
     const d = new Date(val);
     return !Number.isNaN(d.valueOf());
 };
+
+export const ianaTimezoneRegex = /^(?:[A-Za-z]+(?:\/[A-Za-z_]+)+|UTC)$/;
