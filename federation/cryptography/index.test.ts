@@ -7,7 +7,7 @@ describe("SignatureValidator", () => {
     let publicKey: CryptoKey;
     let body: string;
     let signature: string;
-    let nonce: string;
+    let timestamp: Date;
 
     beforeAll(async () => {
         const keys = await crypto.subtle.generateKey("Ed25519", true, [
@@ -25,8 +25,8 @@ describe("SignatureValidator", () => {
             "https://bob.org/users/6a18f2c3-120e-4949-bda4-2aa4c8264d51",
         ).sign("GET", new URL("https://example.com"), body);
 
-        signature = headers.get("X-Signature") ?? "";
-        nonce = headers.get("X-Nonce") ?? "";
+        signature = headers.get("Versia-Signature") ?? "";
+        timestamp = new Date(Number(headers.get("Versia-Signed-At")) * 1000);
     });
 
     test("fromStringKey", async () => {
@@ -46,8 +46,8 @@ describe("SignatureValidator", () => {
             const request = new Request("https://example.com", {
                 method: "GET",
                 headers: {
-                    "X-Signature": signature,
-                    "X-Nonce": nonce,
+                    "Versia-Signature": signature,
+                    "Versia-Signed-At": String(timestamp.getTime() / 1000),
                 },
                 body: body,
             });
@@ -59,8 +59,8 @@ describe("SignatureValidator", () => {
             const request = new Request("https://example.com", {
                 method: "GET",
                 headers: {
-                    "X-Signature": "invalid",
-                    "X-Nonce": nonce,
+                    "Versia-Signature": "invalid",
+                    "Versia-Signed-At": String(timestamp.getTime() / 1000),
                 },
                 body: body,
             });
@@ -70,16 +70,16 @@ describe("SignatureValidator", () => {
             expect(isValid).toBe(false);
         });
 
-        test("should throw with missing nonce", async () => {
+        test("should throw with missing timestamp", async () => {
             const request = new Request("https://example.com", {
                 method: "GET",
                 headers: {
-                    "X-Signature": signature,
+                    "Versia-Signature": signature,
                 },
                 body: body,
             });
             expect(() => validator.validate(request)).toThrow(
-                "Headers are missing in request: X-Nonce",
+                "Headers are missing in request: Versia-Signed-At",
             );
         });
 
@@ -87,8 +87,8 @@ describe("SignatureValidator", () => {
             const request = new Request("https://example.com", {
                 method: "GET",
                 headers: {
-                    "X-Signature": signature,
-                    "X-Nonce": nonce,
+                    "Versia-Signature": signature,
+                    "Versia-Signed-At": String(timestamp.getTime() / 1000),
                 },
                 body: "different",
             });
@@ -101,8 +101,8 @@ describe("SignatureValidator", () => {
             const request = new Request("https://example.com", {
                 method: "GET",
                 headers: {
-                    "X-Signature": "thisIsNotbase64OhNo$^ù",
-                    "X-Nonce": nonce,
+                    "Versia-Signature": "thisIsNotbase64OhNo$^ù",
+                    "Versia-Signed-At": String(timestamp.getTime() / 1000),
                 },
                 body: body,
             });
@@ -151,11 +151,11 @@ describe("SignatureConstructor", () => {
         test("should correctly sign ", async () => {
             const url = new URL("https://example.com");
             headers = (await ctor.sign("GET", url, body)).headers;
-            expect(headers.get("X-Signature")).toBeDefined();
-            expect(headers.get("X-Nonce")).toBeDefined();
+            expect(headers.get("Versia-Signature")).toBeDefined();
+            expect(headers.get("Versia-Signed-At")).toBeDefined();
 
-            expect(headers.get("X-Nonce")?.length).toBeGreaterThan(10);
-            expect(headers.get("X-Signature")?.length).toBeGreaterThan(10);
+            expect(headers.get("Versia-Signed-At")?.length).toBeGreaterThan(10);
+            expect(headers.get("Versia-Signature")?.length).toBeGreaterThan(10);
         });
 
         test("should correctly sign a Request", async () => {
@@ -167,8 +167,8 @@ describe("SignatureConstructor", () => {
             const { request: newRequest } = await ctor.sign(request);
 
             headers = newRequest.headers;
-            expect(headers.get("X-Signature")).toBeDefined();
-            expect(headers.get("X-Nonce")).toBeDefined();
+            expect(headers.get("Versia-Signature")).toBeDefined();
+            expect(headers.get("Versia-Signed-At")).toBeDefined();
 
             expect(await newRequest.text()).toBe(body);
         });
