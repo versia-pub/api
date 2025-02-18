@@ -152,7 +152,7 @@ export class SignatureValidator {
             new TextEncoder().encode(body),
         );
 
-        const expectedSignedString = `${method.toLowerCase()} ${encodeURIComponent(url.pathname)} ${timestamp.getTime() / 1000} ${arrayBufferToBase64(digest)}`;
+        const expectedSignedString = `${method.toLowerCase()} ${encodeURI(url.pathname)} ${timestamp.getTime() / 1000} ${arrayBufferToBase64(digest)}`;
 
         // Check if signed string is valid
         const isValid = await crypto.subtle.verify(
@@ -305,7 +305,7 @@ export class SignatureConstructor {
             new TextEncoder().encode(body ?? ""),
         );
 
-        const signedString = `${requestOrMethod.toLowerCase()} ${encodeURIComponent(
+        const signedString = `${requestOrMethod.toLowerCase()} ${encodeURI(
             url.pathname,
         )} ${finalTimestamp.getTime() / 1000} ${arrayBufferToBase64(digest)}`;
 
